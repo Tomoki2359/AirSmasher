@@ -24,10 +24,7 @@ RootJob* pRoot;
 //エントリーポイント
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, int nCmdShow)
 {
-	//bool a = Math::Intersect(XMFLOAT3(1, 5, 1), XMFLOAT3(0, -1, 0), XMFLOAT3(0, 0, 0), XMFLOAT3(0, 0, 3), XMFLOAT3(3, 0, 0));
-	//bool b = Math::Intersect(XMFLOAT3(5, 5, 1), XMFLOAT3(0, -1, 0), XMFLOAT3(0, 0, 0), XMFLOAT3(0, 0, 3), XMFLOAT3(3, 0, 0));
-	
-//ウィンドウクラス（設計図）を作成
+	//ウィンドウクラス（設計図）を作成
 	WNDCLASSEX wc;
 	wc.cbSize = sizeof(WNDCLASSEX);							//この構造体のサイズ
 	wc.hInstance = hInstance;								//インスタンスハンドル
@@ -41,13 +38,13 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);	//背景（白）
-	RegisterClassEx(&wc);
+	RegisterClassEx(&wc);									//クラスを登録
 
 	HRESULT hr;
 
 	//ウィンドウサイズの計算
 	RECT winRect = { 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT };
-	AdjustWindowRect(&winRect, WS_OVERLAPPEDWINDOW, TRUE);
+	AdjustWindowRect(&winRect, WS_OVERLAPPEDWINDOW, FALSE);
 	int winW = winRect.right - winRect.left;     //ウィンドウ幅
 	int winH = winRect.bottom - winRect.top;     //ウィンドウ高さ
 
@@ -143,11 +140,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 				}
 			}
 
-			Camera::Update();
 
 			//ゲームの処理
 			Direct3D::BeginDraw();
 
+			Camera::Update();
 
 			//描画処理
 			pRoot->DrawSub();
@@ -174,7 +171,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 //ウィンドウプロシージャ（何かあった時によばれる関数）
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)//msgは情報(キーを入力やマウスが動いたなど)wParamやlParamは追加情報が入る
 {
-	int a = 0;
 	switch (msg)
 	{
 	case WM_MOUSEMOVE:
@@ -184,9 +180,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)//msg
 	case WM_DESTROY:
 		PostQuitMessage(0);  //プログラム終了
 		return 0;
-
-		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
+	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 //API = アプリケーションプログラミングインターフェース
 

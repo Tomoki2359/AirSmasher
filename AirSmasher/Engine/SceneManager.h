@@ -3,7 +3,7 @@
 
 enum SCENE_ID
 {
-	SCENE_ID_EDIT = 0,
+	SCENE_ID_PLAY = 0,
 };
 
 class SceneManager : public GameObject
