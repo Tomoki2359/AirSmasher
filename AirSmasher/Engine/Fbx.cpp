@@ -256,12 +256,10 @@ void Fbx::Draw(Transform& transform, float alpha)
 
 
 
-	for (int j = 0; j < 2; j++)
-	{
-		for (int i = 0; i < materialCount_; i++)
+	for (int i = 0; i < materialCount_; i++)
 		{
 			CONSTANT_BUFFER cb;
-			cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix() * Camera::GetViewMatrix(j) * Camera::GetProjectionMatrix(j));
+			cb.matWVP = XMMatrixTranspose(transform.GetWorldMatrix() * Camera::GetViewMatrix() * Camera::GetProjectionMatrix());
 			cb.matNormal = XMMatrixTranspose(transform.GetNormalMatrix());
 			cb.diffuseColor = pMaterialList_[i].diffuse;
 			cb.isTexture = pMaterialList_[i].pTexture != nullptr;
@@ -275,10 +273,10 @@ void Fbx::Draw(Transform& transform, float alpha)
 			if (pMaterialList_[i].pTexture)
 			{
 				ID3D11SamplerState* pSampler = pMaterialList_[i].pTexture->GetSampler();
-				Direct3D::pContext->PSSetSamplers(0, j, &pSampler);
+				Direct3D::pContext->PSSetSamplers(0, 1, &pSampler);
 
 				ID3D11ShaderResourceView* pSRV = pMaterialList_[i].pTexture->GetSRV();
-				Direct3D::pContext->PSSetShaderResources(0, j, &pSRV);
+				Direct3D::pContext->PSSetShaderResources(0, 1, &pSRV);
 			}
 
 			Direct3D::pContext->Unmap(pConstantBuffer_, 0);	//再開
@@ -286,7 +284,7 @@ void Fbx::Draw(Transform& transform, float alpha)
 			//頂点バッファ
 			UINT stride = sizeof(VERTEX);
 			UINT offset = 0;
-			Direct3D::pContext->IASetVertexBuffers(0, j, &pVertexBuffer_, &stride, &offset);
+			Direct3D::pContext->IASetVertexBuffers(0, 1, &pVertexBuffer_, &stride, &offset);
 
 			// インデックスバッファーをセット
 			stride = sizeof(int);
@@ -294,13 +292,12 @@ void Fbx::Draw(Transform& transform, float alpha)
 			Direct3D::pContext->IASetIndexBuffer(pIndexBuffer_[i], DXGI_FORMAT_R32_UINT, 0);
 
 			//コンスタントバッファ
-			Direct3D::pContext->VSSetConstantBuffers(0, j, &pConstantBuffer_);	//頂点シェーダー用	
-			Direct3D::pContext->PSSetConstantBuffers(0, j, &pConstantBuffer_);	//ピクセルシェーダー用
+			Direct3D::pContext->VSSetConstantBuffers(0, 1, &pConstantBuffer_);	//頂点シェーダー用	
+			Direct3D::pContext->PSSetConstantBuffers(0, 1, &pConstantBuffer_);	//ピクセルシェーダー用
 
 				//描画
 			Direct3D::pContext->DrawIndexed(indexCount_[i], 0, 0);
 		}
-	}
 }
 
 void Fbx::Release()

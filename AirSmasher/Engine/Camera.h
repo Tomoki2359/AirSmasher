@@ -16,14 +16,14 @@ namespace Camera
 	void Update();
 
 	//視点（カメラの位置）を設定
-	void SetPosition(XMVECTOR position, int numCamera);
+	void SetPosition(XMVECTOR position);
 
 	//焦点（見る位置）を設定
-	void SetTarget(XMVECTOR target, int numCamera);
+	void SetTarget(XMVECTOR target);
 
 	//ビュー行列を取得
-	XMMATRIX GetViewMatrix(int numCamera);
+	XMMATRIX GetViewMatrix();
 
 	//プロジェクション行列を取得
-	XMMATRIX GetProjectionMatrix(int numCamera);
+	XMMATRIX GetProjectionMatrix();
 };

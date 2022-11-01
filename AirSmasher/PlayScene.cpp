@@ -1,6 +1,7 @@
 #include "PlayScene.h"
 #include "Model/Stage.h"
-#include "Model/Mallet.h"
+#include "Model/Player.h"
+#include "Model/Pack.h"
 //コンストラクタ
 PlayScene::PlayScene(GameObject* parent)
 	: GameObject(parent, "PlayScene")
@@ -11,6 +12,8 @@ PlayScene::PlayScene(GameObject* parent)
 void PlayScene::Initialize()
 {
 	Instantiate<Stage>(this);
+	Instantiate<Player>(this);
+	Instantiate<Pack>(this);
 }
 
 //更新

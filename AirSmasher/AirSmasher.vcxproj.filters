@@ -78,10 +78,10 @@
     <ClCompile Include="Model\Stage.cpp">
       <Filter>ソース ファイル\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Model\Mallet.cpp">
+    <ClCompile Include="Model\Player.cpp">
       <Filter>ソース ファイル\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Model\Player.cpp">
+    <ClCompile Include="Model\Pack.cpp">
       <Filter>ソース ファイル\Model</Filter>
     </ClCompile>
   </ItemGroup>
@@ -145,10 +145,10 @@
     <ClInclude Include="Model\Stage.h">
       <Filter>ヘッダー ファイル\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Model\Mallet.h">
+    <ClInclude Include="Model\Player.h">
       <Filter>ヘッダー ファイル\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Model\Player.h">
+    <ClInclude Include="Model\Pack.h">
       <Filter>ヘッダー ファイル\Model</Filter>
     </ClInclude>
   </ItemGroup>

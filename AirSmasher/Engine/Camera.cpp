@@ -10,7 +10,7 @@ namespace Camera
 		XMMATRIX viewMatrix_;	//ビュー行列
 		XMMATRIX projMatrix_;	//プロジェクション行列
 	};
-	MultiCamera mCamera[2];
+	MultiCamera mCamera;
 }
 
 //初期化
@@ -18,11 +18,11 @@ void Camera::Initialize(int WINDOU_WIDTH,int WINDOU_HEIGHT)
 {
 	for (int i = 0; i < 2; i++)
 	{
-		mCamera[i].position_ = XMVectorSet(0, 3, -10, 0);	//カメラの位置
-		mCamera[i].target_ = XMVectorSet(0, 0, 0, 0);	//カメラの焦点
+		mCamera.position_ = XMVectorSet(0, 3, -10, 0);	//カメラの位置
+		mCamera.target_ = XMVectorSet(0, 0, 0, 0);	//カメラの焦点
 
 		//プロジェクション行列
-		mCamera[i].projMatrix_ = XMMatrixPerspectiveFovLH(XM_PIDIV4, (FLOAT)WINDOU_WIDTH / (FLOAT)WINDOU_HEIGHT, 0.1f, 100.0f);
+		mCamera.projMatrix_ = XMMatrixPerspectiveFovLH(XM_PIDIV4, (FLOAT)WINDOU_WIDTH / (FLOAT)WINDOU_HEIGHT, 0.1f, 100.0f);
 	}
 }
 
@@ -32,31 +32,31 @@ void Camera::Update()
 	//ビュー行列の作成
 	for (int i = 0; i < 2; i++)
 	{
-		mCamera[i].viewMatrix_ = XMMatrixLookAtLH(mCamera[i].position_, mCamera[i].target_, XMVectorSet(0, 1, 0, 0));
+		mCamera.viewMatrix_ = XMMatrixLookAtLH(mCamera.position_, mCamera.target_, XMVectorSet(0, 1, 0, 0));
 
 	}
 }
 
 //位置を設定
-void Camera::SetPosition(XMVECTOR position, int numCamera)
+void Camera::SetPosition(XMVECTOR position)
 {
-	mCamera[numCamera].position_ = position;
+	mCamera.position_ = position;
 }
 
 //焦点を設定
-void Camera::SetTarget(XMVECTOR target, int numCamera)
+void Camera::SetTarget(XMVECTOR target)
 {
-	mCamera[numCamera].target_ = target;
+	mCamera.target_ = target;
 }
 
 //ビュー行列を取得
-XMMATRIX Camera::GetViewMatrix(int numCamera)
+XMMATRIX Camera::GetViewMatrix()
 {
-	return mCamera[numCamera].viewMatrix_;
+	return mCamera.viewMatrix_;
 }
 
 //プロジェクション行列を取得
-XMMATRIX Camera::GetProjectionMatrix(int numCamera)
+XMMATRIX Camera::GetProjectionMatrix()
 {
-	return mCamera[numCamera].projMatrix_;
+	return mCamera.projMatrix_;
 }

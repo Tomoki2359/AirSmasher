@@ -1,11 +1,11 @@
 #pragma once
 #include"../Engine/GameObject.h"
 #include "../Engine/SceneManager.h"
-#include "Mallet.h"
 //■■シーンを管理するクラス
-class Player : public Mallet 
+class Player : public GameObject
 {
-	//int hModel_;
+	int hModel_;
+	XMFLOAT3 mousePos;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
