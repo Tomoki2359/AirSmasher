@@ -10,7 +10,7 @@ float Math::Det(XMFLOAT3 a, XMFLOAT3 b, XMFLOAT3 c)
            a.x * b.z * c.y;
 }
 
-bool Math::Intersect(XMFLOAT3 start, XMFLOAT3 dir, XMFLOAT3 v0, XMFLOAT3 v1, XMFLOAT3 v2, XMFLOAT3* s1, XMFLOAT3* s2, float* length)
+bool Math::Intersect(XMFLOAT3 start, XMFLOAT3 dir, XMFLOAT3 v0, XMFLOAT3 v1, XMFLOAT3 v2, XMFLOAT3* s1, XMFLOAT3* s2, float* length, XMFLOAT3* pos)
 {
     //1•Ó‚Ì’·‚³‚ğ‹‚ß‚é
     XMFLOAT3 e01 = XMFLOAT3{ v1.x - v0.x,v1.y - v0.y, v1.z - v0.z };
@@ -29,10 +29,10 @@ bool Math::Intersect(XMFLOAT3 start, XMFLOAT3 dir, XMFLOAT3 v0, XMFLOAT3 v1, XMF
     //*length = l;
     if (u >= 0 && u <= 1 && v >= 0 && v <= 1 && (u + v) <= 1 && l >= 0)
     {
-            *length = l;
-            *s1 = e01;
-            *s2 = e02;
-        
+        *length = l;
+        *s1 = e01;
+        *s2 = e02;
+        *pos = XMFLOAT3{u,l,v};
         return true;
     }
     //u‚Ì“š‚¦‚ª0‚æ‚è‘å‚«‚­1‚æ‚è¬‚³‚¢‚©

@@ -26,6 +26,7 @@ namespace Input
 	bool IsMouceUpDown(int mouceCode);		//マウスを押したり離したら
 	XMFLOAT3 GetMousePosition();			//マウスの位置
 	void SetMousePosition(int x, int y);	//マウスの位置を取得
+	XMFLOAT3 GetMouseMove();
 	bool IsController(int controllerCode, int controllerID = 0);		//コントローラを押してたら
 	bool IsControllerDown(int controllerCode, int controllerID = 0);	//コントローラを押したら
 	bool IsControllerUp(int controllerCode, int controllerID = 0);		//コントローラを離したら

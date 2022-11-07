@@ -2,6 +2,7 @@
 #include "../Engine/Model.h"
 #include "../Engine/Camera.h"
 #include "../Engine/Input.h"
+#include "Stage.h"
 
 //コンストラクタ
 Player::Player(GameObject* parent)
@@ -14,42 +15,42 @@ void Player::Initialize()
 {
 	hModel_ = Model::Load("Assets\\Mallet.fbx");
 	assert(hModel_ >= 0);
-	transform_.position_.z = -13.0f;
-	Camera::SetPosition(XMVectorSet(0, 10, -30, 0));
+	//transform_.position_.z = -13.0f;
+	transform_.position_.y = 1.0f;
+	Camera::SetPosition(XMVectorSet(0, 15, -30, 0));
 	Camera::SetTarget(XMVectorSet(0, 0, 5, 0));
-	//mousePos = Input::GetMousePosition();
+    //Camera::SetPosition(XMVectorSet(0, 15, -20, 0));
+    //Camera::SetTarget(XMVectorSet(0, 0, -10, 0));
+	mousePos = Input::GetMousePosition();
+    CylinderCollider* collision = new CylinderCollider(XMFLOAT3(0, 0.0f, 0), 0.2f,0.2f);
+    AddCylCollider(collision);
+
 }
 
 //更新
 void Player::Update()
 {
-	XMFLOAT3 mousePosNow = Input::GetMousePosition();
 
-	//ビューポート行列
-	float w = (float)Direct3D::scrWidth / 2.0f;
-	float h = (float)Direct3D::scrHeight / 2.0f;
-	XMMATRIX vp = {
-		w, 0,0,0,
-		0,-h,0,0,
-		0, 0,1,0,
-		w, h,0,1
-	};
+	Stage* pStage = (Stage*)FindObject("Stage");
+	int hModelStage = pStage->HandleModel();
 
-	//各行列の逆行列
-	XMMATRIX invVP = XMMatrixInverse(nullptr, vp);
-	XMMATRIX invPrj = XMMatrixInverse(nullptr, Camera::GetProjectionMatrix());
-	XMMATRIX invView = XMMatrixInverse(nullptr, Camera::GetViewMatrix());
-	XMVECTOR vMousePos = XMLoadFloat3(&mousePos);
-	XMVECTOR vMousePosNow = XMLoadFloat3(&mousePosNow);
-	//vMousePos = XMVector3TransformCoord(vMousePos, invVP * invPrj * invView);
-	vMousePosNow = XMVector3TransformCoord(vMousePosNow, invVP * invPrj * invView);
-	XMStoreFloat3(&mousePos, vMousePos);
-	XMStoreFloat3(&mousePosNow, vMousePosNow);
-	transform_.position_.x = mousePosNow.x;
-	//transform_.position_.y = mousePosNow.y;
-	//transform_.position_.z = mousePosNow.z;
+    ////ビューポート行列
+    float w = (float)Direct3D::scrWidth / 2.0f;
+    float h = (float)Direct3D::scrHeight / 2.0f;
 
-	//mousePos = mousePosNow;
+    XMFLOAT3 mousePosNow = XMFLOAT3{ Input::GetMousePosition().x - w, Input::GetMousePosition().y - h, Input::GetMousePosition().z };
+
+    transform_.position_.x += (mousePosNow.x - mousePos.x) / 20;
+    transform_.position_.z += -(mousePosNow.y - mousePos.y) / 20;
+    mousePos = mousePosNow;
+
+    
+
+    if (Input::IsMouceDown(0))
+    {
+        int o = 0;
+    }
+
 }
 
 //描画

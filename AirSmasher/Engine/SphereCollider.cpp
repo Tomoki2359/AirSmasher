@@ -14,7 +14,7 @@ float SphereCollider::GetRadius()
 }
 
 //コライダーの中心
-XMFLOAT3 SphereCollider::GetCenter_()
+XMFLOAT3 SphereCollider::GetCenter()
 {
 	return center_;
 }

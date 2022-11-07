@@ -326,7 +326,8 @@ void Fbx::RayCast(RayCastData& reyData)
 	XMStoreFloat3(&reyData.dir, vNormal);
 	//reyData.dist = 9999;
 	XMFLOAT3 side_1 = XMFLOAT3{0,0,0};
-	XMFLOAT3 side_2; XMFLOAT3{ 0,0,0 };
+	XMFLOAT3 side_2 = XMFLOAT3{ 0,0,0 };
+	XMFLOAT3 pos_ = reyData.pos;
 	//ŽOŠpŒ`‚ÌŽw’è
 	for (int material = 0; material < materialCount_; material++)
 	{
@@ -345,13 +346,14 @@ void Fbx::RayCast(RayCastData& reyData)
 
 			float minDist = 0.0f;
 			BOOL  hit = FALSE;
-			hit = Math::Intersect(reyData.start,reyData.dir,v0,v1,v2,&side_1, &side_2, &minDist);
+			hit = Math::Intersect(reyData.start,reyData.dir,v0,v1,v2,&side_1, &side_2, &minDist, &pos_);
 			if (hit && minDist < reyData.dist)
 			{
 				reyData.side1 = side_1;
 				reyData.side2 = side_2;
 				reyData.dist = minDist;
 				reyData.hit = TRUE;
+				reyData.pos = pos_;
 			}
 		}
 	}

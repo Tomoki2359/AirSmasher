@@ -18,6 +18,7 @@ struct RayCastData
 	BOOL hit;		//当たってるかどうか
 	XMFLOAT3 side1;	//三角形の辺その1
 	XMFLOAT3 side2;	//三角形の辺その2
+	XMFLOAT3 pos;	//ぶつかった場所
 	float dist;		//距離
 };
 

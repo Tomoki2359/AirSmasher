@@ -13,6 +13,8 @@ void Pack::Initialize()
 	assert(hModel_ >= 0);
 	//transform_.scale_.x = 2.0f;
 	//transform_.scale_.z = 2.0f;
+	CylinderCollider* collision = new CylinderCollider(XMFLOAT3(0, 0.0f, 0), 0.2f, 0.2f);
+	AddCylCollider(collision);
 }
 
 //XV
@@ -30,4 +32,13 @@ void Pack::Draw()
 //ŠJ•ú
 void Pack::Release()
 {
+}
+
+void Pack::OnCollision(GameObject* pTarget)
+{
+	//’e‚É“–‚½‚Á‚½‚Æ‚«
+	if (pTarget->GetObjectName() == "Player")
+	{
+		pTarget->KillMe();
+	}
 }

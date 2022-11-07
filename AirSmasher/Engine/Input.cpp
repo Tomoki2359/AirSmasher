@@ -51,12 +51,12 @@ namespace Input
 
 	void Update()
 	{
-		memcpy(prevKeyState,keyState,sizeof(keyState));
 		pKeyDevice->Acquire();
+		memcpy(prevKeyState,keyState,sizeof(keyState));
 		pKeyDevice->GetDeviceState(sizeof(keyState), &keyState);
 
-		memcpy(&prevMouseState_,&mouseState_, sizeof(mouseState_));
 		pMouseDevice_->Acquire();
+		memcpy(&prevMouseState_,&mouseState_, sizeof(mouseState_));
 		pMouseDevice_->GetDeviceState(sizeof(mouseState_), &mouseState_);
 		for (int i = 0; i < MAX_NUM; i++)
 		{
@@ -153,6 +153,13 @@ namespace Input
 	void SetMousePosition(int x, int y)
 	{
 		mousePosition = XMFLOAT3((float)x, (float)y, 0 );
+	}
+
+	//そのフレームでのマウスの移動量を取得
+	XMFLOAT3 GetMouseMove()
+	{
+		XMFLOAT3 result = XMFLOAT3((float)mouseState_.lX, (float)mouseState_.lY, (float)mouseState_.lZ);
+		return result;
 	}
 
 	//コントローラー
