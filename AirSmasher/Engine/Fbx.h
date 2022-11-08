@@ -72,6 +72,7 @@ public:
 
 	void RayCast(RayCastData& reyData);
 
+	void SegmentRayCast(RayCastData& reyData);
 
 private:
 	void InitVertex(fbxsdk::FbxMesh* pMesh);

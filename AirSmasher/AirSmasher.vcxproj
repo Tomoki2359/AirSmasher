@@ -158,7 +158,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Camera.cpp" />
-    <ClCompile Include="Engine\CylinderCollider.cpp" />
+    <ClCompile Include="Engine\CircleCollider.cpp" />
     <ClCompile Include="Engine\Direct3D.cpp" />
     <ClCompile Include="Engine\Fbx.cpp" />
     <ClCompile Include="Engine\GameObject.cpp" />
@@ -184,7 +184,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Camera.h" />
-    <ClInclude Include="Engine\CylinderCollider.h" />
+    <ClInclude Include="Engine\CircleCollider.h" />
     <ClInclude Include="Engine\Define.h" />
     <ClInclude Include="Engine\Direct3D.h" />
     <ClInclude Include="Engine\Fbx.h" />

@@ -23,4 +23,6 @@ public:
 	void Release() override;
 
 	int HandleModel() { return hModel_; };
+
+	
 };

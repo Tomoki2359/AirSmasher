@@ -84,7 +84,7 @@
     <ClCompile Include="Model\Pack.cpp">
       <Filter>ソース ファイル\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\CylinderCollider.cpp">
+    <ClCompile Include="Engine\CircleCollider.cpp">
       <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -154,7 +154,7 @@
     <ClInclude Include="Model\Pack.h">
       <Filter>ヘッダー ファイル\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\CylinderCollider.h">
+    <ClInclude Include="Engine\CircleCollider.h">
       <Filter>ヘッダー ファイル\Engine</Filter>
     </ClInclude>
   </ItemGroup>

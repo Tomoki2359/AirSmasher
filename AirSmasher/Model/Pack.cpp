@@ -1,5 +1,7 @@
 #include "Pack.h"
+#include "Stage.h"
 #include "../Engine/Model.h"
+#include "../Engine/Math.h"
 //コンストラクタ
 Pack::Pack(GameObject* parent)
 	: GameObject(parent, "Pack"), hModel_(-1)
@@ -13,13 +15,15 @@ void Pack::Initialize()
 	assert(hModel_ >= 0);
 	//transform_.scale_.x = 2.0f;
 	//transform_.scale_.z = 2.0f;
-	CylinderCollider* collision = new CylinderCollider(XMFLOAT3(0, 0.0f, 0), 0.2f, 0.2f);
-	AddCylCollider(collision);
+	CircleCollider* collision = new CircleCollider(XMFLOAT3(0, 0.0f, 0), 0.5f);
+	AddCircleCollider(collision);
 }
 
 //更新
 void Pack::Update()
 {
+	transform_.position_ = transform_.AddXMFLOAT3(dir_, transform_.position_);
+	IsWall();
 }
 
 //描画
@@ -39,6 +43,49 @@ void Pack::OnCollision(GameObject* pTarget)
 	//弾に当たったとき
 	if (pTarget->GetObjectName() == "Player")
 	{
-		pTarget->KillMe();
+		pPlayer_ = (Player*)FindObject("Player");
+		assert(pPlayer_ != nullptr);
+		dir_ = Math::FacingConversion(dir_, XMFLOAT3{ pPlayer_->Direction().x / 15,0,-pPlayer_->Direction().z / 15 });
 	}
+}
+
+bool Pack::IsWall()
+{
+	Stage* pStage = (Stage*)FindObject("Stage");
+	int hStage = pStage->HandleModel();
+
+	RayCastData rData;
+	rData.start = transform_.position_;
+	rData.dir = transform_.AddXMFLOAT3(XMFLOAT3{0.5f,0,0.5f}, transform_.position_);
+	Model::RayCast(hStage, rData);
+	if (rData.hit)
+	{
+		XMVECTOR vNormal = XMVector3Cross(XMLoadFloat3(&rData.side1) , XMLoadFloat3(&rData.side2));
+		XMFLOAT3 side;
+		XMStoreFloat3(&side, vNormal);
+
+		if (side.x > 0)
+		{
+			dir_.x = -dir_.x;
+		}
+
+		else if (side.x < 0)
+		{
+			dir_.x = -dir_.x;
+		}
+
+		else if (side.z > 0)
+		{
+			dir_.z = -dir_.z;
+		}
+		
+		else if (side.z < 0)
+		{
+			dir_.z = -dir_.z;
+		}
+
+		return true;
+	}
+
+	return false;
 }

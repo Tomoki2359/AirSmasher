@@ -118,9 +118,9 @@ void GameObject::AddCollider(SphereCollider* pCollider)
 	pCollider_ = pCollider;
 }
 
-void GameObject::AddCylCollider(CylinderCollider* pCylpCollider)
+void GameObject::AddCircleCollider(CircleCollider* pCollider)
 {
-	pCylCollider_ = pCylpCollider;
+	pCircle_ = pCollider;
 }
 
 std::string GameObject::GetObjectName()
@@ -147,19 +147,18 @@ void GameObject::Collision(GameObject* pGameObject)
 	}
 }
 
-void GameObject::CylCollision(GameObject* pGameObject)
+void GameObject::CircleCollision(GameObject* pGameObject)
 {
 	//Ž©•ª‚ªŒÄ‚Î‚ê‚½@‚Ü‚½‚Í“–‚½‚è”»’è‚ª‚È‚¢‚Æ‚«
-	if (this == pGameObject || pGameObject->pCylCollider_ == nullptr)
+	if (this == pGameObject || pGameObject->pCircle_ == nullptr)
 	{
 		return;
 	}
-	float x = (transform_.position_.x + pCylCollider_->GetCenter().x) - (pGameObject->transform_.position_.x + pGameObject->pCylCollider_->GetCenter().x);
-	//float y = (transform_.position_.y + pCylCollider_->GetHeight()) - (pGameObject->transform_.position_.y + pGameObject->pCylCollider_->GetHeight());
-	float z = (transform_.position_.z + pCylCollider_->GetCenter().z) - (pGameObject->transform_.position_.z + pGameObject->pCylCollider_->GetCenter().z);
-	//float height = pCylCollider_->GetHeight() + pGameObject->pCylCollider_->GetHeight();
-	float radiusSum = pCollider_->GetRadius() + pGameObject->pCollider_->GetRadius();
-	if (x * x + z * z <= radiusSum * radiusSum && pCylCollider_->GetHeight() )
+	float x = (transform_.position_.x + pCircle_->GetCenter().x) - (pGameObject->transform_.position_.x + pGameObject->pCircle_->GetCenter().x);
+	float z = (transform_.position_.z + pCircle_->GetCenter().z) - (pGameObject->transform_.position_.z + pGameObject->pCircle_->GetCenter().z);
+	float radiusSum = pCircle_->GetRadius() + pGameObject->pCircle_->GetRadius();
+	//‰~Œ^“¯Žm‚Ì“–‚½‚è”»’è
+	if (x * x + z * z <= radiusSum * radiusSum)
 	{
 		OnCollision(pGameObject);
 	}
@@ -168,7 +167,7 @@ void GameObject::CylCollision(GameObject* pGameObject)
 //“–‚½‚è”»’èˆ—
 void GameObject::RoundRobin(GameObject* pGameObject)
 {
-	if (pCollider_ == nullptr)
+	if (pCollider_ == nullptr && pCircle_ == nullptr)
 	{
 		return;
 	}
@@ -178,9 +177,9 @@ void GameObject::RoundRobin(GameObject* pGameObject)
 		Collision(pGameObject);
 	}
 
-	if (pGameObject->pCylCollider_)
+	if (pGameObject->pCircle_)
 	{
-		CylCollision(pGameObject);
+		CircleCollision(pGameObject);
 	}
 
 	for (auto i = pGameObject->childList_.begin(); i != pGameObject->childList_.end(); i++)

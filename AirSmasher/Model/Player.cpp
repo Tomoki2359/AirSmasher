@@ -16,35 +16,34 @@ void Player::Initialize()
 	hModel_ = Model::Load("Assets\\Mallet.fbx");
 	assert(hModel_ >= 0);
 	//transform_.position_.z = -13.0f;
-	transform_.position_.y = 1.0f;
+	//transform_.position_.y = 1.0f;
 	Camera::SetPosition(XMVectorSet(0, 15, -30, 0));
 	Camera::SetTarget(XMVectorSet(0, 0, 5, 0));
     //Camera::SetPosition(XMVectorSet(0, 15, -20, 0));
     //Camera::SetTarget(XMVectorSet(0, 0, -10, 0));
 	mousePos = Input::GetMousePosition();
-    CylinderCollider* collision = new CylinderCollider(XMFLOAT3(0, 0.0f, 0), 0.2f,0.2f);
-    AddCylCollider(collision);
-
+    CircleCollider* collision = new CircleCollider(XMFLOAT3(0, 0.0f, 0), 0.5f);
+    AddCircleCollider(collision);
 }
 
 //更新
 void Player::Update()
 {
 
-	Stage* pStage = (Stage*)FindObject("Stage");
-	int hModelStage = pStage->HandleModel();
+	//Stage* pStage = (Stage*)FindObject("Stage");
+	//int hModelStage = pStage->HandleModel();
 
     ////ビューポート行列
     float w = (float)Direct3D::scrWidth / 2.0f;
     float h = (float)Direct3D::scrHeight / 2.0f;
 
-    XMFLOAT3 mousePosNow = XMFLOAT3{ Input::GetMousePosition().x - w, Input::GetMousePosition().y - h, Input::GetMousePosition().z };
+    XMFLOAT3 mousePosNow = XMFLOAT3{ Input::GetMousePosition().x - w, Input::GetMousePosition().z, Input::GetMousePosition().y - h };
 
     transform_.position_.x += (mousePosNow.x - mousePos.x) / 20;
-    transform_.position_.z += -(mousePosNow.y - mousePos.y) / 20;
-    mousePos = mousePosNow;
+    transform_.position_.z -= (mousePosNow.z - mousePos.z) / 20;
+    dir_ = transform_.SubXMFLOAT3(mousePosNow,mousePos);
 
-    
+    mousePos = mousePosNow;
 
     if (Input::IsMouceDown(0))
     {

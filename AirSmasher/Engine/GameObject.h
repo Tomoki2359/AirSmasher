@@ -5,7 +5,7 @@
 #include "Direct3D.h"
 #include "Input.h"
 #include "SphereCollider.h"
-#include "CylinderCollider.h"
+#include "CircleCollider.h"
 #include "Transform.h"
 class SphereCollider;
 class GameObject
@@ -15,7 +15,7 @@ protected:
 	Transform	transform_;
 	GameObject* pParent_;
 	SphereCollider* pCollider_;
-	CylinderCollider* pCylCollider_;
+	CircleCollider* pCircle_;
 	std::string	objectName_;
 	bool killObject_;
 public:
@@ -37,11 +37,12 @@ public:
 	void KillAllChildren();
 	std::string GetObjectName();
 	void AddCollider(SphereCollider* pCollider);
-	void AddCylCollider(CylinderCollider* pCylpCollider);
+	void AddCircleCollider(CircleCollider* pCollider);
 	void Collision(GameObject* pGameObject);
-	void CylCollision(GameObject* pGameObject);
+	void CircleCollision(GameObject* pGameObject);
 	void RoundRobin(GameObject* pGameObject);
 	void SetPosition(XMFLOAT3 position);
+	XMFLOAT3 GetPosition() { return transform_.position_; }
 	void SetScreen(int red, int blue, int green);	//スクリーンの色を取得
 	virtual void OnCollision(GameObject* pGameObject) {};
 	template <class T>
