@@ -46,17 +46,3 @@ XMMATRIX Transform::GetNormalMatrix()
     return matRotate_ * XMMatrixInverse(nullptr, matScale_);
 }
 
-XMFLOAT3 Transform::AddXMFLOAT3(XMFLOAT3 f1, XMFLOAT3 f2)
-{
-    return XMFLOAT3(f1.x + f2.x,f1.y + f2.y,f1.z + f2.z);
-}
-
-XMFLOAT3 Transform::SubXMFLOAT3(XMFLOAT3 f1, XMFLOAT3 f2)
-{
-    return XMFLOAT3(f1.x - f2.x, f1.y - f2.y, f1.z - f2.z);
-}
-
-XMFLOAT3 Transform::MultiplicationXMFLOAT3(XMFLOAT3 f1, XMFLOAT3 f2)
-{
-    return XMFLOAT3(f1.x * f2.x, f1.y * f2.y, f1.z * f2.z);
-}

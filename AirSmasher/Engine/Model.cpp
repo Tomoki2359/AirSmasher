@@ -82,24 +82,24 @@ void Model::RayCast(int hModel, RayCastData& rayData)
 
 void Model::SegmentRayCast(int hModel, RayCastData& rayData)
 {
-	////‡@ƒ[ƒ‹ƒhs—ñ‚Ì‹ts—ñ
-	//XMMATRIX matInv = XMMatrixInverse(nullptr, modelList_[hModel]->TransformModel.GetWorldMatrix());
+	//‡@ƒ[ƒ‹ƒhs—ñ‚Ì‹ts—ñ
+	XMMATRIX matInv = XMMatrixInverse(nullptr, modelList_[hModel]->TransformModel.GetWorldMatrix());
 
-	////‡AƒŒƒC‚Ì’Ê‰ß“_‚ğ‹‚ß‚é
-	//XMFLOAT3 Point = XMFLOAT3(rayData.start.x + rayData.dir.x, rayData.start.y + rayData.dir.y, rayData.start.z + rayData.dir.z);
+	//‡AƒŒƒC‚Ì’Ê‰ß“_‚ğ‹‚ß‚é
+	XMFLOAT3 Point = XMFLOAT3(rayData.start.x + rayData.dir.x, rayData.start.y + rayData.dir.y, rayData.start.z + rayData.dir.z);
 
-	////‡BrayData.start‚É‡@‚ğ‚©‚¯‚é
-	//XMVECTOR vStart = XMLoadFloat3(&rayData.start);
-	//vStart = XMVector3TransformCoord(vStart, matInv);
+	//‡BrayData.start‚É‡@‚ğ‚©‚¯‚é
+	XMVECTOR vStart = XMLoadFloat3(&rayData.start);
+	vStart = XMVector3TransformCoord(vStart, matInv);
 
-	////‡C’Ê‰ß“_(‡A)‚É‡@‚ğ‚©‚¯‚é
-	//XMVECTOR vPoint = XMVector3TransformCoord(XMLoadFloat3(&Point), matInv);
+	//‡C’Ê‰ß“_(‡A)‚É‡@‚ğ‚©‚¯‚é
+	XMVECTOR vPoint = XMVector3TransformCoord(XMLoadFloat3(&Point), matInv);
 
-	////‡DrayData.dir‚ğ‡B‚©‚ç‡C‚ÉŒü‚©‚¤ƒxƒNƒgƒ‹‚É‚·‚é
-	//XMVECTOR vDir = vPoint - vStart;
+	//‡DrayData.dir‚ğ‡B‚©‚ç‡C‚ÉŒü‚©‚¤ƒxƒNƒgƒ‹‚É‚·‚é
+	XMVECTOR vDir = vPoint - vStart;
 
-	//XMStoreFloat3(&rayData.start, vStart);
-	//XMStoreFloat3(&rayData.dir, vDir);
+	XMStoreFloat3(&rayData.start, vStart);
+	XMStoreFloat3(&rayData.dir, vDir);
 
 	modelList_[hModel]->pFbx->SegmentRayCast(rayData);
 }

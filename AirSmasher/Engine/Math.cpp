@@ -55,18 +55,9 @@ bool Math::Intersect(XMFLOAT3 start, XMFLOAT3 dir, XMFLOAT3 v0, XMFLOAT3 v1, XMF
     return false;
 }
 
-bool Math::Segment(XMFLOAT3 start, XMFLOAT3 dir, XMFLOAT3 v0, XMFLOAT3 v1, XMFLOAT3 v2, XMFLOAT3* s1, XMFLOAT3* s2, float* length, XMFLOAT3* pos)
-{
-    XMFLOAT3 e01 = XMFLOAT3{ v1.x - v0.x,v1.y - v0.y, v1.z - v0.z };
-    XMFLOAT3 e02 = XMFLOAT3{ v2.x - v0.x,v2.y - v0.y, v2.z - v0.z };
-    XMFLOAT3 d = XMFLOAT3(start.x - v0.x, start.y - v0.y, start.z - v0.z);
-    dir = XMFLOAT3(-dir.x, -dir.y, -dir.z);
-    return false;
-}
-
 XMFLOAT3 Math::FacingConversion(XMFLOAT3 myDir,XMFLOAT3 pairDir)
 {
-    XMVECTOR dir = XMLoadFloat3(&myDir) + XMLoadFloat3(&pairDir);
+    XMVECTOR dir = XMVector3Normalize(XMLoadFloat3(&myDir)) + XMVector3Normalize(XMLoadFloat3(&pairDir));
     XMStoreFloat3(&myDir, dir);
     return myDir;
 }
@@ -100,4 +91,57 @@ bool Math::SegmentToPlane(XMFLOAT3 segstart, XMFLOAT3 segend, XMFLOAT3 v0, XMFLO
         return true;
     }
     return false;
+}
+
+XMFLOAT3 Math::AddXMFLOAT3(XMFLOAT3 f1, XMFLOAT3 f2)
+{
+    return XMFLOAT3(f1.x + f2.x, f1.y + f2.y, f1.z + f2.z);
+}
+
+XMFLOAT3 Math::AddXMFLOAT3(XMFLOAT3 f1, float f2)
+{
+    return XMFLOAT3(f1.x + f2, f1.y + f2, f1.z + f2);
+}
+
+XMFLOAT3 Math::SubtractionXMFLOAT3(XMFLOAT3 f1, XMFLOAT3 f2)
+{
+    return XMFLOAT3(f1.x - f2.x, f1.y - f2.y, f1.z - f2.z);
+}
+
+XMFLOAT3 Math::SubtractionXMFLOAT3(XMFLOAT3 f1, float f2)
+{
+    return XMFLOAT3(f1.x - f2, f1.y - f2, f1.z - f2);
+}
+
+XMFLOAT3 Math::MultiplicationXMFLOAT3(XMFLOAT3 f1, XMFLOAT3 f2)
+{
+    return XMFLOAT3(f1.x * f2.x, f1.y * f2.y, f1.z * f2.z);
+}
+
+XMFLOAT3 Math::MultiplicationXMFLOAT3(XMFLOAT3 f1, float f2)
+{
+    return XMFLOAT3(f1.x * f2, f1.y * f2, f1.z * f2);
+}
+
+XMFLOAT3 Math::DivisionXMFLOAT3(XMFLOAT3 f1, XMFLOAT3 f2)
+{
+    return XMFLOAT3(f1.x / f2.x, f1.y / f2.y, f1.z / f2.z);
+}
+
+XMFLOAT3 Math::DivisionXMFLOAT3(XMFLOAT3 f1, float f2)
+{
+    return XMFLOAT3(f1.x / f2, f1.y / f2, f1.z / f2);
+}
+
+XMFLOAT3 Math::GetDisplacement(XMFLOAT3 f1, XMFLOAT3 f2)
+{
+    XMFLOAT3 f3 = SubtractionXMFLOAT3(f1, f2);
+    f1 = DivisionXMFLOAT3(AddXMFLOAT3(f1, f3),2.0f);
+    return f1;
+  /*  XMVECTOR v1 = XMLoadFloat3(&f1);
+    XMVECTOR v2 = XMLoadFloat3(&f2);
+    float dis = XMVectorGetX(XMVector3Length(v1 - v2));
+
+    int a = 0;
+    return dis;*/
 }

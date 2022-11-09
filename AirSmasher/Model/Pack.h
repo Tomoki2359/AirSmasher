@@ -32,4 +32,6 @@ public:
 	void OnCollision(GameObject* pTarget) override;
 
 	bool IsWall();
+
+	void Distance();
 };

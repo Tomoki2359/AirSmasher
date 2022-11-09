@@ -3,6 +3,7 @@
 #include "../Engine/Camera.h"
 #include "../Engine/Input.h"
 #include "Stage.h"
+#include "../Engine/Math.h"
 
 //コンストラクタ
 Player::Player(GameObject* parent)
@@ -41,18 +42,13 @@ void Player::Update()
 
     transform_.position_.x += (mousePosNow.x - mousePos.x) / 20;
     transform_.position_.z -= (mousePosNow.z - mousePos.z) / 20;
-    dir_ = transform_.SubXMFLOAT3(mousePosNow,mousePos);
+    dir_ = Math::SubtractionXMFLOAT3(mousePosNow,mousePos);
 
     XMVECTOR vDir = XMLoadFloat3(&dir_);
     vDir = XMVector3Length(vDir);
     speed_  = XMVectorGetX(vDir) + XMVectorGetZ(vDir);
 
     mousePos = mousePosNow;
-
-    if (Input::IsMouceDown(0))
-    {
-        int o = 0;
-    }
 
 }
 

@@ -15,7 +15,7 @@ void Pack::Initialize()
 	assert(hModel_ >= 0);
 	//transform_.scale_.x = 2.0f;
 	//transform_.scale_.z = 2.0f;
-	transform_.position_.y = 0.3f;
+	//transform_.position_.y = 0.3f;
 	CircleCollider* collision = new CircleCollider(XMFLOAT3(0, 0.0f, 0), 1.0f);
 	AddCircleCollider(collision);
 }
@@ -23,7 +23,9 @@ void Pack::Initialize()
 //XV
 void Pack::Update()
 {
-	transform_.position_ = transform_.AddXMFLOAT3(dir_, transform_.position_);
+	XMVECTOR vDir = XMLoadFloat3(&dir_);
+	vDir = XMVector3Length(vDir);
+	transform_.position_ = Math::AddXMFLOAT3(transform_.position_, Math::DivisionXMFLOAT3(Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }),10));
 	IsWall();
 }
 
@@ -46,8 +48,10 @@ void Pack::OnCollision(GameObject* pTarget)
 	{
 		pPlayer_ = (Player*)FindObject("Player");
 		assert(pPlayer_ != nullptr);
-		dir_ = Math::FacingConversion(dir_, XMFLOAT3{ pPlayer_->GetDirection().x,-pPlayer_->GetDirection().z });
-		speed_ = pPlayer_->GetSpeed();
+		dir_ = Math::FacingConversion(dir_, XMFLOAT3{ pPlayer_->GetPosition().x,0,-pPlayer_->GetPosition().z });
+		//pPlayer_->SetPosition(Math::AddXMFLOAT3(pPlayer_->GetPosition(),Math::GetDistance(pPlayer_->GetPosition(),transform_.position_)));
+		transform_.position_ = Math::AddXMFLOAT3(transform_.position_, Math::SubtractionXMFLOAT3(transform_.position_, pPlayer_->GetPosition()));
+		int i = 0;
 	}
 }
 
