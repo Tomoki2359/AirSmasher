@@ -22,7 +22,7 @@ void Player::Initialize()
     //Camera::SetPosition(XMVectorSet(0, 15, -20, 0));
     //Camera::SetTarget(XMVectorSet(0, 0, -10, 0));
 	mousePos = Input::GetMousePosition();
-    CircleCollider* collision = new CircleCollider(XMFLOAT3(0, 0.0f, 0), 0.5f);
+    CircleCollider* collision = new CircleCollider(XMFLOAT3(0, 0.0f, 0), 1.0f);
     AddCircleCollider(collision);
 }
 
@@ -42,6 +42,10 @@ void Player::Update()
     transform_.position_.x += (mousePosNow.x - mousePos.x) / 20;
     transform_.position_.z -= (mousePosNow.z - mousePos.z) / 20;
     dir_ = transform_.SubXMFLOAT3(mousePosNow,mousePos);
+
+    XMVECTOR vDir = XMLoadFloat3(&dir_);
+    vDir = XMVector3Length(vDir);
+    speed_  = XMVectorGetX(vDir) + XMVectorGetZ(vDir);
 
     mousePos = mousePosNow;
 

@@ -80,6 +80,30 @@ void Model::RayCast(int hModel, RayCastData& rayData)
 	modelList_[hModel]->pFbx->RayCast(rayData);
 }
 
+void Model::SegmentRayCast(int hModel, RayCastData& rayData)
+{
+	////‡@ƒ[ƒ‹ƒhs—ñ‚Ì‹ts—ñ
+	//XMMATRIX matInv = XMMatrixInverse(nullptr, modelList_[hModel]->TransformModel.GetWorldMatrix());
+
+	////‡AƒŒƒC‚Ì’Ê‰ß“_‚ð‹‚ß‚é
+	//XMFLOAT3 Point = XMFLOAT3(rayData.start.x + rayData.dir.x, rayData.start.y + rayData.dir.y, rayData.start.z + rayData.dir.z);
+
+	////‡BrayData.start‚É‡@‚ð‚©‚¯‚é
+	//XMVECTOR vStart = XMLoadFloat3(&rayData.start);
+	//vStart = XMVector3TransformCoord(vStart, matInv);
+
+	////‡C’Ê‰ß“_(‡A)‚É‡@‚ð‚©‚¯‚é
+	//XMVECTOR vPoint = XMVector3TransformCoord(XMLoadFloat3(&Point), matInv);
+
+	////‡DrayData.dir‚ð‡B‚©‚ç‡C‚ÉŒü‚©‚¤ƒxƒNƒgƒ‹‚É‚·‚é
+	//XMVECTOR vDir = vPoint - vStart;
+
+	//XMStoreFloat3(&rayData.start, vStart);
+	//XMStoreFloat3(&rayData.dir, vDir);
+
+	modelList_[hModel]->pFbx->SegmentRayCast(rayData);
+}
+
 void Model::AllRelease()
 {
 	for (int i = 0; i < modelList_.size(); i++)

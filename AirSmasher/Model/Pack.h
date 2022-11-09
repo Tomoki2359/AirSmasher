@@ -8,6 +8,7 @@ class Pack : public GameObject
 	int hModel_;
 	XMFLOAT3 pos_;
 	XMFLOAT3 dir_;
+	float speed_;
 	Player* pPlayer_;
 public:
 	//コンストラクタ

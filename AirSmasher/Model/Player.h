@@ -7,6 +7,7 @@ class Player : public GameObject
 	int hModel_;
 	XMFLOAT3 mousePos;
 	XMFLOAT3 dir_;
+	float speed_;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -24,5 +25,7 @@ public:
 	//開放
 	void Release() override;
 
-	XMFLOAT3 Direction() { return dir_; };
+	XMFLOAT3 GetDirection() { return dir_; };
+
+	float GetSpeed() { return speed_; }
 };

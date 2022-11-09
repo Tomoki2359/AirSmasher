@@ -55,6 +55,15 @@ bool Math::Intersect(XMFLOAT3 start, XMFLOAT3 dir, XMFLOAT3 v0, XMFLOAT3 v1, XMF
     return false;
 }
 
+bool Math::Segment(XMFLOAT3 start, XMFLOAT3 dir, XMFLOAT3 v0, XMFLOAT3 v1, XMFLOAT3 v2, XMFLOAT3* s1, XMFLOAT3* s2, float* length, XMFLOAT3* pos)
+{
+    XMFLOAT3 e01 = XMFLOAT3{ v1.x - v0.x,v1.y - v0.y, v1.z - v0.z };
+    XMFLOAT3 e02 = XMFLOAT3{ v2.x - v0.x,v2.y - v0.y, v2.z - v0.z };
+    XMFLOAT3 d = XMFLOAT3(start.x - v0.x, start.y - v0.y, start.z - v0.z);
+    dir = XMFLOAT3(-dir.x, -dir.y, -dir.z);
+    return false;
+}
+
 XMFLOAT3 Math::FacingConversion(XMFLOAT3 myDir,XMFLOAT3 pairDir)
 {
     XMVECTOR dir = XMLoadFloat3(&myDir) + XMLoadFloat3(&pairDir);
@@ -62,7 +71,7 @@ XMFLOAT3 Math::FacingConversion(XMFLOAT3 myDir,XMFLOAT3 pairDir)
     return myDir;
 }
 
-bool Math::SegmentToPlane(XMFLOAT3 segstart, XMFLOAT3 segend, XMFLOAT3 v0, XMFLOAT3 v1, XMFLOAT3 v2)
+bool Math::SegmentToPlane(XMFLOAT3 segstart, XMFLOAT3 segend, XMFLOAT3 v0, XMFLOAT3 v1, XMFLOAT3 v2, XMFLOAT3* s1, XMFLOAT3* s2, float* length, XMFLOAT3* pos)
 {
     XMFLOAT3 a = XMFLOAT3(v1.x - v0.x, v1.y - v0.y, v1.z - v0.z);
     XMFLOAT3 b = XMFLOAT3(v2.x - v0.x, v2.y - v0.y, v2.z - v0.z);
@@ -84,6 +93,10 @@ bool Math::SegmentToPlane(XMFLOAT3 segstart, XMFLOAT3 segend, XMFLOAT3 v0, XMFLO
     l = Det(a, b, d) / Det(a, b, dir);
     if (u + v <= 1 && l >= 0 && u >= 0 && v >= 0 && l <= Dist)
     {
+        *length = l;
+        *s1 = a;
+        *s2 = b;
+        *pos = XMFLOAT3{ u,l,v };
         return true;
     }
     return false;

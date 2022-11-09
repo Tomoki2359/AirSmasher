@@ -344,10 +344,51 @@ void Fbx::RayCast(RayCastData& reyData)
 			XMStoreFloat3(&v1, pVertices_[ppIndex_[material][poly * 3 + 1]].position);
 			XMStoreFloat3(&v2, pVertices_[ppIndex_[material][poly * 3 + 2]].position);
 
-			float minDist = 0.0f;
+			float minDist = 99;
 			BOOL  hit = FALSE;
 			hit = Math::Intersect(reyData.start,reyData.dir,v0,v1,v2,&side_1, &side_2, &minDist, &pos_);
-			if (hit && minDist < reyData.dist)
+			if (hit && minDist > reyData.dist)
+			{
+				reyData.side1 = side_1;
+				reyData.side2 = side_2;
+				reyData.dist = minDist;
+				reyData.hit = TRUE;
+				reyData.pos = pos_;
+			}
+		}
+	}
+	return;
+}
+
+void Fbx::SegmentRayCast(RayCastData& reyData)
+{
+	XMVECTOR vNormal = XMLoadFloat3(&reyData.dir);
+	vNormal = XMVector3Normalize(vNormal);
+	XMStoreFloat3(&reyData.dir, vNormal);
+	//reyData.dist = 9999;
+	XMFLOAT3 side_1 = XMFLOAT3{ 0,0,0 };
+	XMFLOAT3 side_2 = XMFLOAT3{ 0,0,0 };
+	XMFLOAT3 pos_ = reyData.pos;
+	//三角形の指定
+	for (int material = 0; material < materialCount_; material++)
+	{
+		//三角形の頂点の指定
+		for (int poly = 0; poly < indexCount_[material] / 3; poly++)
+		{
+			//三角形の一つの頂点を指定
+			XMFLOAT3 v0;
+			//三角形のもう一つの頂点を指定
+			XMFLOAT3 v1;
+			//最後の三角形の頂点を指定
+			XMFLOAT3 v2;
+			XMStoreFloat3(&v0, pVertices_[ppIndex_[material][poly * 3 + 0]].position);
+			XMStoreFloat3(&v1, pVertices_[ppIndex_[material][poly * 3 + 1]].position);
+			XMStoreFloat3(&v2, pVertices_[ppIndex_[material][poly * 3 + 2]].position);
+
+			float minDist = 99;
+			BOOL  hit = FALSE;
+			hit = Math::SegmentToPlane(reyData.start, reyData.dir, v0, v1, v2, &side_1, &side_2, &minDist, &pos_);
+			if (hit && minDist > reyData.dist)
 			{
 				reyData.side1 = side_1;
 				reyData.side2 = side_2;

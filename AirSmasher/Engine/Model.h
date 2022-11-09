@@ -25,7 +25,7 @@ namespace Model
 
 	void RayCast(int hModel, RayCastData& rayData);	//レイキャスト
 
-
+	void SegmentRayCast(int hModel, RayCastData& rayData);	//レイキャスト
 
 	void AllRelease();
 	void SetAlpha(int hModel_, int alpha);	//透明度の取得
