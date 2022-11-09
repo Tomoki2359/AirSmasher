@@ -29,6 +29,8 @@ namespace Math
 
 	XMFLOAT3 DivisionXMFLOAT3(XMFLOAT3 f1, float f2);
 
+	XMFLOAT3 SignChange(XMFLOAT3 f1);
+
 	XMFLOAT3 GetDisplacement(XMFLOAT3 f1,XMFLOAT3 f2);
 };
 

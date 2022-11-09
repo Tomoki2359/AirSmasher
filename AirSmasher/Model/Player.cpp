@@ -34,7 +34,7 @@ void Player::Update()
 	//Stage* pStage = (Stage*)FindObject("Stage");
 	//int hModelStage = pStage->HandleModel();
 
-    ////ビューポート行列
+    //移動処理
     float w = (float)Direct3D::scrWidth / 2.0f;
     float h = (float)Direct3D::scrHeight / 2.0f;
 
@@ -46,7 +46,8 @@ void Player::Update()
 
     XMVECTOR vDir = XMLoadFloat3(&dir_);
     vDir = XMVector3Length(vDir);
-    speed_  = XMVectorGetX(vDir) + XMVectorGetZ(vDir);
+    speed_ = XMVectorGetX(vDir);
+    XMStoreFloat3(&dir_, vDir);
 
     mousePos = mousePosNow;
 

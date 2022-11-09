@@ -31,7 +31,7 @@ public:
 	//ˆø”FpTarget “–‚½‚Á‚½‘Šè
 	void OnCollision(GameObject* pTarget) override;
 
+	//•Ç‚É“–‚½‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©
+	//–ß‚è’l: •Ç‚É“–‚½‚Á‚Ä‚¢‚ê‚Îtrue
 	bool IsWall();
-
-	void Distance();
 };

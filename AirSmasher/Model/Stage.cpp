@@ -11,8 +11,8 @@ void Stage::Initialize()
 {
 	hModel_ = Model::Load("Assets\\Table.fbx");
 	assert(hModel_ >= 0);
-	transform_.scale_.x = 5.0f;
-	transform_.scale_.z = 5.0f;
+	transform_.scale_.x = 2.0f;
+	transform_.scale_.z = 2.0f;
 }
 
 //çXêV

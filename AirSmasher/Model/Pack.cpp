@@ -2,6 +2,7 @@
 #include "Stage.h"
 #include "../Engine/Model.h"
 #include "../Engine/Math.h"
+
 //コンストラクタ
 Pack::Pack(GameObject* parent)
 	: GameObject(parent, "Pack"), hModel_(-1)
@@ -16,7 +17,7 @@ void Pack::Initialize()
 	//transform_.scale_.x = 2.0f;
 	//transform_.scale_.z = 2.0f;
 	//transform_.position_.y = 0.3f;
-	CircleCollider* collision = new CircleCollider(XMFLOAT3(0, 0.0f, 0), 1.0f);
+	CircleCollider* collision = new CircleCollider(XMFLOAT3(0, 0.0f, 0), 0.5f);
 	AddCircleCollider(collision);
 }
 
@@ -25,7 +26,9 @@ void Pack::Update()
 {
 	XMVECTOR vDir = XMLoadFloat3(&dir_);
 	vDir = XMVector3Length(vDir);
-	transform_.position_ = Math::AddXMFLOAT3(transform_.position_, Math::DivisionXMFLOAT3(Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }),10));
+	transform_.position_ = Math::AddXMFLOAT3(transform_.position_, Math::DivisionXMFLOAT3(Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }), 10));
+
+	//壁の当たり処理
 	IsWall();
 }
 
@@ -48,10 +51,18 @@ void Pack::OnCollision(GameObject* pTarget)
 	{
 		pPlayer_ = (Player*)FindObject("Player");
 		assert(pPlayer_ != nullptr);
-		dir_ = Math::FacingConversion(dir_, XMFLOAT3{ pPlayer_->GetPosition().x,0,-pPlayer_->GetPosition().z });
+		//移動方向
+		//dir_ = Math::FacingConversion(dir_, XMFLOAT3{ -pPlayer_->GetPosition().x,0,-pPlayer_->GetPosition().z });
+		dir_ = Math::FacingConversion(dir_, XMFLOAT3{ pPlayer_->GetDirection().x,0,pPlayer_->GetDirection().z });
 		//pPlayer_->SetPosition(Math::AddXMFLOAT3(pPlayer_->GetPosition(),Math::GetDistance(pPlayer_->GetPosition(),transform_.position_)));
-		transform_.position_ = Math::AddXMFLOAT3(transform_.position_, Math::SubtractionXMFLOAT3(transform_.position_, pPlayer_->GetPosition()));
-		int i = 0;
+		//ズレの修正
+		//transform_.position_ = Math::AddXMFLOAT3(transform_.position_,Math::SubtractionXMFLOAT3(transform_.position_, pPlayer_->GetPosition()));
+
+		//その方向に移動
+		XMVECTOR vDir = XMLoadFloat3(&dir_);
+		vDir = XMVector3Length(vDir);
+		//speed_ = XMVectorGetX(vDir);
+			//Math::DivisionXMFLOAT3(Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }), 10);
 	}
 }
 
@@ -69,6 +80,8 @@ bool Pack::IsWall()
 	XMVECTOR vNormal = XMVector3Cross(XMLoadFloat3(&rData.side1) , XMLoadFloat3(&rData.side2));
 	XMFLOAT3 side;
 	XMStoreFloat3(&side, vNormal);
+
+	//壁にぶつかったら方向転換
 	if (side.x > 0)
 	{
 		dir_.x = -dir_.x;
@@ -78,12 +91,12 @@ bool Pack::IsWall()
 	{
 		dir_.x = -dir_.x;
 	}
+
 	rData.start = transform_.position_;
 	rData.start.x = 0;
 	rData.dir = XMFLOAT3{ 0.2f,0.0f,0.0f };
 	Model::SegmentRayCast(hStage, rData);
 	vNormal = XMVector3Cross(XMLoadFloat3(&rData.side1), XMLoadFloat3(&rData.side2));
-	side;
 	XMStoreFloat3(&side, vNormal);
 	if (side.z > 0)
 	{
