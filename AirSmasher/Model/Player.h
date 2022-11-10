@@ -7,6 +7,7 @@ class Player : public GameObject
 	int hModel_;
 	XMFLOAT3 mousePos;
 	XMFLOAT3 dir_;
+	XMFLOAT3 previousPos_;	//前の位置
 	float speed_;
 public:
 	//コンストラクタ
@@ -26,6 +27,8 @@ public:
 	void Release() override;
 
 	XMFLOAT3 GetDirection() { return dir_; };
+
+	XMFLOAT3 GetPreviousPosition() { return previousPos_; };
 
 	float GetSpeed() { return speed_; }
 };
