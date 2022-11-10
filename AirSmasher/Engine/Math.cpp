@@ -58,7 +58,7 @@ bool Math::Intersect(XMFLOAT3 start, XMFLOAT3 dir, XMFLOAT3 v0, XMFLOAT3 v1, XMF
 XMFLOAT3 Math::FacingConversion(XMFLOAT3 myDir,XMFLOAT3 pairDir)
 {
     XMVECTOR dir = XMVector3Normalize(XMLoadFloat3(&myDir)) - XMVector3Normalize(XMLoadFloat3(&pairDir));
-    XMStoreFloat3(&myDir, dir);
+    XMStoreFloat3(&myDir, XMVector3Normalize(dir));
     return myDir;
 }
 
