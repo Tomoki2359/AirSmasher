@@ -19,7 +19,9 @@ void Pack::Initialize()
 	//transform_.position_.y = 0.3f;
 	CircleCollider* collision = new CircleCollider(XMFLOAT3(0, 0.0f, 0), 0.5f);
 	AddCircleCollider(collision);
-	//dir_ = XMFLOAT3(0.2f, 0.0f, -0.2f);
+	Model::SetColor(hModel_, 0, 150, 150);
+	dir_ = XMFLOAT3(0.2f, 0.0f, -0.2f);
+	speed_ = 1.0f;
 }
 
 //XV
@@ -72,7 +74,8 @@ void Pack::OnCollision(GameObject* pTarget)
 		//XMVECTOR vDir = XMLoadFloat3(&dir_);
 		//vDir = XMVector3Length(vDir);
 		//speed_ = XMVectorGetX(vDir);
-		speed_ = pPlayer_->GetSpeed() + 0.05f;
+		//speed_ = pPlayer_->GetSpeed() + 0.05f;
+		//speed_ = pPlayer_->GetSpeed() + 0.2f;
 			//Math::DivisionXMFLOAT3(Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }), 10);
 	}
 }

@@ -14,6 +14,9 @@ cbuffer global
 	float4x4	matNormal;		//法線変形用の行列
 	float4		diffuseColor;	// ディフューズカラー（マテリアルの色）
 	bool		isTexture;		// テクスチャ貼ってあるかどうか
+	float		red;			//赤色
+	float		green;			//緑色
+	float		blue;			//青色
 	float		alpha;			//透明度
 };
 
@@ -59,13 +62,13 @@ float4 PS(VS_OUT inData) : SV_Target
 	float4 ambient;
 	if (isTexture == true)
 	{
-		diffuse = g_texture.Sample(g_sampler, inData.uv) * inData.color * float4(1, 1, 1, alpha);
-		ambient = g_texture.Sample(g_sampler, inData.uv) * float4(0.2, 0.2, 0.2, 1);
+		diffuse = float4(red, green, blue, alpha) * g_texture.Sample(g_sampler, inData.uv) * inData.color;
+		ambient = g_texture.Sample(g_sampler, inData.uv) * float4(0.5, 0.5, 0.5, 1.0);
 	}
 	else
 	{
-		diffuse = diffuseColor * inData.color * float4(1, 1, 1, alpha);
-		ambient = diffuseColor * float4(0.2, 0.2, 0.2, 1);
+		diffuse = float4(red, green, blue, alpha) * diffuseColor * inData.color;
+		ambient = diffuseColor * float4(0.5, 0.5, 0.5, 1.0);
 	}
-	return (diffuse + ambient) * float4(1, 1, 1, alpha);
+	return (diffuse + ambient) * float4(1.0f , 1.0f, 1.0f, alpha);
 }

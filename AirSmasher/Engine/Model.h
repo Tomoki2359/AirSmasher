@@ -12,9 +12,11 @@ namespace Model
 		Transform TransformModel;
 		std::string FileModel;
 		float alpha_;
+		XMFLOAT3 color_;
 		MODEL() : pFbx(nullptr),
 			FileModel(""),
-			alpha_(1)
+			alpha_(1),
+			color_(XMFLOAT3(1.0f, 1.0f, 1.0f))
 		{
 		}
 	};
@@ -29,5 +31,6 @@ namespace Model
 
 	void AllRelease();
 	void SetAlpha(int hModel_, int alpha);	//“§–¾“x‚ÌŽæ“¾
+	void SetColor(int hModel_, int red, int green, int blue);	//RGB
 };
 

@@ -16,9 +16,9 @@ void Player::Initialize()
 {
 	hModel_ = Model::Load("Assets\\Mallet.fbx");
 	assert(hModel_ >= 0);
-	//transform_.position_.z = -13.0f;
+	transform_.position_.z = -10.0f;
 	//transform_.position_.y = 1.0f;
-	Camera::SetPosition(XMVectorSet(0, 15, -30, 0));
+	Camera::SetPosition(XMVectorSet(0, 50, 4, 0));
 	Camera::SetTarget(XMVectorSet(0, 0, 5, 0));
     //Camera::SetPosition(XMVectorSet(0, 15, -20, 0));
     //Camera::SetTarget(XMVectorSet(0, 0, -10, 0));
@@ -30,29 +30,29 @@ void Player::Initialize()
 //çXêV
 void Player::Update()
 {
-    previousPos_ = transform_.position_;
-    //Stage* pStage = (Stage*)FindObject("Stage");
-    //int hModelStage = pStage->HandleModel();
+    //previousPos_ = transform_.position_;
+    ////Stage* pStage = (Stage*)FindObject("Stage");
+    ////int hModelStage = pStage->HandleModel();
 
-    //à⁄ìÆèàóù
-    float w = (float)Direct3D::scrWidth / 2.0f;
-    float h = (float)Direct3D::scrHeight / 2.0f;
+    ////à⁄ìÆèàóù
+    //float w = (float)Direct3D::scrWidth / 2.0f;
+    //float h = (float)Direct3D::scrHeight / 2.0f;
 
-    //XMFLOAT3 mousePosNow = XMFLOAT3{ (Input::GetMousePosition().x - w), Input::GetMousePosition().z, Input::GetMousePosition().y - h });
-    XMFLOAT3 mousePosNow = Math::DivisionXMFLOAT3(XMFLOAT3{ (Input::GetMousePosition().x - w), Input::GetMousePosition().z, Input::GetMousePosition().y - h }, 20);
+    ////XMFLOAT3 mousePosNow = XMFLOAT3{ (Input::GetMousePosition().x - w), Input::GetMousePosition().z, Input::GetMousePosition().y - h });
+    //XMFLOAT3 mousePosNow = Math::DivisionXMFLOAT3(XMFLOAT3{ (Input::GetMousePosition().x - w), Input::GetMousePosition().z, Input::GetMousePosition().y - h }, 20);
 
-    /* transform_.position_.x += (mousePosNow.x - mousePos.x) / 20;
-     transform_.position_.z -= (mousePosNow.z - mousePos.z) / 20;*/
-    transform_.position_.x += (mousePosNow.x - mousePos.x);
-    transform_.position_.z -= (mousePosNow.z - mousePos.z);
-    dir_ = Math::SubtractionXMFLOAT3(mousePosNow, mousePos);
+    ///* transform_.position_.x += (mousePosNow.x - mousePos.x) / 20;
+    // transform_.position_.z -= (mousePosNow.z - mousePos.z) / 20;*/
+    //transform_.position_.x += (mousePosNow.x - mousePos.x);
+    //transform_.position_.z -= (mousePosNow.z - mousePos.z);
+    //dir_ = Math::SubtractionXMFLOAT3(mousePosNow, mousePos);
 
-    XMVECTOR vDir = XMLoadFloat3(&dir_);
-    vDir = XMVector3Length(vDir);
-    speed_ = XMVectorGetX(vDir);
-    XMStoreFloat3(&dir_, vDir);
+    //XMVECTOR vDir = XMLoadFloat3(&dir_);
+    //vDir = XMVector3Length(vDir);
+    //speed_ = XMVectorGetX(vDir);
+    //XMStoreFloat3(&dir_, vDir);
 
-    mousePos = mousePosNow;
+    //mousePos = mousePosNow;
 
 }
 
