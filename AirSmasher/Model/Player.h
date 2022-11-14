@@ -26,9 +26,17 @@ public:
 	//ŠJ•ú
 	void Release() override;
 
-	XMFLOAT3 GetDirection() { return dir_; };
+	//‰½‚©‚É“–‚½‚Á‚½
+//ˆø”FpTarget “–‚½‚Á‚½‘Šè
+	void OnCollision(GameObject* pTarget) override;
 
-	XMFLOAT3 GetPreviousPosition() { return previousPos_; };
+	//XMFLOAT3 GetDirection() { return dir_; };
+
+	//XMFLOAT3 GetPreviousPosition() { return previousPos_; };
+
+	XMFLOAT3 GetDirection() { return XMFLOAT3{ dir_.x,0,dir_.z }; };
+
+	XMFLOAT3 GetPreviousPosition() { return XMFLOAT3{ previousPos_.x,0,previousPos_.z }; };
 
 	float GetSpeed() { return speed_; }
 };

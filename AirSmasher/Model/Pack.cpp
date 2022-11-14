@@ -29,7 +29,7 @@ void Pack::Update()
 {
 	XMVECTOR vDir = XMLoadFloat3(&dir_);
 	vDir = XMVector3Length(vDir);
-	//transform_.position_ = Math::AddXMFLOAT3(transform_.position_, Math::DivisionXMFLOAT3(Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }), 10));
+	//transform_.position_ = Math::AddXMFLOAT3(transform_.position_,Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }));
 	//transform_.position_ = Math::AddXMFLOAT3(transform_.position_, Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }));
 	transform_.position_ = Math::AddXMFLOAT3(transform_.position_, Math::MultiplicationXMFLOAT3(dir_, speed_));
 
@@ -60,6 +60,8 @@ void Pack::OnCollision(GameObject* pTarget)
 		//dir_ = Math::FacingConversion(dir_, XMFLOAT3{ -pPlayer_->GetPosition().x,0,-pPlayer_->GetPosition().z });
 		//dir_ = Math::FacingConversion(dir_, XMFLOAT3{ -pPlayer_->GetDirection().x,0,-pPlayer_->GetDirection().z });
 		//dir_ = Math::FacingConversion(Math::SubtractionXMFLOAT3(transform_.position_, pPlayer_->GetPosition()), XMFLOAT3{ -pPlayer_->GetDirection().x,0,-pPlayer_->GetDirection().z });
+		XMFLOAT3 packPos = transform_.position_;
+
 		dir_ = Math::FacingConversion(Math::FacingConversion(Math::SubtractionXMFLOAT3(transform_.position_, pPlayer_->GetPreviousPosition()), XMFLOAT3{ -pPlayer_->GetDirection().x,0,-pPlayer_->GetDirection().z }),dir_);
 		/*XMVECTOR vPack = XMLoadFloat3(&Math::SubtractionXMFLOAT3( transform_.position_,pPlayer_->GetPosition()));
 		vPack = XMVector3Normalize(vPack);
@@ -71,12 +73,12 @@ void Pack::OnCollision(GameObject* pTarget)
 		//transform_.position_ = Math::AddXMFLOAT3(transform_.position_,Math::SubtractionXMFLOAT3(transform_.position_, pPlayer_->GetPosition()));
 
 		//‚»‚Ì•ûŒü‚ÉˆÚ“®
-		//XMVECTOR vDir = XMLoadFloat3(&dir_);
-		//vDir = XMVector3Length(vDir);
+		XMVECTOR vDir = XMLoadFloat3(&dir_);
+		vDir = XMVector3Length(vDir);
 		//speed_ = XMVectorGetX(vDir);
-		//speed_ = pPlayer_->GetSpeed() + 0.05f;
+		speed_ = (pPlayer_->GetSpeed() + speed_) / 2;
 		//speed_ = pPlayer_->GetSpeed() + 0.2f;
-			//Math::DivisionXMFLOAT3(Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }), 10);
+		Math::DivisionXMFLOAT3(Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }), 10);
 	}
 }
 
@@ -89,7 +91,7 @@ bool Pack::IsWall()
 	RayCastData rData;
 	rData.start = transform_.position_;
 	rData.start.z = 0;
-	rData.dir = XMFLOAT3{0.0f,0.0f,0.2f};
+	rData.dir = XMFLOAT3{0.0f,0.0f,0.5f};
 	Model::SegmentRayCast(hStage, rData);
 	XMVECTOR vNormal = XMVector3Cross(XMLoadFloat3(&rData.side1) , XMLoadFloat3(&rData.side2));
 	XMFLOAT3 side;
@@ -99,27 +101,31 @@ bool Pack::IsWall()
 	if (side.x > 0)
 	{
 		dir_.x = -dir_.x;
+		transform_.position_.x = (int)transform_.position_.x + 0.5;
 	}
 
 	if (side.x < 0)
 	{
 		dir_.x = -dir_.x;
+		transform_.position_.x = (int)transform_.position_.x - 0.5;
 	}
 
 	rData.start = transform_.position_;
 	rData.start.x = 0;
-	rData.dir = XMFLOAT3{ 0.2f,0.0f,0.0f };
+	rData.dir = XMFLOAT3{ 0.5f,0.0f,0.0f };
 	Model::SegmentRayCast(hStage, rData);
 	vNormal = XMVector3Cross(XMLoadFloat3(&rData.side1), XMLoadFloat3(&rData.side2));
 	XMStoreFloat3(&side, vNormal);
 	if (side.z > 0)
 	{
 		dir_.z = -dir_.z;
+		transform_.position_.z = (int)transform_.position_.z + 0.5;
 	}
 	
 	if (side.z < 0)
 	{
 		dir_.z = -dir_.z;
+		transform_.position_.z = (int)transform_.position_.z - 0.5;
 	}
 
 	return false;

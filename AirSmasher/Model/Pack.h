@@ -34,4 +34,6 @@ public:
 	//•Ç‚É“–‚½‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©
 	//–ß‚è’l: •Ç‚É“–‚½‚Á‚Ä‚¢‚ê‚Îtrue
 	bool IsWall();
+
+	int HandleModelPack() { return hModel_; };
 };
