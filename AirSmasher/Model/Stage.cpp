@@ -9,7 +9,7 @@ Stage::Stage(GameObject* parent)
 //‰Šú‰»
 void Stage::Initialize()
 {
-	hModel_ = Model::Load("Assets\\Table.fbx");
+	hModel_ = Model::Load("Assets\\Table2.fbx");
 	assert(hModel_ >= 0);
 	transform_.scale_.x = 2.0f;
 	transform_.scale_.z = 2.0f;

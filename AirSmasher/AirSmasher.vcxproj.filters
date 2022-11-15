@@ -87,6 +87,12 @@
     <ClCompile Include="Engine\CircleCollider.cpp">
       <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Model\Mallet.cpp">
+      <Filter>ソース ファイル\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\Enemy.cpp">
+      <Filter>ソース ファイル\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Simple2D.hlsl">
@@ -156,6 +162,12 @@
     </ClInclude>
     <ClInclude Include="Engine\CircleCollider.h">
       <Filter>ヘッダー ファイル\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\Mallet.h">
+      <Filter>ヘッダー ファイル\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\Enemy.h">
+      <Filter>ヘッダー ファイル\Model</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

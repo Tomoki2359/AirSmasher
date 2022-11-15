@@ -1,6 +1,5 @@
 #pragma once
 #include"../Engine/GameObject.h"
-#include "../Engine/SceneManager.h"
 //■■シーンを管理するクラス
 class Stage : public GameObject
 {

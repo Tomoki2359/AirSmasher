@@ -1,7 +1,8 @@
 #pragma once
 #include"../Engine/GameObject.h"
-#include "../Engine/SceneManager.h"
 #include "Player.h"
+#include "Enemy.h"
+#include "Stage.h"
 //■■シーンを管理するクラス
 class Pack : public GameObject
 {
@@ -10,6 +11,8 @@ class Pack : public GameObject
 	XMFLOAT3 dir_;
 	float speed_;
 	Player* pPlayer_;
+	Enemy* pEnemy_;
+	Stage* pStage;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -31,9 +34,14 @@ public:
 	//引数：pTarget 当たった相手
 	void OnCollision(GameObject* pTarget) override;
 
-	//壁に当たっているかどうか
-	//戻り値: 壁に当たっていればtrue
-	bool IsWall();
+	//マレットに当たっている処理
+	void IsMallet(Mallet* pMallet);
+
+	//壁に当たっている処理
+	void IsWall();
+	
+	//ゴールしている処理
+	void IsGoal();
 
 	int HandleModelPack() { return hModel_; };
 };
