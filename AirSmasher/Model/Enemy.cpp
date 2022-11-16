@@ -12,15 +12,13 @@ void Enemy::Release()
 {
 }
 
-void Enemy::OnCollision(GameObject* pTarget)
-{
-}
-
+//初期化
 void Enemy::SetInit()
 {
     transform_.position_.z = 10.0f;
 }
 
+//マレットの動き
 void Enemy::MoveMallet()
 {
     if (isPut_)
@@ -33,6 +31,7 @@ void Enemy::MoveMallet()
     }
 }
 
+//マレットを台に置くかどうか
 bool Enemy::IsPut()
 {
     return true;

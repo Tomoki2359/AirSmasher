@@ -6,11 +6,11 @@ class Mallet : public GameObject
 {
 	int hModel_;
 protected:
-	XMFLOAT3 dir_;
+	XMFLOAT3 dir_;			//向き	
 	XMFLOAT3 previousPos_;	//前の位置
-	float speed_;
-	bool isPut_;	//マレットをテーブルにつけているかどうか
-	Stage* pStage_;
+	float speed_;			//マレットの速度
+	bool isPut_;			//マレットをテーブルにつけているかどうか
+	Stage* pStage_;			//ステージのポインタ
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -38,15 +38,28 @@ public:
 
 	//XMFLOAT3 GetPreviousPosition() { return previousPos_; };
 
+	//向きのゲッター
+	//戻り値 マレットの移動する方向
 	XMFLOAT3 GetDirection() { return XMFLOAT3{ dir_.x,0,dir_.z }; };
-
+	
+	//マレットの前回の位置
+	//戻り値　マレットの前回いた位置
 	XMFLOAT3 GetPreviousPosition() { return XMFLOAT3{ previousPos_.x,0,previousPos_.z }; };
 
+	//マレットの動いた速度
+	//戻り値　マレットの速度
 	float GetSpeed() { return speed_; }
 
+	//マレットが台についているかどうか
+	//戻り値　台についているならtrue
+	bool GetPut() { return isPut_; };
+
+	//継承したマレットの初期化
 	virtual void SetInit() = 0;
 
+	//継承したマレットの動き関係
 	virtual void MoveMallet() = 0;
 
+	//マレットを地面についているかどうか
 	virtual bool IsPut() = 0;
 };

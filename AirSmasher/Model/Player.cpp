@@ -17,6 +17,7 @@ void Player::Release()
 {
 }
 
+//当たり判定(今は何もしていない)
 void Player::OnCollision(GameObject* pTarget)
 {
     //RayCastData data;
@@ -49,6 +50,7 @@ void Player::OnCollision(GameObject* pTarget)
     //}
 }
 
+//初期化
 void Player::SetInit()
 {
     transform_.position_.z = -10.0f;
@@ -61,6 +63,7 @@ void Player::SetInit()
     mousePos = Input::GetMousePosition();
 }
 
+//マレットの動き
 void Player::MoveMallet()
 {
     previousPos_ = transform_.position_;
@@ -87,6 +90,7 @@ void Player::MoveMallet()
 
 }
 
+//台を置くかどうか
 bool Player::IsPut()
 {
     if (Input::IsMouce(0))

@@ -10,7 +10,7 @@ Mallet::Mallet(GameObject* parent)
 }
 
 Mallet::Mallet(GameObject* parent, std::string name)
-    : GameObject(parent, name)
+    : GameObject(parent, name), isPut_(false)
 {
 }
 
@@ -33,13 +33,13 @@ void Mallet::Update()
     data.dir = XMFLOAT3(0, -1, 0);       //ƒŒƒC‚Ì•ûŒü
 
     Stage* pStage = (Stage*)FindObject("Stage");
-    int hModelStage = pStage->HandleModel();
+    int hModelStage = pStage->HandleModelStage();
 
     Model::RayCast(hModelStage, data); //ƒŒƒC‚ð”­ŽË
 
     if (IsPut())
     {
-        //isPut_ = true;
+        isPut_ = true;
         if (data.hit)
         {
             transform_.position_.y = -data.dist;
@@ -47,6 +47,7 @@ void Mallet::Update()
     }
     else
     {
+        isPut_ = false;
         transform_.position_.y = 3.0f;
     }
     MoveMallet();

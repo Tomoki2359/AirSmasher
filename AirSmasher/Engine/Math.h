@@ -32,5 +32,7 @@ namespace Math
 	XMFLOAT3 SignChange(XMFLOAT3 f1);
 
 	XMFLOAT3 GetDisplacement(XMFLOAT3 f1,XMFLOAT3 f2);
+
+	float GetRadian(XMFLOAT3 f1, XMFLOAT3 f2);
 };
 

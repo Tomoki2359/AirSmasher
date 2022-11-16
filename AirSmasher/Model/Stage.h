@@ -21,5 +21,6 @@ public:
 	//ŠJ•ú
 	void Release() override;
 
-	int HandleModel() { return hModel_; };
+	//ƒ‚ƒfƒ‹”Ô†
+	int HandleModelStage() { return hModel_; };
 };

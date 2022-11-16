@@ -150,3 +150,16 @@ XMFLOAT3 Math::GetDisplacement(XMFLOAT3 f1, XMFLOAT3 f2)
     int a = 0;
     return dis;*/
 }
+
+float Math::GetRadian(XMFLOAT3 f1, XMFLOAT3 f2)
+{
+    XMVECTOR v1 = XMLoadFloat3(&f1);
+    XMVECTOR v2 = XMLoadFloat3(&f2);
+
+    v1 = XMVector3Normalize(v1);          //ê≥ãKâª
+    v2 = XMVector3Normalize(v2);          //ê≥ãKâª
+    XMVECTOR dot = XMVector3Dot(v1, v2);  //ì‡êœÇãÅÇﬂÇÈ
+    float angle = acos(XMVectorGetZ(dot));   //acosÇãÅÇﬂÇÍÇŒäpìx
+
+    return angle;
+}

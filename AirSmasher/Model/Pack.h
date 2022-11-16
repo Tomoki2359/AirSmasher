@@ -43,5 +43,6 @@ public:
 	//ƒS[ƒ‹‚µ‚Ä‚¢‚éˆ—
 	void IsGoal();
 
+	//ƒ‚ƒfƒ‹”Ô†
 	int HandleModelPack() { return hModel_; };
 };
