@@ -1,16 +1,19 @@
 #pragma once
 #include"../Engine/GameObject.h"
 #include "Stage.h"
+
+
 //■■シーンを管理するクラス
 class Mallet : public GameObject
 {
 	int hModel_;
 protected:
 	XMFLOAT3 dir_;			//向き	
-	XMFLOAT3 previousPos_;	//前の位置
+	XMFLOAT3 previousMalletPos_;	//前のマレットの位置
 	float speed_;			//マレットの速度
 	bool isPut_;			//マレットをテーブルにつけているかどうか
 	Stage* pStage_;			//ステージのポインタ
+	//SquareBox malletSquar_;	//前回と今で当たっているか四角形
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -44,7 +47,7 @@ public:
 	
 	//マレットの前回の位置
 	//戻り値　マレットの前回いた位置
-	XMFLOAT3 GetPreviousPosition() { return XMFLOAT3{ previousPos_.x,0,previousPos_.z }; };
+	XMFLOAT3 GetPreviousPosition() { return XMFLOAT3{ previousMalletPos_.x,0,previousMalletPos_.z }; };
 
 	//マレットの動いた速度
 	//戻り値　マレットの速度

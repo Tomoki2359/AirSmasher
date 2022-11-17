@@ -3,16 +3,21 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Stage.h"
+#include "../QuadrangleHit.h"
+
 //■■シーンを管理するクラス
 class Pack : public GameObject
 {
 	int hModel_;
-	XMFLOAT3 pos_;
+	//XMFLOAT3 pos_;
+	XMFLOAT3 previousMalletPos_;	//前のパックの位置
 	XMFLOAT3 dir_;
 	float speed_;
 	Player* pPlayer_;
 	Enemy* pEnemy_;
 	Stage* pStage;
+	SquareBox packSquar_;
+	float radius_;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -37,11 +42,14 @@ public:
 	//マレットに当たっている処理
 	void IsMallet(Mallet* pMallet);
 
-	//壁に当たっている処理
+	//壁に当たっているか処理
 	void IsWall();
 	
-	//ゴールしている処理
+	//ゴールしているか処理
 	void IsGoal();
+
+	//マレットに当たっているか処理
+	void IsMallet();
 
 	//モデル番号
 	int HandleModelPack() { return hModel_; };

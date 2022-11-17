@@ -66,7 +66,7 @@ void Player::SetInit()
 //ƒ}ƒŒƒbƒg‚Ì“®‚«
 void Player::MoveMallet()
 {
-    previousPos_ = transform_.position_;
+    previousMalletPos_ = transform_.position_;
 
     //ˆÚ“®ˆ—
     float w = (float)Direct3D::scrWidth / 2.0f;

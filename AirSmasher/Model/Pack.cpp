@@ -5,7 +5,7 @@
 
 //コンストラクタ
 Pack::Pack(GameObject* parent)
-	: GameObject(parent, "Pack"), hModel_(-1)
+	: GameObject(parent, "Pack"), hModel_(-1), radius_(0.5f)
 {
 }
 
@@ -27,6 +27,7 @@ void Pack::Initialize()
 //更新
 void Pack::Update()
 {
+	
 	XMVECTOR vDir = XMLoadFloat3(&dir_);
 	vDir = XMVector3Length(vDir);
 	//transform_.position_ = Math::AddXMFLOAT3(transform_.position_,Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }));
@@ -183,4 +184,9 @@ void Pack::IsGoal()
 		transform_.position_.z = 0;
 		speed_ = 0;
 	}
+}
+
+void Pack::IsMallet()
+{
+	QuadrangleHit::CreateSquar(transform_.position_, previousMalletPos_,&packSquar_,radius_);
 }
