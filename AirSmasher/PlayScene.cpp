@@ -14,7 +14,7 @@ void PlayScene::Initialize()
 {
 	Instantiate<Stage>(this);
 	Instantiate<Player>(this);
-	Instantiate<Enemy>(this);
+	//Instantiate<Enemy>(this);
 	Instantiate<Pack>(this);
 }
 

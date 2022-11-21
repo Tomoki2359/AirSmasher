@@ -12,7 +12,9 @@ struct SquareBox		//当たっているか確認用四角形
 namespace QuadrangleHit
 {
 	//四角形を作る処理
-	//第一引数	位置;第二引数	位置;	第三引数	四角形;	第四引数	半径
-	void CreateSquar(XMFLOAT3 f1, XMFLOAT3 f2,SquareBox* pSquar,float radius);
+	//第一引数	位置;第二引数	位置;	第三引数	四角形;	第四引数	半径; 第五引数	向き
+	void CreateSquar(XMFLOAT3 f1, XMFLOAT3 f2,SquareBox* pSquar,float radius,XMFLOAT3 dir);
+
+	bool HitTest(SquareBox s1, SquareBox s2);
 };
 

@@ -1,7 +1,8 @@
 #pragma once
 #include"../Engine/GameObject.h"
 #include "Stage.h"
-
+#include "../QuadrangleHit.h"
+#include "Shadow.h"
 
 //■■シーンを管理するクラス
 class Mallet : public GameObject
@@ -13,7 +14,9 @@ protected:
 	float speed_;			//マレットの速度
 	bool isPut_;			//マレットをテーブルにつけているかどうか
 	Stage* pStage_;			//ステージのポインタ
-	//SquareBox malletSquar_;	//前回と今で当たっているか四角形
+	Shadow* pShadow_;			//ステージのポインタ
+	SquareBox malletSquar_;	//前回と今で当たっているか四角形
+	float radius_;	//半径
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

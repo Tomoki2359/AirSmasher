@@ -96,6 +96,9 @@
     <ClCompile Include="QuadrangleHit.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Model\Shadow.cpp">
+      <Filter>ソース ファイル\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Simple2D.hlsl">
@@ -174,6 +177,9 @@
     </ClInclude>
     <ClInclude Include="QuadrangleHit.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\Shadow.h">
+      <Filter>ヘッダー ファイル\Model</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -21,15 +21,12 @@ void Pack::Initialize()
 	AddCircleCollider(collision);
 	Model::SetColor(hModel_, 0, 150, 150);
 	dir_ = XMFLOAT3(0.2f, 0.0f, -0.2f);
-	speed_ = 4.0f;
+	speed_ = 2.0f;
 }
 
 //更新
 void Pack::Update()
 {
-	
-	XMVECTOR vDir = XMLoadFloat3(&dir_);
-	vDir = XMVector3Length(vDir);
 	//transform_.position_ = Math::AddXMFLOAT3(transform_.position_,Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }));
 	//transform_.position_ = Math::AddXMFLOAT3(transform_.position_, Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }));
 	transform_.position_ = Math::AddXMFLOAT3(transform_.position_, Math::MultiplicationXMFLOAT3(dir_, speed_));
@@ -74,48 +71,35 @@ void Pack::IsMallet(Mallet* pMallet)
 {
 	if (pMallet->GetPut())
 	{
+		//前のマレットの位置
 		XMFLOAT3 malletPos = pMallet->GetPreviousPosition();
 		malletPos.y = 0;
+
+		//マレットの動いた方向
+		XMFLOAT3 malletDir = pMallet->GetDirection();
+		malletDir.y = 0;
 		//移動方向
 			//dir_ = Math::FacingConversion(dir_, XMFLOAT3{ -pPlayer_->GetPosition().x,0,-pPlayer_->GetPosition().z });
 			//dir_ = Math::FacingConversion(dir_, XMFLOAT3{ -pPlayer_->GetDirection().x,0,-pPlayer_->GetDirection().z });
 			//dir_ = Math::FacingConversion(Math::SubtractionXMFLOAT3(transform_.position_, pPlayer_->GetPosition()), XMFLOAT3{ -pPlayer_->GetDirection().x,0,-pPlayer_->GetDirection().z });
 			//XMFLOAT3 packPos = transform_.position_;
 
+				//ズレの修正
+	/*	XMVECTOR vMalletDir = XMVector3Normalize(XMLoadFloat3(&malletDir));
+		vMalletDir = vMalletDir * radius_;
+		XMStoreFloat3(&malletDir, vMalletDir);
+		transform_.position_ = Math::AddXMFLOAT3(transform_.position_,malletDir);*/
+
 		//パックの中心とマレットの中心の向きベクトルとプレイヤーの向きベクトルで向きを求める
-		XMFLOAT3 sub = Math::SubtractionXMFLOAT3(transform_.position_, pMallet->GetPreviousPosition());
-		dir_ = Math::FacingConversion(Math::FacingConversion(sub, XMFLOAT3{ -pMallet->GetDirection().x,0,-pMallet->GetDirection().z }), dir_);
-
+		XMFLOAT3 sub = Math::SubtractionXMFLOAT3(transform_.position_, malletPos);
+		dir_ = Math::FacingConversion(sub, malletDir);
 		
-		
-		/*XMVECTOR vPack = XMLoadFloat3(&Math::SubtractionXMFLOAT3( transform_.position_,pPlayer_->GetPosition()));
-		vPack = XMVector3Normalize(vPack);
-		XMVECTOR vPlayer = XMLoadFloat3(&pPlayer_->GetPosition());
-		XMStoreFloat3(&dir_, vPlayer - vPack);*/
-
-		//pPlayer_->SetPosition(Math::AddXMFLOAT3(pPlayer_->GetPosition(),Math::GetDistance(pPlayer_->GetPosition(),transform_.position_)));
-		
-		//ズレの修正
-		XMMATRIX mRotate = XMMatrixRotationY(Math::GetRadian(sub, XMFLOAT3{0,0,1.0f}));
-		//現在位置をベクトルにしておく
-		XMFLOAT3 a = malletPos;
-		XMVECTOR vPos = XMLoadFloat3(&a);
-
-		//移動ベクトル
-		XMFLOAT3 move = { 0, 0, 2.0f };                //奥向きのXMFLOAT3構造体を用意し
-		XMVECTOR vMove = XMLoadFloat3(&move);               //それをベクトルにする
-		vMove = XMVector3TransformCoord(vMove, mRotate);    //戦車の向きに合わせて回転
-		vPos += vMove;
-		XMStoreFloat3(&transform_.position_, vPos);
-		//transform_.position_ = Math::AddXMFLOAT3(transform_.position_,Math::SubtractionXMFLOAT3(transform_.position_, pPlayer_->GetPosition()));
-
 		//その方向に移動
-		XMVECTOR vDir = XMLoadFloat3(&dir_);
-		vDir = XMVector3Length(vDir);
-		//speed_ = XMVectorGetX(vDir);
 		speed_ = (pMallet->GetSpeed() + speed_) / 2;
-		//speed_ = pPlayer_->GetSpeed() + 0.2f;
-		//Math::DivisionXMFLOAT3(Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }), 10);
+
+		/*XMVECTOR vDir = XMVector3Normalize(XMLoadFloat3(&dir_));
+		vDir = vDir * speed_;
+		XMStoreFloat3(&dir_, vDir);*/
 	}
 }
 
@@ -182,11 +166,11 @@ void Pack::IsGoal()
 	{
 		transform_.position_.x = 0;
 		transform_.position_.z = 0;
-		speed_ = 0;
+		//speed_ = 0;
 	}
 }
 
 void Pack::IsMallet()
 {
-	QuadrangleHit::CreateSquar(transform_.position_, previousMalletPos_,&packSquar_,radius_);
+	QuadrangleHit::CreateSquar(transform_.position_, previousPackPos_,&packSquar_,radius_,dir_);
 }

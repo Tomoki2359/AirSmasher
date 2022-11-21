@@ -177,6 +177,7 @@
     <ClCompile Include="Model\Mallet.cpp" />
     <ClCompile Include="Model\Pack.cpp" />
     <ClCompile Include="Model\Player.cpp" />
+    <ClCompile Include="Model\Shadow.cpp" />
     <ClCompile Include="Model\Stage.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="QuadrangleHit.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="Model\Mallet.h" />
     <ClInclude Include="Model\Pack.h" />
     <ClInclude Include="Model\Player.h" />
+    <ClInclude Include="Model\Shadow.h" />
     <ClInclude Include="Model\Stage.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="QuadrangleHit.h" />

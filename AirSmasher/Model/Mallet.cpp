@@ -10,7 +10,7 @@ Mallet::Mallet(GameObject* parent)
 }
 
 Mallet::Mallet(GameObject* parent, std::string name)
-    : GameObject(parent, name), isPut_(false)
+    : GameObject(parent, name), isPut_(false),radius_(1.0f)
 {
 }
 
@@ -20,8 +20,9 @@ void Mallet::Initialize()
     hModel_ = Model::Load("Assets\\Mallet.fbx");
     assert(hModel_ >= 0);
     SetInit();
-    CircleCollider* collision = new CircleCollider(XMFLOAT3(0, 0.0f, 0), 1.0f);
+    CircleCollider* collision = new CircleCollider(XMFLOAT3(0, 0.0f, 0), radius_);
     AddCircleCollider(collision);
+    Instantiate<Shadow>(this);
 }
 
 //çXêV
@@ -85,6 +86,8 @@ void Mallet::Update()
     {
         transform_.position_.z = (int)transform_.position_.z + 0.2f;
     }
+    QuadrangleHit::CreateSquar(transform_.position_, previousMalletPos_, &malletSquar_, radius_, dir_);
+
 }
 
 //ï`âÊ

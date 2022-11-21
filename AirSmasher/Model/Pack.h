@@ -10,14 +10,16 @@ class Pack : public GameObject
 {
 	int hModel_;
 	//XMFLOAT3 pos_;
-	XMFLOAT3 previousMalletPos_;	//前のパックの位置
-	XMFLOAT3 dir_;
-	float speed_;
+	XMFLOAT3 previousPackPos_;	//前のパックの位置
+	XMFLOAT3 dir_;	//向き	
+	float speed_;	//速度
+	SquareBox packSquar_;	//当たり判定
+	float radius_;	//半径
+	
+	//ポインタ
 	Player* pPlayer_;
 	Enemy* pEnemy_;
 	Stage* pStage;
-	SquareBox packSquar_;
-	float radius_;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
