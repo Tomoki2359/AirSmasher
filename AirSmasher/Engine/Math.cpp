@@ -1,5 +1,6 @@
 #include "Math.h"
 
+//ƒNƒ‰ƒƒ‹‚ÌŒö®
 float Math::Det(XMFLOAT3 a, XMFLOAT3 b, XMFLOAT3 c)
 {
     return a.x * b.y * c.z +

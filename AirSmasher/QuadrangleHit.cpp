@@ -47,8 +47,7 @@ namespace QuadrangleHit
 
 	bool HitTest(SquareBox s1, SquareBox s2)
 	{
-		//s1.xPos_.x
-		//fabs();
+		if(s1.xPos_.x )
 		return false;
 	}
 }
