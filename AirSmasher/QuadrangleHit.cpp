@@ -152,12 +152,17 @@ namespace QuadrangleHit
 			intersectionPoint6.z <= (s2.xPos_.y + (s2.xPos_.z - s2.xPos_.y)) && intersectionPoint6.w <= (s2.zPos_.y + (s2.zPos_.z - s2.zPos_.y)) ||
 
 			intersectionPoint7.x <= (s1.xPos_.y + (s1.xPos_.z - s1.xPos_.y)) && intersectionPoint7.y <= (s1.zPos_.y + (s1.zPos_.z - s1.zPos_.y)) &&
-			intersectionPoint7.x <= (s2.xPos_.x + (s2.xPos_.y - s2.xPos_.x)) && intersectionPoint7.y <= (s2.zPos_.y + (s2.zPos_.z - s2.zPos_.y)) ||
+			intersectionPoint7.x <= (s2.xPos_.x + (s2.xPos_.y - s2.xPos_.x)) && intersectionPoint7.y <= (s2.zPos_.x + (s2.zPos_.y - s2.zPos_.x)) ||
 			intersectionPoint7.z <= (s1.xPos_.y + (s1.xPos_.z - s1.xPos_.y)) && intersectionPoint7.w <= (s1.zPos_.y + (s1.zPos_.z - s1.zPos_.y)) &&
-			intersectionPoint7.z <= (s2.xPos_.z + (s2.xPos_.w - s2.xPos_.z)) && intersectionPoint7.w <= (s2.zPos_.z + (s2.zPos_.w - s2.zPos_.z))
+			intersectionPoint7.z <= (s2.xPos_.z + (s2.xPos_.w - s2.xPos_.z)) && intersectionPoint7.w <= (s2.zPos_.z + (s2.zPos_.w - s2.zPos_.z)) ||
+
+			intersectionPoint8.x <= (s1.xPos_.y + (s1.xPos_.z - s1.xPos_.y)) && intersectionPoint8.y <= (s1.zPos_.y + (s1.zPos_.z - s1.zPos_.y)) &&
+			intersectionPoint8.x <= (s2.xPos_.x + (s2.xPos_.w - s2.xPos_.x)) && intersectionPoint8.y <= (s2.zPos_.x + (s2.zPos_.w - s2.zPos_.x)) ||
+			intersectionPoint8.z <= (s1.xPos_.y + (s1.xPos_.z - s1.xPos_.y)) && intersectionPoint8.w <= (s1.zPos_.y + (s1.zPos_.z - s1.zPos_.y)) &&
+			intersectionPoint8.z <= (s2.xPos_.y + (s2.xPos_.z - s2.xPos_.y)) && intersectionPoint8.w <= (s2.zPos_.y + (s2.zPos_.z - s2.zPos_.y))
 			);
 		{
-
+			return true;
 		}
 
 		return false;
