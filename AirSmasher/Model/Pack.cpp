@@ -27,7 +27,6 @@ void Pack::Initialize()
 //更新
 void Pack::Update()
 {
-	//transform_.position_ = Math::AddXMFLOAT3(transform_.position_,Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }));
 	//transform_.position_ = Math::AddXMFLOAT3(transform_.position_, Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }));
 	transform_.position_ = Math::AddXMFLOAT3(transform_.position_, Math::MultiplicationXMFLOAT3(dir_, speed_));
 
@@ -35,7 +34,7 @@ void Pack::Update()
 	IsWall();
 
 	//ゴールに落ちたか
-	//IsGoal();
+	//IsGoal(); 
 }
 
 //描画
@@ -84,11 +83,26 @@ void Pack::IsMallet(Mallet* pMallet)
 			//dir_ = Math::FacingConversion(Math::SubtractionXMFLOAT3(transform_.position_, pPlayer_->GetPosition()), XMFLOAT3{ -pPlayer_->GetDirection().x,0,-pPlayer_->GetDirection().z });
 			//XMFLOAT3 packPos = transform_.position_;
 
-				//ズレの修正
 	/*	XMVECTOR vMalletDir = XMVector3Normalize(XMLoadFloat3(&malletDir));
 		vMalletDir = vMalletDir * radius_;
 		XMStoreFloat3(&malletDir, vMalletDir);
 		transform_.position_ = Math::AddXMFLOAT3(transform_.position_,malletDir);*/
+
+		//ズレの修正
+		transform_.position_ = XMFLOAT3{ pMallet->GetPosition().x,0,pMallet->GetPosition().z };
+		if (dir_.x <= 0)
+		{
+			XMVECTOR vDir = XMVector3Normalize(XMLoadFloat3(&dir_));
+			vDir = vDir * radius_ * 4;
+			XMStoreFloat3(&dir_, vDir);
+		}
+		else
+		{
+			XMVECTOR vDir = XMVector3Normalize(XMLoadFloat3(&dir_));
+			vDir = -vDir * radius_ * 4;
+			XMStoreFloat3(&dir_, vDir);
+		}
+		transform_.position_ = Math::AddXMFLOAT3(transform_.position_, dir_);
 
 		//パックの中心とマレットの中心の向きベクトルとプレイヤーの向きベクトルで向きを求める
 		XMFLOAT3 sub = Math::SubtractionXMFLOAT3(transform_.position_, malletPos);
@@ -100,6 +114,8 @@ void Pack::IsMallet(Mallet* pMallet)
 		/*XMVECTOR vDir = XMVector3Normalize(XMLoadFloat3(&dir_));
 		vDir = vDir * speed_;
 		XMStoreFloat3(&dir_, vDir);*/
+
+		
 	}
 }
 
