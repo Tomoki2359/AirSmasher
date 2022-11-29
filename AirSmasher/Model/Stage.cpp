@@ -9,10 +9,12 @@ Stage::Stage(GameObject* parent)
 //èâä˙âª
 void Stage::Initialize()
 {
-	hModel_ = Model::Load("Assets\\Table2.fbx");
+	hModel_ = Model::Load("Assets\\Table3.fbx");
 	assert(hModel_ >= 0);
 	transform_.scale_.x = 2.0f;
 	transform_.scale_.z = 2.0f;
+	//transform_.scale_.x = 4.0f;
+	//transform_.scale_.z = 3.5f;
 }
 
 //çXêV

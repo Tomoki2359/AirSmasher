@@ -14,9 +14,13 @@ protected:
 	float speed_;			//マレットの速度
 	bool isPut_;			//マレットをテーブルにつけているかどうか
 	Stage* pStage_;			//ステージのポインタ
-	Shadow* pShadow_;			//ステージのポインタ
-	SquareBox malletSquar_;	//前回と今で当たっているか四角形
+	Shadow* pShadow_;			//影のポインタ
+	SquareBox malletSquar_;	//前回と今の四角形
 	float radius_;	//半径
+
+	float front_;
+
+	bool first_;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -59,6 +63,10 @@ public:
 	//マレットが台についているかどうか
 	//戻り値　台についているならtrue
 	bool GetPut() { return isPut_; };
+
+	SquareBox GetSquare() { return malletSquar_; };
+
+	float GetFront() { return front_; };
 
 	//継承したマレットの初期化
 	virtual void SetInit() = 0;

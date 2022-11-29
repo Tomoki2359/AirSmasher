@@ -10,6 +10,7 @@
 Player::Player(GameObject* parent)
     : Mallet(parent, "Player")
 {
+    malletSquar_ = { {0,0,0,0} , {0,0,0,0} };
 }
 
 //開放
@@ -53,27 +54,28 @@ void Player::OnCollision(GameObject* pTarget)
 //初期化
 void Player::SetInit()
 {
-    transform_.position_.z = -10.0f;
+    transform_.position_.z = -20.0f;
     //transform_.position_.y = 1.0f;
     //Camera::SetPosition(XMVectorSet(0, 50, 4, 0));
     //Camera::SetTarget(XMVectorSet(0, 0, 5, 0));
-    Camera::SetPosition(XMVectorSet(0, 15, -50, 0));
-    Camera::SetTarget(XMVectorSet(0, 0, 0, 0));
-
+    //Camera::SetPosition(XMVectorSet(0, 15, -50, 0));
+    //Camera::SetTarget(XMVectorSet(0, 0, 0, 0));
+    Camera::SetPosition(XMVectorSet(0, 30, -60, 0));
+    Camera::SetTarget(XMVectorSet(0, 0, 10, 0));
     mousePos = Input::GetMousePosition();
 }
 
 //マレットの動き
 void Player::MoveMallet()
 {
-    previousMalletPos_ = transform_.position_;
+   
 
     //移動処理
     float w = (float)Direct3D::scrWidth / 2.0f;
     float h = (float)Direct3D::scrHeight / 2.0f;
 
     //XMFLOAT3 mousePosNow = XMFLOAT3{ (Input::GetMousePosition().x - w), Input::GetMousePosition().z, Input::GetMousePosition().y - h });
-    XMFLOAT3 mousePosNow = Math::DivisionXMFLOAT3(XMFLOAT3{ (Input::GetMousePosition().x - w), Input::GetMousePosition().z, Input::GetMousePosition().y - h }, 20);
+    XMFLOAT3 mousePosNow = Math::DivisionXMFLOAT3(XMFLOAT3{ (Input::GetMousePosition().x - w), Input::GetMousePosition().z, Input::GetMousePosition().y - h }, 19);
 
     /* transform_.position_.x += (mousePosNow.x - mousePos.x) / 20;
      transform_.position_.z -= (mousePosNow.z - mousePos.z) / 20;*/
@@ -88,6 +90,23 @@ void Player::MoveMallet()
 
     mousePos = mousePosNow;
 
+   /* if (isPut_)
+    {
+        Camera::SetPosition(XMVectorSet(0 + (transform_.position_.x / 2), 30, -60 + ((transform_.position_.z + 20) / 2), 0));
+        Camera::SetTarget(XMVectorSet(0, 0, 10, 0));
+    }
+    else
+    {
+        Camera::SetPosition(XMVectorSet(0, 30, -60, 0));
+        Camera::SetTarget(XMVectorSet(0, 0, 10, 0));
+    }*/
+
+    if (transform_.position_.z >= 0)
+    {
+        transform_.position_.z = 0;
+    }
+
+    QuadrangleHit::CreateSquar(transform_.position_, previousMalletPos_, &malletSquar_, radius_, dir_);
 }
 
 //台を置くかどうか
