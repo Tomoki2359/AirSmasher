@@ -116,7 +116,7 @@ void Player::MoveMallet()
     }
     else
     {
-        Camera::SetPosition(XMVectorSet(0, 15, -60, 0));
+        Camera::SetPosition(XMVectorSet(0, 15, -60 , 0));
         Camera::SetTarget(XMVectorSet(0, 0, 10, 0));
     }
 

@@ -52,7 +52,7 @@ void Mallet::Update()
 
         //packFront_ = -data.dist;
     }
-    //isSuppress_ = false;
+    isSuppress_ = false;
     if (IsPut())
     {
         isPut_ = true;
