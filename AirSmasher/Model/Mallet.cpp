@@ -10,7 +10,7 @@ Mallet::Mallet(GameObject* parent)
 }
 
 Mallet::Mallet(GameObject* parent, std::string name)
-    : GameObject(parent, name), isPut_(false),radius_(1.0f)
+    : GameObject(parent, name), isPut_(false),radius_(1.0f),isSuppress_(false)
 {
 }
 
@@ -42,7 +42,17 @@ void Mallet::Update()
         Model::RayCast(hModelStage, data); //ƒŒƒC‚ð”­ŽË
 
         front_ = -data.dist;
+
+        //Pack* pPack_ = (Pack*)FindObject("Pack");
+        //int hModelPack = pPack_->HandleModelPack();
+
+        //data.start = pPack_->GetPosition();
+        //data.start.y = 3;
+        //Model::RayCast(hModelStage, data); //ƒŒƒC‚ð”­ŽË
+
+        //packFront_ = -data.dist;
     }
+    //isSuppress_ = false;
     if (IsPut())
     {
         isPut_ = true;

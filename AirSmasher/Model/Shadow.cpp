@@ -16,6 +16,7 @@ void Shadow::Initialize()
 //更新
 void Shadow::Update()
 {
+	transform_.position_.y = -pParent_->GetPosition().y;
 	//RayCastData data;
 	//data.start = transform_.position_;   //レイの発射位置
 	//data.start.y = 0;

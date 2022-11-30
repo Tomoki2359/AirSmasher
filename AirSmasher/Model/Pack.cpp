@@ -5,7 +5,7 @@
 
 //コンストラクタ
 Pack::Pack(GameObject* parent)
-	: GameObject(parent, "Pack"), hModel_(-1), radius_(0.5f)
+	: GameObject(parent, "Pack"), hModel_(-1), radius_(1.0f)
 {
 }
 
@@ -17,10 +17,10 @@ void Pack::Initialize()
 	//transform_.scale_.x = 2.0f;
 	//transform_.scale_.z = 2.0f;
 	//transform_.position_.y = 0.3f;
-	CircleCollider* collision = new CircleCollider(XMFLOAT3(0, 0.0f, 0), 0.5f);
+	CircleCollider* collision = new CircleCollider(XMFLOAT3(0, 0.0f, 0), radius_);
 	AddCircleCollider(collision);
 	Model::SetColor(hModel_, 0, 150, 150);
-	dir_ = XMFLOAT3(0.2f, 0.0f, -0.2f);
+	dir_ = XMFLOAT3(-0.2f, 0.0f, -0.2f);
 	speed_ = 1.0f;
 
 	packSquar_ = { {0,0,0,0} , {0,0,0,0} };
@@ -32,27 +32,43 @@ void Pack::Update()
 	pPlayer_ = (Player*)FindObject("Player");
 	assert(pPlayer_ != nullptr);
 
-	previousPackPos_ = transform_.position_;
+	pEnemy_ = (Enemy*)FindObject("Enemy");
+	assert(pEnemy_ != nullptr);
 
-	XMVECTOR vdir_ = XMLoadFloat3(&dir_);
-	vdir_ = XMVector3Normalize(vdir_);
-	vdir_ = vdir_ * speed_;
-	XMStoreFloat3(&dir_, vdir_);
-	//transform_.position_ = Math::AddXMFLOAT3(transform_.position_, Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }));
-	transform_.position_ = Math::AddXMFLOAT3(transform_.position_, dir_);
-	QuadrangleHit::CreateSquar(transform_.position_, previousPackPos_, &packSquar_, radius_, dir_);
-	//壁の当たり処理
-	IsWall();
-	
-	//ゴールに落ちたか
-	IsGoal(); 
-	//if (pPlayer_->GetPut())
-	//{
-	//	if (QuadrangleHit::HitTest(packSquar_, pPlayer_->GetSquare()))
-	//	{
-	//		//IsMallet(pPlayer_);
-	//	}
-	//}
+	if (isGool_)
+	{
+		transform_.position_ = pPlayer_->GetPosition();
+		transform_.position_.y = 0;
+
+		if (pPlayer_->GetSuppress())
+		{
+			isGool_ = false;
+		}
+	}
+	else
+	{
+		previousPackPos_ = transform_.position_;
+
+		XMVECTOR vdir_ = XMLoadFloat3(&dir_);
+		vdir_ = XMVector3Normalize(vdir_);
+		vdir_ = vdir_ * speed_;
+		XMStoreFloat3(&dir_, vdir_);
+		//transform_.position_ = Math::AddXMFLOAT3(transform_.position_, Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }));
+		transform_.position_ = Math::AddXMFLOAT3(transform_.position_, dir_);
+		QuadrangleHit::CreateSquar(transform_.position_, previousPackPos_, &packSquar_, radius_, dir_);
+		//壁の当たり処理
+		IsWall();
+
+		//ゴールに落ちたか
+		IsGoal();
+		//if (pPlayer_->GetPut())
+		//{
+		//	if (QuadrangleHit::HitTest(packSquar_, pPlayer_->GetSquare()))
+		//	{
+		//		//IsMallet(pPlayer_);
+		//	}
+		//}
+	}
 }
 
 //描画
@@ -76,11 +92,17 @@ void Pack::OnCollision(GameObject* pTarget)
 		assert(pPlayer_ != nullptr);*/
 		IsMallet(pPlayer_);
 	}
-	else if (pTarget->GetObjectName() == "Enemy")
+	else if (pTarget->GetObjectName() != "Player")
 	{
-		pEnemy_ = (Enemy*)FindObject("Enemy");
-		assert(pEnemy_ != nullptr);
+		pPlayer_->SetSuppress(false);
+	}
+	if (pTarget->GetObjectName() == "Enemy")
+	{
 		IsMallet(pEnemy_);
+	}
+	else if (pTarget->GetObjectName() != "Enemy")
+	{
+		pEnemy_->SetSuppress(false);
 	}
 }
 
@@ -123,9 +145,29 @@ void Pack::IsMallet(Mallet* pMallet)
 			XMStoreFloat3(&dir_, vDir);
 		}
 		transform_.position_ = Math::AddXMFLOAT3(transform_.position_, dir_);*/
+		if (!pMallet->GetSuppress())
+		{
+			XMFLOAT3 pos = Math::SubtractionXMFLOAT3(transform_.position_, pMallet->GetPosition());
+			XMVECTOR vpos = XMLoadFloat3(&pos);	//ズレた位置
+			float addRadius = radius_ + pMallet->GetRadius();
+			XMVECTOR vdir = XMLoadFloat3(&dir_);	//中心と中心の正しい距離
+			vdir = XMVector3Normalize(vdir);
+			vdir = vdir * addRadius;
+			XMStoreFloat3(&pos, -(vdir - vpos));
+			transform_.position_ = Math::AddXMFLOAT3(transform_.position_, pos);
+		}
+		else
+		{
+			dir_ = XMFLOAT3{ 0,0,0 };
+		}
 
 		//パックの中心とマレットの中心の向きベクトルとプレイヤーの向きベクトルで向きを求める
-		XMFLOAT3 sub = Math::SubtractionXMFLOAT3(transform_.position_, malletPos);
+		XMFLOAT3 sub = Math::SubtractionXMFLOAT3(transform_.position_, pMallet->GetPosition());
+		//XMFLOAT3 sub = Math::SubtractionXMFLOAT3(transform_.position_, malletPos);
+
+		//XMVECTOR dir = XMVector3Normalize(XMVector3Normalize(XMLoadFloat3(&sub)) - XMVector3Normalize(XMLoadFloat3(&malletDir)));
+		//XMStoreFloat3(&dir_, XMVector3Normalize(dir));
+
 		dir_ = Math::FacingConversion(sub, malletDir);
 		
 		//その方向に移動
@@ -145,45 +187,66 @@ void Pack::IsWall()
 	assert(pStage != nullptr);
 	int hStage = pStage->HandleModelStage();
 
-	//半径分レイキャスト
-	RayCastData rData;
-	rData.start = transform_.position_;
-	rData.start.z = 0;
-	rData.dir = XMFLOAT3{0.0f,0.0f,1.0f};
-	Model::SegmentRayCast(hStage, rData);
-	XMVECTOR vNormal = XMVector3Cross(XMLoadFloat3(&rData.side1) , XMLoadFloat3(&rData.side2));
-	XMFLOAT3 side;
-	XMStoreFloat3(&side, vNormal);
+	////半径分レイキャスト
+	//RayCastData rData;
+	//rData.start = transform_.position_;
+	//rData.start.z = 0;
+	//rData.dir = XMFLOAT3{0.0f,0.0f,1.0f};
+	//Model::SegmentRayCast(hStage, rData);
+	//XMVECTOR vNormal = XMVector3Cross(XMLoadFloat3(&rData.side1) , XMLoadFloat3(&rData.side2));
+	//XMFLOAT3 side;
+	//XMStoreFloat3(&side, vNormal);
 
-	//壁にぶつかったら方向転換
-	if (side.x > 0)
+	////壁にぶつかったら方向転換
+	//if (side.x > 0)
+	//{
+	//	//dir_.x = -dir_.x;
+	//	transform_.position_.x = (int)(transform_.position_.x + 1.5f);
+	//}
+
+	//if (side.x < 0)
+	//{
+	//	//dir_.x = -dir_.x;
+	//	transform_.position_.x = (int)(transform_.position_.x - 1.5f);
+	//}
+
+	//rData.start = transform_.position_;
+	//rData.start.x = 0;
+	//rData.dir = XMFLOAT3{ 1.0f,0.0f,0.0f };
+	//Model::SegmentRayCast(hStage, rData);
+	//vNormal = XMVector3Cross(XMLoadFloat3(&rData.side1), XMLoadFloat3(&rData.side2));
+	//XMStoreFloat3(&side, vNormal);
+	//if (side.z > 0)
+	//{
+	//	dir_.z = -dir_.z;
+	//	transform_.position_.z = (int)(transform_.position_.z + 1.5f);
+	//}
+	//
+	//if (side.z < 0)
+	//{
+	//	dir_.z = -dir_.z;
+	//	transform_.position_.z = (int)(transform_.position_.z - 1.5f);
+	//}
+
+	if (transform_.position_.x >= 5 * pStage->GetScaleX() + 1.0f)
 	{
 		dir_.x = -dir_.x;
-		transform_.position_.x = (int)transform_.position_.x;
+		transform_.position_.x = 5 * pStage->GetScaleX() + 0.25f;
 	}
-
-	if (side.x < 0)
+	else if (transform_.position_.x <= -5 * pStage->GetScaleX() - 1.0f)
 	{
 		dir_.x = -dir_.x;
-		transform_.position_.x = (int)transform_.position_.x;
+		transform_.position_.x = -5 * pStage->GetScaleX() -0.25f;
 	}
-
-	rData.start = transform_.position_;
-	rData.start.x = 0;
-	rData.dir = XMFLOAT3{ 1.0f,0.0f,0.0f };
-	Model::SegmentRayCast(hStage, rData);
-	vNormal = XMVector3Cross(XMLoadFloat3(&rData.side1), XMLoadFloat3(&rData.side2));
-	XMStoreFloat3(&side, vNormal);
-	if (side.z > 0)
+	if (transform_.position_.z >= 9.5f * pStage->GetScaleZ())
 	{
 		dir_.z = -dir_.z;
-		transform_.position_.z = (int)transform_.position_.z;
+		transform_.position_.z = 9.5f * pStage->GetScaleZ() - 0.125f;
 	}
-	
-	if (side.z < 0)
+	else if (transform_.position_.z <= -9.5f * pStage->GetScaleZ())
 	{
 		dir_.z = -dir_.z;
-		transform_.position_.z = (int)transform_.position_.z;
+		transform_.position_.z = -9.5f * pStage->GetScaleZ() + 0.125f;
 	}
 }
 
@@ -202,7 +265,8 @@ void Pack::IsGoal()
 	{
 		transform_.position_.x = 0;
 		transform_.position_.z = 0;
-		//speed_ = 0;
+		speed_ = 0;
+		isGool_ = true;
 	}
 }
 

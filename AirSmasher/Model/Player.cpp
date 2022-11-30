@@ -60,9 +60,10 @@ void Player::SetInit()
     //Camera::SetTarget(XMVectorSet(0, 0, 5, 0));
     //Camera::SetPosition(XMVectorSet(0, 15, -50, 0));
     //Camera::SetTarget(XMVectorSet(0, 0, 0, 0));
-    Camera::SetPosition(XMVectorSet(0, 30, -60, 0));
-    Camera::SetTarget(XMVectorSet(0, 0, 10, 0));
+    Camera::SetPosition(XMVectorSet(0, 57, -45, 0));
+    Camera::SetTarget(XMVectorSet(0, -15, 3, 0));
     mousePos = Input::GetMousePosition();
+    isCamera_ = true;
 }
 
 //マレットの動き
@@ -90,16 +91,34 @@ void Player::MoveMallet()
 
     mousePos = mousePosNow;
 
-   /* if (isPut_)
+    if (Input::IsMouceDown(1))
     {
-        Camera::SetPosition(XMVectorSet(0 + (transform_.position_.x / 2), 30, -60 + ((transform_.position_.z + 20) / 2), 0));
-        Camera::SetTarget(XMVectorSet(0, 0, 10, 0));
+        if (!isCamera_)
+        {
+            isCamera_ = true;
+        }
+        else
+        {
+            isCamera_ = false;
+        }
+       
     }
     else
     {
-        Camera::SetPosition(XMVectorSet(0, 30, -60, 0));
+    /*    Camera::SetPosition(XMVectorSet(0, 30, -60, 0));
+        Camera::SetTarget(XMVectorSet(0, 0, 10, 0));*/
+    }
+
+    if (isCamera_)
+    {
+        Camera::SetPosition(XMVectorSet(0, 57, -45, 0));
+        Camera::SetTarget(XMVectorSet(0, -15, 3, 0));
+    }
+    else
+    {
+        Camera::SetPosition(XMVectorSet(0, 15, -60, 0));
         Camera::SetTarget(XMVectorSet(0, 0, 10, 0));
-    }*/
+    }
 
     if (transform_.position_.z >= 0)
     {
@@ -112,6 +131,10 @@ void Player::MoveMallet()
 //台を置くかどうか
 bool Player::IsPut()
 {
+    if (Input::IsMouceDown(0))
+    {
+        isSuppress_ = true;
+    }
     if (Input::IsMouce(0))
     {
         return true;

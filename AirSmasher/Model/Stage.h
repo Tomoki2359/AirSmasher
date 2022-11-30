@@ -4,6 +4,8 @@
 class Stage : public GameObject
 {
 	int hModel_;
+	const float scaleX_;
+	const float scaleZ_;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -23,4 +25,8 @@ public:
 
 	//モデル番号
 	int HandleModelStage() { return hModel_; };
+
+	float GetScaleX() { return scaleX_; };
+
+	float GetScaleZ() { return scaleZ_; };
 };

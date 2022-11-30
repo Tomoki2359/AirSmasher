@@ -1,8 +1,11 @@
 #pragma once
 #include"../Engine/GameObject.h"
-#include "Stage.h"
 #include "../QuadrangleHit.h"
+#include "Stage.h"
 #include "Shadow.h"
+//#include "Pack.h"
+
+//class Pack;
 
 //■■シーンを管理するクラス
 class Mallet : public GameObject
@@ -12,15 +15,15 @@ protected:
 	XMFLOAT3 dir_;			//向き	
 	XMFLOAT3 previousMalletPos_;	//前のマレットの位置
 	float speed_;			//マレットの速度
+	float radius_;	//半径
+	float front_;	//地面の位置
+	//float packFront_; //パックの位置
+	bool first_;	
 	bool isPut_;			//マレットをテーブルにつけているかどうか
+	bool isSuppress_;		//パックを抑えているか
 	Stage* pStage_;			//ステージのポインタ
 	Shadow* pShadow_;			//影のポインタ
 	SquareBox malletSquar_;	//前回と今の四角形
-	float radius_;	//半径
-
-	float front_;
-
-	bool first_;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -64,9 +67,19 @@ public:
 	//戻り値　台についているならtrue
 	bool GetPut() { return isPut_; };
 
+	//抑えられる状態かどうか
+	//戻り値　パックを抑えられるならtrue
+	bool GetSuppress() { return isSuppress_; };
+
 	SquareBox GetSquare() { return malletSquar_; };
 
-	float GetFront() { return front_; };
+	//float GetFront() { return front_; };
+	
+	//float GetPackFront() { return packFront_; };
+
+	float GetRadius() { return radius_; };
+
+	void SetSuppress(bool Sup) { isSuppress_ = Sup; };
 
 	//継承したマレットの初期化
 	virtual void SetInit() = 0;

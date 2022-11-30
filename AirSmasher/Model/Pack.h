@@ -12,9 +12,10 @@ class Pack : public GameObject
 	//XMFLOAT3 pos_;
 	XMFLOAT3 previousPackPos_;	//前のパックの位置
 	XMFLOAT3 dir_;	//向き	
-	float speed_;	//速度
 	SquareBox packSquar_;	//当たり判定
+	float speed_;	//速度
 	float radius_;	//半径
+	bool isGool_;
 	
 	//ポインタ
 	Player* pPlayer_;

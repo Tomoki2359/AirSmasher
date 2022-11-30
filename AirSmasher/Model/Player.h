@@ -5,6 +5,7 @@
 class Player : public Mallet
 {
 	XMFLOAT3 mousePos;
+	bool isCamera_;		//カメラの視点変更
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
