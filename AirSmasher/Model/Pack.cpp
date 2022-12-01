@@ -61,13 +61,13 @@ void Pack::Update()
 
 		//ƒS[ƒ‹‚É—Ž‚¿‚½‚©
 		IsGoal();
-		//if (pPlayer_->GetPut())
-		//{
-		//	if (QuadrangleHit::HitTest(packSquar_, pPlayer_->GetSquare()))
-		//	{
-		//		//IsMallet(pPlayer_);
-		//	}
-		//}
+		if (pPlayer_->GetPut())
+		{
+			if (QuadrangleHit::HitTest(packSquar_, pPlayer_->GetSquare()))
+			{
+				IsMallet(pPlayer_);
+			}
+		}
 	}
 }
 

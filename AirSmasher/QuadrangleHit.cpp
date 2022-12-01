@@ -129,50 +129,65 @@ namespace QuadrangleHit
 		intersectionPoint8.w = ((s1.xPos_.y * intercept2.w) - (s2.xPos_.y * intercept1.w)) / ((s1.zPos_.y * intercept2.w) - (s2.zPos_.y * intercept1.w));
 
 		if (intersectionPoint1.x <= (s1.xPos_.x + (s1.xPos_.y - s1.xPos_.x)) && intersectionPoint1.y <= (s1.zPos_.x + (s1.zPos_.y - s1.zPos_.x)) &&
-			intersectionPoint1.x <= (s2.xPos_.x + (s2.xPos_.y - s2.xPos_.x)) && intersectionPoint1.y <= (s2.zPos_.x + (s2.zPos_.y - s2.zPos_.x)) ||
-			intersectionPoint1.z <= (s1.xPos_.x + (s1.xPos_.y - s1.xPos_.x)) && intersectionPoint1.w <= (s1.zPos_.x + (s1.zPos_.y - s1.zPos_.x)) &&
-			intersectionPoint1.z <= (s2.xPos_.z + (s2.xPos_.w - s2.xPos_.z)) && intersectionPoint1.w <= (s2.zPos_.z + (s2.zPos_.w - s2.zPos_.z)) ||
-
-			intersectionPoint2.x <= (s1.xPos_.x + (s1.xPos_.y - s1.xPos_.x)) && intersectionPoint2.y <= (s1.zPos_.x + (s1.zPos_.y - s1.zPos_.x)) &&
-			intersectionPoint2.x <= (s2.xPos_.x + (s2.xPos_.w - s2.xPos_.x)) && intersectionPoint2.y <= (s2.zPos_.x + (s2.zPos_.w - s2.zPos_.x)) ||
-			intersectionPoint2.z <= (s1.xPos_.x + (s1.xPos_.y - s1.xPos_.x)) && intersectionPoint2.w <= (s1.zPos_.x + (s1.zPos_.y - s1.zPos_.x)) &&
-			intersectionPoint2.z <= (s2.xPos_.y + (s2.xPos_.z - s2.xPos_.y)) && intersectionPoint2.w <= (s2.zPos_.y + (s2.zPos_.z - s2.zPos_.y)) ||
-
-			intersectionPoint3.x <= (s1.xPos_.z + (s1.xPos_.w - s1.xPos_.z)) && intersectionPoint3.y <= (s1.zPos_.z + (s1.zPos_.w - s1.zPos_.z)) &&
-			intersectionPoint3.x <= (s2.xPos_.x + (s2.xPos_.y - s2.xPos_.x)) && intersectionPoint3.y <= (s2.zPos_.x + (s2.zPos_.y - s2.zPos_.x)) ||
-			intersectionPoint3.z <= (s1.xPos_.z + (s1.xPos_.w - s1.xPos_.z)) && intersectionPoint3.w <= (s1.zPos_.z + (s1.zPos_.w - s1.zPos_.z)) &&
-			intersectionPoint3.z <= (s2.xPos_.z + (s2.xPos_.w - s2.xPos_.z)) && intersectionPoint3.w <= (s2.zPos_.z + (s2.zPos_.w - s2.zPos_.z)) ||
-
-			intersectionPoint4.x <= (s1.xPos_.z + (s1.xPos_.w - s1.xPos_.z)) && intersectionPoint4.y <= (s1.zPos_.z + (s1.zPos_.w - s1.zPos_.z)) &&
-			intersectionPoint4.x <= (s2.xPos_.x + (s2.xPos_.w - s2.xPos_.x)) && intersectionPoint4.y <= (s2.zPos_.x + (s2.zPos_.w - s2.zPos_.x)) ||
-			intersectionPoint4.z <= (s1.xPos_.z + (s1.xPos_.w - s1.xPos_.z)) && intersectionPoint4.w <= (s1.zPos_.z + (s1.zPos_.w - s1.zPos_.z)) &&
-			intersectionPoint4.z <= (s2.xPos_.y + (s2.xPos_.z - s2.xPos_.y)) && intersectionPoint4.w <= (s2.zPos_.y + (s2.zPos_.z - s2.zPos_.y)) ||
-
-			//
-			intersectionPoint5.x <= (s1.xPos_.x + (s1.xPos_.w - s1.xPos_.x)) && intersectionPoint5.y <= (s1.zPos_.x + (s1.zPos_.w - s1.zPos_.x)) &&
-			intersectionPoint5.x <= (s2.xPos_.x + (s2.xPos_.y - s2.xPos_.x)) && intersectionPoint5.y <= (s2.zPos_.x + (s2.zPos_.y - s2.zPos_.x)) ||
-			intersectionPoint5.z <= (s1.xPos_.x + (s1.xPos_.w - s1.xPos_.x)) && intersectionPoint5.w <= (s1.zPos_.x + (s1.zPos_.w - s1.zPos_.x)) &&
-			intersectionPoint5.z <= (s2.xPos_.z + (s2.xPos_.w - s2.xPos_.z)) && intersectionPoint5.w <= (s2.zPos_.z + (s2.zPos_.w - s2.zPos_.z)) ||
-
-			intersectionPoint6.x <= (s1.xPos_.x + (s1.xPos_.w - s1.xPos_.x)) && intersectionPoint6.y <= (s1.zPos_.x + (s1.zPos_.w - s1.zPos_.x)) &&
-			intersectionPoint6.x <= (s2.xPos_.x + (s2.xPos_.w - s2.xPos_.x)) && intersectionPoint6.y <= (s2.zPos_.x + (s2.zPos_.w - s2.zPos_.x)) ||
-			intersectionPoint6.z <= (s1.xPos_.x + (s1.xPos_.w - s1.xPos_.x)) && intersectionPoint6.w <= (s1.zPos_.x + (s1.zPos_.w - s1.zPos_.x)) &&
-			intersectionPoint6.z <= (s2.xPos_.y + (s2.xPos_.z - s2.xPos_.y)) && intersectionPoint6.w <= (s2.zPos_.y + (s2.zPos_.z - s2.zPos_.y)) ||
-
-			intersectionPoint7.x <= (s1.xPos_.y + (s1.xPos_.z - s1.xPos_.y)) && intersectionPoint7.y <= (s1.zPos_.y + (s1.zPos_.z - s1.zPos_.y)) &&
-			intersectionPoint7.x <= (s2.xPos_.x + (s2.xPos_.y - s2.xPos_.x)) && intersectionPoint7.y <= (s2.zPos_.x + (s2.zPos_.y - s2.zPos_.x)) ||
-			intersectionPoint7.z <= (s1.xPos_.y + (s1.xPos_.z - s1.xPos_.y)) && intersectionPoint7.w <= (s1.zPos_.y + (s1.zPos_.z - s1.zPos_.y)) &&
-			intersectionPoint7.z <= (s2.xPos_.z + (s2.xPos_.w - s2.xPos_.z)) && intersectionPoint7.w <= (s2.zPos_.z + (s2.zPos_.w - s2.zPos_.z)) ||
-
-			intersectionPoint8.x <= (s1.xPos_.y + (s1.xPos_.z - s1.xPos_.y)) && intersectionPoint8.y <= (s1.zPos_.y + (s1.zPos_.z - s1.zPos_.y)) &&
-			intersectionPoint8.x <= (s2.xPos_.x + (s2.xPos_.w - s2.xPos_.x)) && intersectionPoint8.y <= (s2.zPos_.x + (s2.zPos_.w - s2.zPos_.x)) ||
-			intersectionPoint8.z <= (s1.xPos_.y + (s1.xPos_.z - s1.xPos_.y)) && intersectionPoint8.w <= (s1.zPos_.y + (s1.zPos_.z - s1.zPos_.y)) &&
-			intersectionPoint8.z <= (s2.xPos_.y + (s2.xPos_.z - s2.xPos_.y)) && intersectionPoint8.w <= (s2.zPos_.y + (s2.zPos_.z - s2.zPos_.y))
-			);
+			intersectionPoint1.x <= (s2.xPos_.x + (s2.xPos_.y - s2.xPos_.x)) && intersectionPoint1.y <= (s2.zPos_.x + (s2.zPos_.y - s2.zPos_.x)) 
+			)
 		{
 			int a = 0;
 			return true;
 		}
+
+		if(intersectionPoint1.z <= (s1.xPos_.x + (s1.xPos_.y - s1.xPos_.x)) && intersectionPoint1.w <= (s1.zPos_.x + (s1.zPos_.y - s1.zPos_.x)) &&
+			intersectionPoint1.z <= (s2.xPos_.z + (s2.xPos_.w - s2.xPos_.z)) && intersectionPoint1.w <= (s2.zPos_.z + (s2.zPos_.w - s2.zPos_.z))
+			)
+		{
+			int b = 0;
+			return true;
+		}
+		//if (intersectionPoint1.x <= (s1.xPos_.x + (s1.xPos_.y - s1.xPos_.x)) && intersectionPoint1.y <= (s1.zPos_.x + (s1.zPos_.y - s1.zPos_.x)) &&
+		//	intersectionPoint1.x <= (s2.xPos_.x + (s2.xPos_.y - s2.xPos_.x)) && intersectionPoint1.y <= (s2.zPos_.x + (s2.zPos_.y - s2.zPos_.x)) ||
+		//	intersectionPoint1.z <= (s1.xPos_.x + (s1.xPos_.y - s1.xPos_.x)) && intersectionPoint1.w <= (s1.zPos_.x + (s1.zPos_.y - s1.zPos_.x)) &&
+		//	intersectionPoint1.z <= (s2.xPos_.z + (s2.xPos_.w - s2.xPos_.z)) && intersectionPoint1.w <= (s2.zPos_.z + (s2.zPos_.w - s2.zPos_.z)) ||
+
+		//	intersectionPoint2.x <= (s1.xPos_.x + (s1.xPos_.y - s1.xPos_.x)) && intersectionPoint2.y <= (s1.zPos_.x + (s1.zPos_.y - s1.zPos_.x)) &&
+		//	intersectionPoint2.x <= (s2.xPos_.x + (s2.xPos_.w - s2.xPos_.x)) && intersectionPoint2.y <= (s2.zPos_.x + (s2.zPos_.w - s2.zPos_.x)) ||
+		//	intersectionPoint2.z <= (s1.xPos_.x + (s1.xPos_.y - s1.xPos_.x)) && intersectionPoint2.w <= (s1.zPos_.x + (s1.zPos_.y - s1.zPos_.x)) &&
+		//	intersectionPoint2.z <= (s2.xPos_.y + (s2.xPos_.z - s2.xPos_.y)) && intersectionPoint2.w <= (s2.zPos_.y + (s2.zPos_.z - s2.zPos_.y)) ||
+
+		//	intersectionPoint3.x <= (s1.xPos_.z + (s1.xPos_.w - s1.xPos_.z)) && intersectionPoint3.y <= (s1.zPos_.z + (s1.zPos_.w - s1.zPos_.z)) &&
+		//	intersectionPoint3.x <= (s2.xPos_.x + (s2.xPos_.y - s2.xPos_.x)) && intersectionPoint3.y <= (s2.zPos_.x + (s2.zPos_.y - s2.zPos_.x)) ||
+		//	intersectionPoint3.z <= (s1.xPos_.z + (s1.xPos_.w - s1.xPos_.z)) && intersectionPoint3.w <= (s1.zPos_.z + (s1.zPos_.w - s1.zPos_.z)) &&
+		//	intersectionPoint3.z <= (s2.xPos_.z + (s2.xPos_.w - s2.xPos_.z)) && intersectionPoint3.w <= (s2.zPos_.z + (s2.zPos_.w - s2.zPos_.z)) ||
+
+		//	intersectionPoint4.x <= (s1.xPos_.z + (s1.xPos_.w - s1.xPos_.z)) && intersectionPoint4.y <= (s1.zPos_.z + (s1.zPos_.w - s1.zPos_.z)) &&
+		//	intersectionPoint4.x <= (s2.xPos_.x + (s2.xPos_.w - s2.xPos_.x)) && intersectionPoint4.y <= (s2.zPos_.x + (s2.zPos_.w - s2.zPos_.x)) ||
+		//	intersectionPoint4.z <= (s1.xPos_.z + (s1.xPos_.w - s1.xPos_.z)) && intersectionPoint4.w <= (s1.zPos_.z + (s1.zPos_.w - s1.zPos_.z)) &&
+		//	intersectionPoint4.z <= (s2.xPos_.y + (s2.xPos_.z - s2.xPos_.y)) && intersectionPoint4.w <= (s2.zPos_.y + (s2.zPos_.z - s2.zPos_.y)) ||
+
+		//	//
+		//	intersectionPoint5.x <= (s1.xPos_.x + (s1.xPos_.w - s1.xPos_.x)) && intersectionPoint5.y <= (s1.zPos_.x + (s1.zPos_.w - s1.zPos_.x)) &&
+		//	intersectionPoint5.x <= (s2.xPos_.x + (s2.xPos_.y - s2.xPos_.x)) && intersectionPoint5.y <= (s2.zPos_.x + (s2.zPos_.y - s2.zPos_.x)) ||
+		//	intersectionPoint5.z <= (s1.xPos_.x + (s1.xPos_.w - s1.xPos_.x)) && intersectionPoint5.w <= (s1.zPos_.x + (s1.zPos_.w - s1.zPos_.x)) &&
+		//	intersectionPoint5.z <= (s2.xPos_.z + (s2.xPos_.w - s2.xPos_.z)) && intersectionPoint5.w <= (s2.zPos_.z + (s2.zPos_.w - s2.zPos_.z)) ||
+
+		//	intersectionPoint6.x <= (s1.xPos_.x + (s1.xPos_.w - s1.xPos_.x)) && intersectionPoint6.y <= (s1.zPos_.x + (s1.zPos_.w - s1.zPos_.x)) &&
+		//	intersectionPoint6.x <= (s2.xPos_.x + (s2.xPos_.w - s2.xPos_.x)) && intersectionPoint6.y <= (s2.zPos_.x + (s2.zPos_.w - s2.zPos_.x)) ||
+		//	intersectionPoint6.z <= (s1.xPos_.x + (s1.xPos_.w - s1.xPos_.x)) && intersectionPoint6.w <= (s1.zPos_.x + (s1.zPos_.w - s1.zPos_.x)) &&
+		//	intersectionPoint6.z <= (s2.xPos_.y + (s2.xPos_.z - s2.xPos_.y)) && intersectionPoint6.w <= (s2.zPos_.y + (s2.zPos_.z - s2.zPos_.y)) ||
+
+		//	intersectionPoint7.x <= (s1.xPos_.y + (s1.xPos_.z - s1.xPos_.y)) && intersectionPoint7.y <= (s1.zPos_.y + (s1.zPos_.z - s1.zPos_.y)) &&
+		//	intersectionPoint7.x <= (s2.xPos_.x + (s2.xPos_.y - s2.xPos_.x)) && intersectionPoint7.y <= (s2.zPos_.x + (s2.zPos_.y - s2.zPos_.x)) ||
+		//	intersectionPoint7.z <= (s1.xPos_.y + (s1.xPos_.z - s1.xPos_.y)) && intersectionPoint7.w <= (s1.zPos_.y + (s1.zPos_.z - s1.zPos_.y)) &&
+		//	intersectionPoint7.z <= (s2.xPos_.z + (s2.xPos_.w - s2.xPos_.z)) && intersectionPoint7.w <= (s2.zPos_.z + (s2.zPos_.w - s2.zPos_.z)) ||
+
+		//	intersectionPoint8.x <= (s1.xPos_.y + (s1.xPos_.z - s1.xPos_.y)) && intersectionPoint8.y <= (s1.zPos_.y + (s1.zPos_.z - s1.zPos_.y)) &&
+		//	intersectionPoint8.x <= (s2.xPos_.x + (s2.xPos_.w - s2.xPos_.x)) && intersectionPoint8.y <= (s2.zPos_.x + (s2.zPos_.w - s2.zPos_.x)) ||
+		//	intersectionPoint8.z <= (s1.xPos_.y + (s1.xPos_.z - s1.xPos_.y)) && intersectionPoint8.w <= (s1.zPos_.y + (s1.zPos_.z - s1.zPos_.y)) &&
+		//	intersectionPoint8.z <= (s2.xPos_.y + (s2.xPos_.z - s2.xPos_.y)) && intersectionPoint8.w <= (s2.zPos_.y + (s2.zPos_.z - s2.zPos_.y))
+		//	);
+		//{
+		//	int a = 0;
+		//	return true;
+		//}
 
 		return false;
 	}
