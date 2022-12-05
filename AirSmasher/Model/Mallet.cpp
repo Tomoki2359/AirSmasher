@@ -23,7 +23,8 @@ void Mallet::Initialize()
     CircleCollider* collision = new CircleCollider(XMFLOAT3(0, 0.0f, 0), radius_);
     AddCircleCollider(collision);
     Instantiate<Shadow>(this);
-    malletSquar_ = { {0,0,0,0} , {0,0,0,0} };
+    malletSquar_ = { {0,0},{0,0 }, { 0,0},{0,0 }
+};
 }
 
 //çXêV
@@ -53,6 +54,7 @@ void Mallet::Update()
         //packFront_ = -data.dist;
     }
     //isSuppress_ = false;
+    previousMalletPos_ = transform_.position_;
     if (IsPut())
     {
         isPut_ = true;

@@ -3,10 +3,11 @@
 
 struct SquareBox		//当たっているか確認用四角形
 {
-	//x 左上;y 左下;z 右上;w 右下
-	XMFLOAT4 xPos_;		//前回と今の位置の通り道(x軸点)
-	//x 左上;y 左下;z 右上;w 右下
-	XMFLOAT4 zPos_;		//前回と今の位置の通り道(z軸点)
+	//四角形の頂点
+	XMFLOAT2 LUPos_;	//左上のポジション
+	XMFLOAT2 LDPos_;	//左下のポジション
+	XMFLOAT2 RDPos_;	//右下のポジション
+	XMFLOAT2 RUPos_;	//右上のポジション
 };
 
 namespace QuadrangleHit
@@ -16,5 +17,7 @@ namespace QuadrangleHit
 	void CreateSquar(XMFLOAT3 f1, XMFLOAT3 f2,SquareBox* pSquar,float radius,XMFLOAT3 dir);
 
 	bool HitTest(SquareBox s1, SquareBox s2);
+
+	void IsHitLine(XMFLOAT2 l1, XMFLOAT2 l2, XMFLOAT2 l3, XMFLOAT2 l4);
 };
 

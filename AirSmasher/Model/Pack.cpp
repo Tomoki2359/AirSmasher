@@ -23,7 +23,8 @@ void Pack::Initialize()
 	dir_ = XMFLOAT3(-0.2f, 0.0f, -0.2f);
 	speed_ = 1.0f;
 
-	packSquar_ = { {0,0,0,0} , {0,0,0,0} };
+	packSquar_ = { {0,0},{0,0 }, { 0,0},{0,0 }
+};
 }
 
 //XV
@@ -61,13 +62,13 @@ void Pack::Update()
 
 		//ƒS[ƒ‹‚É—Ž‚¿‚½‚©
 		IsGoal();
-		//if (pPlayer_->GetPut())
-		//{
-		//	if (QuadrangleHit::HitTest(packSquar_, pPlayer_->GetSquare()))
-		//	{
-		//		//IsMallet(pPlayer_);
-		//	}
-		//}
+		if (pPlayer_->GetPut())
+		{
+			if (QuadrangleHit::HitTest(packSquar_, pPlayer_->GetSquare()))
+			{
+				IsMallet(pPlayer_);
+			}
+		}
 	}
 }
 

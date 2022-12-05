@@ -10,7 +10,8 @@
 Player::Player(GameObject* parent)
     : Mallet(parent, "Player")
 {
-    malletSquar_ = { {0,0,0,0} , {0,0,0,0} };
+    malletSquar_ = { {0,0},{0,0 }, { 0,0},{0,0 }
+};
 }
 
 //ŠJ•ú
