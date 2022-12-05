@@ -160,16 +160,17 @@ void Pack::IsMallet(Mallet* pMallet)
 		else
 		{
 			dir_ = XMFLOAT3{ 0,0,0 };
+			speed_ = 0;
 		}
 
 		//パックの中心とマレットの中心の向きベクトルとプレイヤーの向きベクトルで向きを求める
-		XMFLOAT3 sub = Math::SubtractionXMFLOAT3(transform_.position_, pMallet->GetPosition());
+		XMFLOAT3 sub = Math::SubtractionXMFLOAT3( pMallet->GetPosition(), transform_.position_);
 		//XMFLOAT3 sub = Math::SubtractionXMFLOAT3(transform_.position_, malletPos);
 
 		//XMVECTOR dir = XMVector3Normalize(XMVector3Normalize(XMLoadFloat3(&sub)) - XMVector3Normalize(XMLoadFloat3(&malletDir)));
 		//XMStoreFloat3(&dir_, XMVector3Normalize(dir));
 
-		dir_ = Math::FacingConversion(sub, malletDir);
+		dir_ = Math::FacingConversion(malletDir,sub );
 		
 		//その方向に移動
 		speed_ = (pMallet->GetSpeed() + speed_) / 2;
