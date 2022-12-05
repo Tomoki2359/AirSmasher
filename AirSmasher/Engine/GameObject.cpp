@@ -158,9 +158,13 @@ void GameObject::CircleCollision(GameObject* pGameObject)
 	float z = (transform_.position_.z + pCircle_->GetCenter().z) - (pGameObject->transform_.position_.z + pGameObject->pCircle_->GetCenter().z);
 	float radiusSum = pCircle_->GetRadius() + pGameObject->pCircle_->GetRadius();
 	//‰~Œ^“¯Žm‚Ì“–‚½‚è”»’è
-	if (x * x + z * z <= radiusSum * radiusSum)
+	if (x * x + z * z <= radiusSum * radiusSum && pCircle_->GetDimension() == pGameObject->pCircle_->GetDimension())
 	{
 		OnCollision(pGameObject);
+	}
+	else
+	{
+		OffCollision(pGameObject);
 	}
 }
 

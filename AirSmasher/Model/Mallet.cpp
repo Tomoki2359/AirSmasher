@@ -20,7 +20,7 @@ void Mallet::Initialize()
     hModel_ = Model::Load("Assets\\Mallet.fbx");
     assert(hModel_ >= 0);
     SetInit();
-    CircleCollider* collision = new CircleCollider(XMFLOAT3(0, 0.0f, 0), radius_);
+    collision = new CircleCollider(XMFLOAT3(0.0f, 0.0f, 0.0f), radius_,0.0f);
     AddCircleCollider(collision);
     Instantiate<Shadow>(this);
     malletSquar_ = { {0,0},{0,0 }, { 0,0},{0,0 }
@@ -44,14 +44,14 @@ void Mallet::Update()
 
         front_ = -data.dist;
 
-        //Pack* pPack_ = (Pack*)FindObject("Pack");
-        //int hModelPack = pPack_->HandleModelPack();
+        Pack* pPack_ = (Pack*)FindObject("Pack");
+        int hModelPack = pPack_->HandleModelPack();
 
-        //data.start = pPack_->GetPosition();
-        //data.start.y = 3;
-        //Model::RayCast(hModelStage, data); //ƒŒƒC‚ð”­ŽË
+        data.start = pPack_->GetPosition();
+        data.start.y = 3;
+        Model::RayCast(hModelStage, data); //ƒŒƒC‚ð”­ŽË
 
-        //packFront_ = -data.dist;
+        packFront_ = -data.dist;
     }
     //isSuppress_ = false;
     previousMalletPos_ = transform_.position_;
@@ -68,6 +68,11 @@ void Mallet::Update()
 
 
     MoveMallet();
+
+    if (speed_ >= 3.0f)
+    {
+        speed_ = 3.0f;
+    }
 
     //data.dir = XMFLOAT3{1.0,0,0};
     //Model::SegmentRayCast(hModelStage, data);

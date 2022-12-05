@@ -8,19 +8,20 @@
 //■■シーンを管理するクラス
 class Pack : public GameObject
 {
-	int hModel_;
-	//XMFLOAT3 pos_;
-	XMFLOAT3 previousPackPos_;	//前のパックの位置
-	XMFLOAT3 dir_;	//向き	
-	SquareBox packSquar_;	//当たり判定
-	float speed_;	//速度
-	float radius_;	//半径
-	bool isGool_;
-	
 	//ポインタ
 	Player* pPlayer_;
 	Enemy* pEnemy_;
 	Stage* pStage;
+	CircleCollider* collision;
+	
+	//XMFLOAT3 pos_;
+	SquareBox packSquar_;	//当たり判定
+	XMFLOAT3 previousPackPos_;	//前のパックの位置
+	XMFLOAT3 dir_;	//向き	
+	float speed_;	//速度
+	float radius_;	//半径
+	int hModel_;
+	bool isGool_;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -52,7 +53,7 @@ public:
 	void IsGoal();
 
 	//マレットに当たっているか処理
-	void IsMallet();
+	//void IsMallet();
 
 	//モデル番号
 	int HandleModelPack() { return hModel_; };

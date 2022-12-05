@@ -19,9 +19,16 @@ void Player::Release()
 {
 }
 
-//“–‚½‚è”»’è(¡‚Í‰½‚à‚µ‚Ä‚¢‚È‚¢)
+//“–‚½‚Á‚½‚Æ‚«‚Ì”»’è
 void Player::OnCollision(GameObject* pTarget)
 {
+    if (pTarget->GetObjectName() == "Pack")
+    {
+        if (isSuppress_)
+        {
+            transform_.position_.y = 0.25f;
+        }
+    }
     //RayCastData data;
     //data.start = transform_.position_;   //ƒŒƒC‚Ì”­ŽËˆÊ’u
     //data.start.y = 0;
@@ -50,6 +57,14 @@ void Player::OnCollision(GameObject* pTarget)
     //        transform_.position_.y = -data.dist;
     //    }
     //}
+}
+
+void Player::OffCollision(GameObject* pTarget)
+{
+    if (pTarget->GetObjectName() == "Pack")
+    {
+        isSuppress_ = false;
+    }
 }
 
 //‰Šú‰»
@@ -138,7 +153,9 @@ bool Player::IsPut()
     }
     if (Input::IsMouce(0))
     {
+        collision->SetDimension(0.0f);
         return true;
     }
+    collision->SetDimension(1.0f);
     return false;
 }

@@ -17,7 +17,7 @@ void Pack::Initialize()
 	//transform_.scale_.x = 2.0f;
 	//transform_.scale_.z = 2.0f;
 	//transform_.position_.y = 0.3f;
-	CircleCollider* collision = new CircleCollider(XMFLOAT3(0, 0.0f, 0), radius_);
+	collision = new CircleCollider(XMFLOAT3(0.0f, 0.0f, 0.0f), radius_,0.0f);
 	AddCircleCollider(collision);
 	Model::SetColor(hModel_, 0, 150, 150);
 	dir_ = XMFLOAT3(-0.2f, 0.0f, -0.2f);
@@ -93,17 +93,9 @@ void Pack::OnCollision(GameObject* pTarget)
 		assert(pPlayer_ != nullptr);*/
 		IsMallet(pPlayer_);
 	}
-	else if (pTarget->GetObjectName() != "Player")
-	{
-		pPlayer_->SetSuppress(false);
-	}
 	if (pTarget->GetObjectName() == "Enemy")
 	{
 		IsMallet(pEnemy_);
-	}
-	else if (pTarget->GetObjectName() != "Enemy")
-	{
-		pEnemy_->SetSuppress(false);
 	}
 }
 
@@ -146,31 +138,38 @@ void Pack::IsMallet(Mallet* pMallet)
 			XMStoreFloat3(&dir_, vDir);
 		}
 		transform_.position_ = Math::AddXMFLOAT3(transform_.position_, dir_);*/
-		if (!pMallet->GetSuppress())
+		if (!pMallet->GetSuppress() && !isGool_)
 		{
 			XMFLOAT3 pos = Math::SubtractionXMFLOAT3(transform_.position_, pMallet->GetPosition());
+			pos.y = 0.0f;
 			XMVECTOR vpos = XMLoadFloat3(&pos);	//ズレた位置
 			float addRadius = radius_ + pMallet->GetRadius();
-			XMVECTOR vdir = XMLoadFloat3(&dir_);	//中心と中心の正しい距離
-			vdir = XMVector3Normalize(vdir);
+			//XMVECTOR vdir = XMLoadFloat3(&dir_);	//中心と中心の正しい距離
+			//vdir = XMVector3Normalize(vdir);
+			XMVECTOR vdir;
+			vdir = XMVector3Normalize(vpos);
+
 			vdir = vdir * addRadius;
-			XMStoreFloat3(&pos, -(vdir - vpos));
+			XMStoreFloat3(&pos, (vdir - vpos));
 			transform_.position_ = Math::AddXMFLOAT3(transform_.position_, pos);
 		}
 		else
 		{
 			dir_ = XMFLOAT3{ 0,0,0 };
 			speed_ = 0;
+			return;
 		}
 
 		//パックの中心とマレットの中心の向きベクトルとプレイヤーの向きベクトルで向きを求める
 		XMFLOAT3 sub = Math::SubtractionXMFLOAT3( pMallet->GetPosition(), transform_.position_);
+		sub.y = 0.0f;
 		//XMFLOAT3 sub = Math::SubtractionXMFLOAT3(transform_.position_, malletPos);
 
 		//XMVECTOR dir = XMVector3Normalize(XMVector3Normalize(XMLoadFloat3(&sub)) - XMVector3Normalize(XMLoadFloat3(&malletDir)));
 		//XMStoreFloat3(&dir_, XMVector3Normalize(dir));
 
-		dir_ = Math::FacingConversion(malletDir,sub );
+		sub = Math::FacingConversion(malletDir, sub );
+		dir_ = Math::FacingConversion(sub, dir_ );
 		
 		//その方向に移動
 		speed_ = (pMallet->GetSpeed() + speed_) / 2;
@@ -272,7 +271,7 @@ void Pack::IsGoal()
 	}
 }
 
-void Pack::IsMallet()
-{
-	QuadrangleHit::CreateSquar(transform_.position_, previousPackPos_,&packSquar_,radius_,dir_);
-}
+//void Pack::IsMallet()
+//{
+//	QuadrangleHit::CreateSquar(transform_.position_, previousPackPos_,&packSquar_,radius_,dir_);
+//}

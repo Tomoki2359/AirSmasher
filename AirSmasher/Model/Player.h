@@ -18,6 +18,8 @@ public:
 	//ˆø”FpTarget “–‚½‚Á‚½‘Šè
 	void OnCollision(GameObject* pTarget) override;
 
+	void OffCollision(GameObject* pTarget) override;
+
 	void SetInit() override;
 
 	void MoveMallet() override;

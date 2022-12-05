@@ -12,18 +12,19 @@ class Mallet : public GameObject
 {
 	int hModel_;
 protected:
+	Stage* pStage_;			//ステージのポインタ
+	Shadow* pShadow_;			//影のポインタ
+	CircleCollider* collision;
+	SquareBox malletSquar_;	//前回と今の四角形
 	XMFLOAT3 dir_;			//向き	
 	XMFLOAT3 previousMalletPos_;	//前のマレットの位置
 	float speed_;			//マレットの速度
 	float radius_;	//半径
 	float front_;	//地面の位置
-	//float packFront_; //パックの位置
+	float packFront_; //パックの位置
 	bool first_;	
 	bool isPut_;			//マレットをテーブルにつけているかどうか
 	bool isSuppress_;		//パックを抑えているか
-	Stage* pStage_;			//ステージのポインタ
-	Shadow* pShadow_;			//影のポインタ
-	SquareBox malletSquar_;	//前回と今の四角形
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

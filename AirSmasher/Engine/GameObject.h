@@ -45,6 +45,7 @@ public:
 	XMFLOAT3 GetPosition() { return transform_.position_; }
 	void SetScreen(int red, int blue, int green);	//スクリーンの色を取得
 	virtual void OnCollision(GameObject* pGameObject) {};
+	virtual void OffCollision(GameObject* pGameObject) {};
 	template <class T>
 	GameObject* Instantiate(GameObject* parent)
 	{
