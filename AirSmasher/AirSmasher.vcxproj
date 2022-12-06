@@ -172,6 +172,7 @@
     <ClCompile Include="Engine\Sprite.cpp" />
     <ClCompile Include="Engine\Texture.cpp" />
     <ClCompile Include="Engine\Transform.cpp" />
+    <ClCompile Include="Image\GoalPoints.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model\Enemy.cpp" />
     <ClCompile Include="Model\Mallet.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="Engine\Sprite.h" />
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\Transform.h" />
+    <ClInclude Include="Image\GoalPoints.h" />
     <ClInclude Include="Model\Enemy.h" />
     <ClInclude Include="Model\Mallet.h" />
     <ClInclude Include="Model\Pack.h" />

@@ -10,7 +10,7 @@ Mallet::Mallet(GameObject* parent)
 }
 
 Mallet::Mallet(GameObject* parent, std::string name)
-    : GameObject(parent, name), isPut_(false),radius_(1.0f),isSuppress_(false)
+    : GameObject(parent, name), isPut_(false),radius_(1.0f),isSuppress_(false),first_(true)
 {
 }
 
@@ -23,8 +23,8 @@ void Mallet::Initialize()
     collision = new CircleCollider(XMFLOAT3(0.0f, 0.0f, 0.0f), radius_,0.0f);
     AddCircleCollider(collision);
     Instantiate<Shadow>(this);
-    malletSquar_ = { {0,0},{0,0 }, { 0,0},{0,0 }
-};
+    malletSquar_ = { {0,0},{0,0 }, { 0,0},{0,0 }};
+    scale_ = { 1.0f,1.0f };
 }
 
 //XV
@@ -42,7 +42,10 @@ void Mallet::Update()
 
         Model::RayCast(hModelStage, data); //ƒŒƒC‚ð”­ŽË
 
-        front_ = -data.dist;
+        //front_ = data.dist;
+
+        scale_.x = pStage->GetScaleX();
+        scale_.y = pStage->GetScaleZ();
 
         Pack* pPack_ = (Pack*)FindObject("Pack");
         int hModelPack = pPack_->HandleModelPack();
@@ -69,9 +72,18 @@ void Mallet::Update()
 
     MoveMallet();
 
-    if (speed_ >= 3.0f)
+    if (transform_.position_.x >= 5 * scale_.x + 1.0f)
     {
-        speed_ = 3.0f;
+        transform_.position_.x = 5 * scale_.x + 0.25f;
+    }
+    else if (transform_.position_.x <= -5 * scale_.x - 1.0f)
+    {
+        transform_.position_.x = -5 * scale_.x - 0.25f;
+    }
+
+    if (speed_ >= 2.5f)
+    {
+        speed_ = 2.5f;
     }
 
     //data.dir = XMFLOAT3{1.0,0,0};

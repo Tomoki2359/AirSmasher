@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "Pack.h"
 #include "../Engine/Math.h"
 
 //コンストラクタ
@@ -20,21 +21,38 @@ void Enemy::OnCollision(GameObject* pTarget)
 //初期化
 void Enemy::SetInit()
 {
-    transform_.position_.z = 10.0f;
-    speed_ = 1.0f;
+    transform_.position_.z = 15.0f;
 }
 
 //マレットの動き
 void Enemy::MoveMallet()
 {
-  /*  if (isPut_)
+    Pack* pPack = (Pack*)FindObject("Pack");
+    
+    XMFLOAT3 packPos = pPack->GetPosition();
+    packPos.y = 0;
+    XMFLOAT3 packDir = pPack->GetDirection();
+    packDir.y = 0;
+
+    //パックが相手ゴールに向かうように動かす
+
+    dir_ = Math::SubtractionXMFLOAT3(transform_.position_, previousMalletPos_);
+
+    XMVECTOR vDir = XMLoadFloat3(&dir_);
+    vDir = XMVector3Length(vDir);
+    speed_ = XMVectorGetX(vDir);
+    XMStoreFloat3(&dir_, vDir);
+
+    transform_.position_.x = packPos.x;
+
+    if (transform_.position_.z >= 9.5f * scale_.y)
     {
-        transform_.position_.x -= 0.2;
+        transform_.position_.z = 9.5f * scale_.y - 0.125f;
     }
-    else
+    else if (transform_.position_.z <= 0)
     {
-        transform_.position_.x += 0.2f;
-    }*/
+        transform_.position_.z = 0;
+    }
 }
 
 //マレットを台に置くかどうか

@@ -18,6 +18,7 @@ protected:
 	SquareBox malletSquar_;	//前回と今の四角形
 	XMFLOAT3 dir_;			//向き	
 	XMFLOAT3 previousMalletPos_;	//前のマレットの位置
+	XMFLOAT2 scale_;
 	float speed_;			//マレットの速度
 	float radius_;	//半径
 	float front_;	//地面の位置

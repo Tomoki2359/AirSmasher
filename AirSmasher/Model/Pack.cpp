@@ -95,7 +95,8 @@ void Pack::OnCollision(GameObject* pTarget)
 	}
 	if (pTarget->GetObjectName() == "Enemy")
 	{
-		IsMallet(pEnemy_);
+		//IsMallet(pEnemy_);
+		dir_ = { -pEnemy_->GetPosition().x,0,-pEnemy_->GetPosition().z - 20 };
 	}
 }
 

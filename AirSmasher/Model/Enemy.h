@@ -4,7 +4,6 @@
 //■■シーンを管理するクラス
 class Enemy : public Mallet
 {
-	XMFLOAT3 mousePos;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
