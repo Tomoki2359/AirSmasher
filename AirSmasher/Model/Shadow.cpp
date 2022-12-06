@@ -17,16 +17,6 @@ void Shadow::Initialize()
 void Shadow::Update()
 {
 	transform_.position_.y = -pParent_->GetPosition().y;
-	//RayCastData data;
-	//data.start = transform_.position_;   //レイの発射位置
-	//data.start.y = 0;
-	//data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
-
-	//Stage* pStage = (Stage*)FindObject("Stage");
-	//int hModelStage = pStage->HandleModelStage();
-
-	//Model::RayCast(hModelStage, data); //レイを発射
-	//transform_.position_.y = -data.dist;
 }
 
 //描画

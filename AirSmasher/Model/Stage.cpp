@@ -13,8 +13,6 @@ void Stage::Initialize()
 	assert(hModel_ >= 0);
 	transform_.scale_.x = scaleX_;
 	transform_.scale_.z = scaleZ_;
-	//transform_.scale_.x = 4.0f;
-	//transform_.scale_.z = 3.5f;
 }
 
 //çXêV

@@ -14,9 +14,6 @@ void Pack::Initialize()
 {
 	hModel_ = Model::Load("Assets\\Pack.fbx");
 	assert(hModel_ >= 0);
-	//transform_.scale_.x = 2.0f;
-	//transform_.scale_.z = 2.0f;
-	//transform_.position_.y = 0.3f;
 	collision = new CircleCollider(XMFLOAT3(0.0f, 0.0f, 0.0f), radius_,0.0f);
 	AddCircleCollider(collision);
 	Model::SetColor(hModel_, 0, 150, 150);
@@ -54,15 +51,13 @@ void Pack::Update()
 		vdir_ = XMVector3Normalize(vdir_);
 		vdir_ = vdir_ * speed_;
 		XMStoreFloat3(&dir_, vdir_);
-		//transform_.position_ = Math::AddXMFLOAT3(transform_.position_, Math::MultiplicationXMFLOAT3(dir_, XMFLOAT3{ XMVectorGetX(vDir),0,XMVectorGetZ(vDir) }));
 		transform_.position_ = Math::AddXMFLOAT3(transform_.position_, dir_);
 		QuadrangleHit::CreateSquar(transform_.position_, previousPackPos_, &packSquar_, radius_, dir_);
 		//壁の当たり処理
 		IsWall();
 
-		//ゴールに落ちたか
-		IsGoal();
-		if (pPlayer_->GetPut())
+		//マレットと自分の通り道に当たったか(すり抜け防止)
+		if (pPlayer_->GetPut() && !isGool_)
 		{
 			if (QuadrangleHit::HitTest(packSquar_, pPlayer_->GetSquare()))
 			{
@@ -86,17 +81,15 @@ void Pack::Release()
 
 void Pack::OnCollision(GameObject* pTarget)
 {
-	//弾に当たったとき
+	//マレットに当たった時
 	if (pTarget->GetObjectName() == "Player")
 	{
-		/*pPlayer_ = (Player*)FindObject("Player");
-		assert(pPlayer_ != nullptr);*/
 		IsMallet(pPlayer_);
 	}
 	if (pTarget->GetObjectName() == "Enemy")
 	{
-		//IsMallet(pEnemy_);
-		dir_ = { -pEnemy_->GetPosition().x,0,-pEnemy_->GetPosition().z - 20 };
+		IsMallet(pEnemy_);
+		//dir_ = { -pEnemy_->GetPosition().x,0,-pEnemy_->GetPosition().z - 20 };
 	}
 }
 
@@ -111,34 +104,9 @@ void Pack::IsMallet(Mallet* pMallet)
 		//マレットの動いた方向
 		XMFLOAT3 malletDir = pMallet->GetDirection();
 		malletDir.y = 0;
+
 		//移動方向
-			//dir_ = Math::FacingConversion(dir_, XMFLOAT3{ -pPlayer_->GetPosition().x,0,-pPlayer_->GetPosition().z });
-			//dir_ = Math::FacingConversion(dir_, XMFLOAT3{ -pPlayer_->GetDirection().x,0,-pPlayer_->GetDirection().z });
-			//dir_ = Math::FacingConversion(Math::SubtractionXMFLOAT3(transform_.position_, pPlayer_->GetPosition()), XMFLOAT3{ -pPlayer_->GetDirection().x,0,-pPlayer_->GetDirection().z });
-			//XMFLOAT3 packPos = transform_.position_;
-
-	/*	XMVECTOR vMalletDir = XMVector3Normalize(XMLoadFloat3(&malletDir));
-		vMalletDir = vMalletDir * radius_;
-		XMStoreFloat3(&malletDir, vMalletDir);
-		transform_.position_ = Math::AddXMFLOAT3(transform_.position_,malletDir);*/
-
-		
-
-		//ズレの修正
-		/*transform_.position_ = XMFLOAT3{ pMallet->GetPosition().x,0,pMallet->GetPosition().z };
-		if (dir_.x <= 0)
-		{
-			XMVECTOR vDir = XMVector3Normalize(XMLoadFloat3(&dir_));
-			vDir = vDir * radius_ * 4;
-			XMStoreFloat3(&dir_, vDir);
-		}
-		else
-		{
-			XMVECTOR vDir = XMVector3Normalize(XMLoadFloat3(&dir_));
-			vDir = -vDir * radius_ * 4;
-			XMStoreFloat3(&dir_, vDir);
-		}
-		transform_.position_ = Math::AddXMFLOAT3(transform_.position_, dir_);*/
+		//ズレの修正(めり込み阻止)
 		if (!pMallet->GetSuppress() && !isGool_)
 		{
 			XMFLOAT3 pos = Math::SubtractionXMFLOAT3(transform_.position_, pMallet->GetPosition());
@@ -164,22 +132,12 @@ void Pack::IsMallet(Mallet* pMallet)
 		//パックの中心とマレットの中心の向きベクトルとプレイヤーの向きベクトルで向きを求める
 		XMFLOAT3 sub = Math::SubtractionXMFLOAT3( pMallet->GetPosition(), transform_.position_);
 		sub.y = 0.0f;
-		//XMFLOAT3 sub = Math::SubtractionXMFLOAT3(transform_.position_, malletPos);
-
-		//XMVECTOR dir = XMVector3Normalize(XMVector3Normalize(XMLoadFloat3(&sub)) - XMVector3Normalize(XMLoadFloat3(&malletDir)));
-		//XMStoreFloat3(&dir_, XMVector3Normalize(dir));
 
 		sub = Math::FacingConversion(malletDir, sub );
 		dir_ = Math::FacingConversion(sub, dir_ );
 		
 		//その方向に移動
 		speed_ = (pMallet->GetSpeed() + speed_) / 2;
-
-		/*XMVECTOR vDir = XMVector3Normalize(XMLoadFloat3(&dir_));
-		vDir = vDir * speed_;
-		XMStoreFloat3(&dir_, vDir);*/
-
-		
 	}
 }
 
@@ -187,48 +145,7 @@ void Pack::IsWall()
 {
 	pStage = (Stage*)FindObject("Stage");
 	assert(pStage != nullptr);
-	int hStage = pStage->HandleModelStage();
-
-	////半径分レイキャスト
-	//RayCastData rData;
-	//rData.start = transform_.position_;
-	//rData.start.z = 0;
-	//rData.dir = XMFLOAT3{0.0f,0.0f,1.0f};
-	//Model::SegmentRayCast(hStage, rData);
-	//XMVECTOR vNormal = XMVector3Cross(XMLoadFloat3(&rData.side1) , XMLoadFloat3(&rData.side2));
-	//XMFLOAT3 side;
-	//XMStoreFloat3(&side, vNormal);
-
-	////壁にぶつかったら方向転換
-	//if (side.x > 0)
-	//{
-	//	//dir_.x = -dir_.x;
-	//	transform_.position_.x = (int)(transform_.position_.x + 1.5f);
-	//}
-
-	//if (side.x < 0)
-	//{
-	//	//dir_.x = -dir_.x;
-	//	transform_.position_.x = (int)(transform_.position_.x - 1.5f);
-	//}
-
-	//rData.start = transform_.position_;
-	//rData.start.x = 0;
-	//rData.dir = XMFLOAT3{ 1.0f,0.0f,0.0f };
-	//Model::SegmentRayCast(hStage, rData);
-	//vNormal = XMVector3Cross(XMLoadFloat3(&rData.side1), XMLoadFloat3(&rData.side2));
-	//XMStoreFloat3(&side, vNormal);
-	//if (side.z > 0)
-	//{
-	//	dir_.z = -dir_.z;
-	//	transform_.position_.z = (int)(transform_.position_.z + 1.5f);
-	//}
-	//
-	//if (side.z < 0)
-	//{
-	//	dir_.z = -dir_.z;
-	//	transform_.position_.z = (int)(transform_.position_.z - 1.5f);
-	//}
+	//int hStage = pStage->HandleModelStage();
 
 	if (transform_.position_.x >= 5 * pStage->GetScaleX() + 1.0f)
 	{
@@ -240,15 +157,21 @@ void Pack::IsWall()
 		dir_.x = -dir_.x;
 		transform_.position_.x = -5 * pStage->GetScaleX() -0.25f;
 	}
-	if (transform_.position_.z >= 9.5f * pStage->GetScaleZ())
+	if (transform_.position_.z >= 9.5f * pStage->GetScaleZ() - 1.0f)
 	{
+		transform_.position_.z = 9.5f * pStage->GetScaleZ() - 0.25f;
+		//ゴールに落ちたか
+		IsGoal();
 		dir_.z = -dir_.z;
-		transform_.position_.z = 9.5f * pStage->GetScaleZ() - 0.125f;
+		transform_.position_.z = 9.5f * pStage->GetScaleZ() - 1.0f;
 	}
-	else if (transform_.position_.z <= -9.5f * pStage->GetScaleZ())
+	else if (transform_.position_.z <= -9.5f * pStage->GetScaleZ() + 1.0f)
 	{
+		transform_.position_.z = -9.5f * pStage->GetScaleZ() - 0.25f;
+		//ゴールに落ちたか
+		IsGoal();
 		dir_.z = -dir_.z;
-		transform_.position_.z = -9.5f * pStage->GetScaleZ() + 0.125f;
+		transform_.position_.z = -9.5f * pStage->GetScaleZ() + 1.0f;
 	}
 }
 
@@ -271,8 +194,3 @@ void Pack::IsGoal()
 		isGool_ = true;
 	}
 }
-
-//void Pack::IsMallet()
-//{
-//	QuadrangleHit::CreateSquar(transform_.position_, previousPackPos_,&packSquar_,radius_,dir_);
-//}

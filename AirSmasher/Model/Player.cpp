@@ -1,9 +1,6 @@
 #include "Player.h"
-//#include "../Engine/Model.h"
 #include "../Engine/Camera.h"
 #include "../Engine/Input.h"
-//#include "Stage.h"
-//#include "Pack.h"
 #include "../Engine/Math.h"
 
 //コンストラクタ
@@ -29,34 +26,6 @@ void Player::OnCollision(GameObject* pTarget)
             transform_.position_.y = 0.25f;
         }
     }
-    //RayCastData data;
-    //data.start = transform_.position_;   //レイの発射位置
-    //data.start.y = 0;
-    //data.dir = XMFLOAT3(0, -1, 0);       //レイの方向
-    ////パックに触れてるとき
-    //if (pTarget->GetObjectName() == "Pack")
-    //{
-    //    Pack* pPack_ = (Pack*)FindObject("Pack");
-    //    int hModelPack = pPack_->HandleModelPack();
-    //    Model::RayCast(hModelPack, data); //レイを発射
-
-    //    if (data.hit)
-    //    {
-    //        transform_.position_.y = -data.dist;
-    //    }
-    //}
-    //else
-    //{
-    //    Stage* pStage = (Stage*)FindObject("Stage");
-    //    int hModelStage = pStage->HandleModel();
-
-    //    Model::RayCast(hModelStage, data); //レイを発射
-
-    //    if (data.hit)
-    //    {
-    //        transform_.position_.y = -data.dist;
-    //    }
-    //}
 }
 
 void Player::OffCollision(GameObject* pTarget)
@@ -71,11 +40,6 @@ void Player::OffCollision(GameObject* pTarget)
 void Player::SetInit()
 {
     transform_.position_.z = -20.0f;
-    //transform_.position_.y = 1.0f;
-    //Camera::SetPosition(XMVectorSet(0, 50, 4, 0));
-    //Camera::SetTarget(XMVectorSet(0, 0, 5, 0));
-    //Camera::SetPosition(XMVectorSet(0, 15, -50, 0));
-    //Camera::SetTarget(XMVectorSet(0, 0, 0, 0));
     Camera::SetPosition(XMVectorSet(0, 57, -45, 0));
     Camera::SetTarget(XMVectorSet(0, -15, 3, 0));
     mousePos = Input::GetMousePosition();
@@ -85,17 +49,13 @@ void Player::SetInit()
 //マレットの動き
 void Player::MoveMallet()
 {
-   
-
     //移動処理
     float w = (float)Direct3D::scrWidth / 2.0f;
     float h = (float)Direct3D::scrHeight / 2.0f;
 
-    //XMFLOAT3 mousePosNow = XMFLOAT3{ (Input::GetMousePosition().x - w), Input::GetMousePosition().z, Input::GetMousePosition().y - h });
     XMFLOAT3 mousePosNow = Math::DivisionXMFLOAT3(XMFLOAT3{ (Input::GetMousePosition().x - w), Input::GetMousePosition().z, Input::GetMousePosition().y - h }, 19);
 
-    /* transform_.position_.x += (mousePosNow.x - mousePos.x) / 20;
-     transform_.position_.z -= (mousePosNow.z - mousePos.z) / 20;*/
+    //方向、スピードの設定
     transform_.position_.x += (mousePosNow.x - mousePos.x);
     transform_.position_.z -= (mousePosNow.z - mousePos.z);
     dir_ = Math::SubtractionXMFLOAT3(mousePosNow, mousePos);
@@ -119,12 +79,8 @@ void Player::MoveMallet()
         }
        
     }
-    else
-    {
-    /*    Camera::SetPosition(XMVectorSet(0, 30, -60, 0));
-        Camera::SetTarget(XMVectorSet(0, 0, 10, 0));*/
-    }
 
+    //カメラの位置設定
     if (isCamera_)
     {
         Camera::SetPosition(XMVectorSet(0, 57, -45, 0));
@@ -136,11 +92,7 @@ void Player::MoveMallet()
         Camera::SetTarget(XMVectorSet(0, 0, 10, 0));
     }
 
-    if (transform_.position_.z >= 0)
-    {
-        transform_.position_.z = 0;
-    }
-
+    //壁から出ないように
     if (transform_.position_.z >= 0)
     {
         transform_.position_.z = 0;
