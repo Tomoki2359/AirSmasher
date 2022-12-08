@@ -63,6 +63,10 @@ void Pack::Update()
 			{
 				IsMallet(pPlayer_);
 			}
+			else if (QuadrangleHit::HitTest(packSquar_, pEnemy_->GetSquare()))
+			{
+				IsMallet(pEnemy_);
+			}
 		}
 	}
 }
@@ -89,7 +93,7 @@ void Pack::OnCollision(GameObject* pTarget)
 	if (pTarget->GetObjectName() == "Enemy")
 	{
 		IsMallet(pEnemy_);
-		//dir_ = { -pEnemy_->GetPosition().x,0,-pEnemy_->GetPosition().z - 20 };
+		
 	}
 }
 

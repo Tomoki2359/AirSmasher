@@ -13,9 +13,9 @@ PlayScene::PlayScene(GameObject* parent)
 void PlayScene::Initialize()
 {
 	Instantiate<Stage>(this);
+	Instantiate<Pack>(this);
 	Instantiate<Player>(this);
 	Instantiate<Enemy>(this);
-	Instantiate<Pack>(this);
 }
 
 //XV

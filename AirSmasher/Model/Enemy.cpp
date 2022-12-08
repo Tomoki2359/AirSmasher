@@ -53,10 +53,64 @@ void Enemy::MoveMallet()
     {
         transform_.position_.z = 0;
     }
+
+    if (pPack->GetPosition().z >= 0)
+    {
+        AutoDir();
+    }
 }
 
 //マレットを台に置くかどうか
 bool Enemy::IsPut()
 {
     return true;
+}
+
+void Enemy::AutoDir()
+{
+    Pack* pPack = (Pack*)FindObject("Pack");
+
+
+  
+    XMFLOAT3 predictionPos_ = pPack->GetPosition();
+    XMFLOAT3 predictionDir_ = pPack->GetDirection();
+    for (int i = 0; i < 60; i++)
+    {
+        XMVECTOR vPredictionDir_ = XMLoadFloat3(&predictionDir_);
+        vPredictionDir_ = XMVector3Normalize(vPredictionDir_);
+        vPredictionDir_ = vPredictionDir_ * speed_;
+        XMStoreFloat3(&predictionDir_, vPredictionDir_);
+        transform_.position_ = Math::AddXMFLOAT3(transform_.position_, predictionDir_);
+
+        if (transform_.position_.x >= 5 * scale_.x + 1.0f)
+        {
+            predictionDir_.x = -predictionDir_.x;
+            transform_.position_.x = 5 * scale_.x + 0.25f;
+        }
+        else if (transform_.position_.x <= -5 * scale_.x - 1.0f)
+        {
+            predictionDir_.x = -predictionDir_.x;
+            transform_.position_.x = -5 * scale_.x - 0.25f;
+        }
+        if (predictionPos_.z <= 15)
+        {
+            count_ = i;
+            isPrediction_ = true;
+            break;
+        }
+    }
+
+    //パックの中心とマレットの中心の向きベクトルとプレイヤーの向きベクトルで向きを求める
+   /* XMFLOAT3 sub = Math::SubtractionXMFLOAT3(pMallet->GetPosition(), transform_.position_);
+    sub.y = 0.0f;
+
+    sub = Math::FacingConversion(malletDir, sub);
+    dir_ = Math::FacingConversion(sub, dir_);*/
+
+    XMFLOAT3 aim_ = { -predictionDir_.x,0,-predictionDir_.z - 33 };
+    XMFLOAT3 sub = Math::SubtractionXMFLOAT3(transform_.position_,predictionPos_);
+
+    dir_ = Math::FacingConversion(sub, dir_);
+    //transform_.position_.z = -transform_.position_.z;
+    //transform_.position_.x = -transform_.position_.x;
 }

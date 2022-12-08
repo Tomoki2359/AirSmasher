@@ -4,6 +4,8 @@
 //■■シーンを管理するクラス
 class Enemy : public Mallet
 {
+	int count_;
+	bool isPrediction_;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -21,4 +23,6 @@ public:
 	void MoveMallet() override;
 
 	bool IsPut() override;
+	
+	void AutoDir();
 };
