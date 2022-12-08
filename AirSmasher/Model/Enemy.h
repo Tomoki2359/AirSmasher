@@ -24,5 +24,6 @@ public:
 
 	bool IsPut() override;
 	
+	//Œü‚«’²®
 	void AutoDir();
 };

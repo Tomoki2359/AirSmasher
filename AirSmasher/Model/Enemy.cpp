@@ -66,12 +66,13 @@ bool Enemy::IsPut()
     return true;
 }
 
+//狙う場所を算出
 void Enemy::AutoDir()
 {
     Pack* pPack = (Pack*)FindObject("Pack");
 
 
-  
+  //パックが一定の場所を超えるまたは60フレーム後の未来まで見る
     XMFLOAT3 predictionPos_ = pPack->GetPosition();
     XMFLOAT3 predictionDir_ = pPack->GetDirection();
     for (int i = 0; i < 60; i++)
@@ -107,6 +108,7 @@ void Enemy::AutoDir()
     sub = Math::FacingConversion(malletDir, sub);
     dir_ = Math::FacingConversion(sub, dir_);*/
 
+    //上のコメントにしている処理のdir_がゴールを狙う場所になるようにマレットの位置と向きを計算する
     XMFLOAT3 aim_ = { -predictionDir_.x,0,-predictionDir_.z - 33 };
     XMFLOAT3 sub = Math::SubtractionXMFLOAT3(transform_.position_,predictionPos_);
 
