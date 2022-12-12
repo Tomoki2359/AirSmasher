@@ -44,6 +44,7 @@ void Player::SetInit()
     Camera::SetTarget(XMVectorSet(0, -15, 3, 0));
     mousePos = Input::GetMousePosition();
     isCamera_ = true;
+    speed_ = 1.0f;
 }
 
 //ƒ}ƒŒƒbƒg‚Ì“®‚«
@@ -62,7 +63,7 @@ void Player::MoveMallet()
 
     XMVECTOR vDir = XMLoadFloat3(&dir_);
     vDir = XMVector3Length(vDir);
-    speed_ = XMVectorGetX(vDir);
+    //speed_ = XMVectorGetX(vDir);
     XMStoreFloat3(&dir_, vDir);
 
     mousePos = mousePosNow;

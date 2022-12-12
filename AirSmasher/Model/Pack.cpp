@@ -93,7 +93,7 @@ void Pack::OnCollision(GameObject* pTarget)
 	if (pTarget->GetObjectName() == "Enemy")
 	{
 		IsMallet(pEnemy_);
-		
+		//dir_ = XMFLOAT3{-transform_.position_.x , 0 , -transform_.position_.z - 33};
 	}
 }
 

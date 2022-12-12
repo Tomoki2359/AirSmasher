@@ -52,6 +52,8 @@ public:
 	//ゴールしているか処理
 	void IsGoal();
 
+	float GetRadius() { return radius_; };
+
 	XMFLOAT3 GetDirection() { return XMFLOAT3{ dir_.x,0,dir_.z }; };
 
 	//マレットに当たっているか処理
