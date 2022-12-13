@@ -5,7 +5,7 @@
 
 //コンストラクタ
 Pack::Pack(GameObject* parent)
-	: GameObject(parent, "Pack"), hModel_(-1), radius_(1.0f)
+	: GameObject(parent, "Pack"), hModel_(-1), radius_(1.0f),ismallet_(false)
 {
 }
 
@@ -35,12 +35,25 @@ void Pack::Update()
 
 	if (isGool_)
 	{
-		transform_.position_ = pPlayer_->GetPosition();
-		transform_.position_.y = 0;
-
-		if (pPlayer_->GetSuppress())
+		if (ismallet_)
 		{
-			isGool_ = false;
+			transform_.position_ = pPlayer_->GetPosition();
+			transform_.position_.y = 0;
+
+			if (pPlayer_->GetSuppress())
+			{
+				isGool_ = false;
+			}
+		}
+		else if (!ismallet_)
+		{
+			transform_.position_ = pEnemy_->GetPosition();
+			transform_.position_.y = 0;
+
+			if (pEnemy_->GetSuppress())
+			{
+				isGool_ = false;
+			}
 		}
 	}
 	else
@@ -163,9 +176,10 @@ void Pack::IsWall()
 	}
 	if (transform_.position_.z >= 9.5f * pStage->GetScaleZ() - 1.0f)
 	{
-		transform_.position_.z = 9.5f * pStage->GetScaleZ() - 0.25f;
+		transform_.position_.z = 9.5f * pStage->GetScaleZ() + 0.25f;
 		//ゴールに落ちたか
 		IsGoal();
+		ismallet_ = false;
 		dir_.z = -dir_.z;
 		transform_.position_.z = 9.5f * pStage->GetScaleZ() - 1.0f;
 	}
@@ -174,6 +188,7 @@ void Pack::IsWall()
 		transform_.position_.z = -9.5f * pStage->GetScaleZ() - 0.25f;
 		//ゴールに落ちたか
 		IsGoal();
+		ismallet_ = true;
 		dir_.z = -dir_.z;
 		transform_.position_.z = -9.5f * pStage->GetScaleZ() + 1.0f;
 	}
@@ -196,5 +211,7 @@ void Pack::IsGoal()
 		transform_.position_.z = 0;
 		speed_ = 0;
 		isGool_ = true;
+		pPlayer_->SetGoal(isGool_);
+		pEnemy_->SetGoal(isGool_);
 	}
 }

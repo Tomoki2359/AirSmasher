@@ -99,7 +99,7 @@
     <ClCompile Include="Model\Shadow.cpp">
       <Filter>ソース ファイル\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Image\GoalPoints.cpp">
+    <ClCompile Include="Image\GoalPoint.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -184,7 +184,7 @@
     <ClInclude Include="Model\Shadow.h">
       <Filter>ヘッダー ファイル\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Image\GoalPoints.h">
+    <ClInclude Include="Image\GoalPoint.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,6 +11,7 @@ Mallet::Mallet(GameObject* parent)
 
 Mallet::Mallet(GameObject* parent, std::string name)
     : GameObject(parent, name), isPut_(false),radius_(1.0f),isSuppress_(false),first_(true)
+    ,isGoal_(false),count_(0)
 {
 }
 
@@ -57,38 +58,54 @@ void Mallet::Update()
     }
     //前回の位置の取得
     previousMalletPos_ = transform_.position_;
-    if (IsPut())
+    if (!isGoal_)
     {
-        isPut_ = true;
-        transform_.position_.y = front_;
+        if (IsPut())
+        {
+            isPut_ = true;
+            transform_.position_.y = front_;
+        }
+        else
+        {
+            isPut_ = false;
+            transform_.position_.y = 3.0f;
+        }
+
+        //各マレットの動き
+        MoveMallet();
+
+        //横の壁の設定
+        if (transform_.position_.x >= 6 * scale_.x + 1.0f)
+        {
+            transform_.position_.x = 6 * scale_.x + 0.25f;
+        }
+        else if (transform_.position_.x <= -6 * scale_.x - 1.0f)
+        {
+            transform_.position_.x = -6 * scale_.x - 0.25f;
+        }
+
+        //最大速度の設定
+        if (speed_ >= 2.5f)
+        {
+            speed_ = 2.5f;
+        }
+
+        QuadrangleHit::CreateSquar(transform_.position_, previousMalletPos_, &malletSquar_, radius_, dir_);
     }
     else
     {
-        isPut_ = false;
         transform_.position_.y = 3.0f;
+        if (count_ >= 60)
+        {
+            isGoal_ = false;
+            if (IsPut())
+            {
+                isSuppress_ = true;
+            }
+            count_ = 0;
+        }
+        count_++;
     }
-
-    //各マレットの動き
-    MoveMallet();
-
-    //横の壁の設定
-    if (transform_.position_.x >= 5 * scale_.x + 1.0f)
-    {
-        transform_.position_.x = 5 * scale_.x + 0.25f;
-    }
-    else if (transform_.position_.x <= -5 * scale_.x - 1.0f)
-    {
-        transform_.position_.x = -5 * scale_.x - 0.25f;
-    }
-
-    //最大速度の設定
-    if (speed_ >= 2.5f)
-    {
-        speed_ = 2.5f;
-    }
-
-    QuadrangleHit::CreateSquar(transform_.position_, previousMalletPos_, &malletSquar_, radius_, dir_);
-    
 }
 
 //描画

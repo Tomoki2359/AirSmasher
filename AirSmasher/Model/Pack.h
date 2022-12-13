@@ -22,6 +22,7 @@ class Pack : public GameObject
 	float radius_;	//半径
 	int hModel_;
 	bool isGool_;
+	bool ismallet_;	//プレイヤーはtrue
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -53,6 +54,8 @@ public:
 	void IsGoal();
 
 	float GetRadius() { return radius_; };
+
+	float GetSpeed() { return speed_; };
 
 	XMFLOAT3 GetDirection() { return XMFLOAT3{ dir_.x,0,dir_.z }; };
 

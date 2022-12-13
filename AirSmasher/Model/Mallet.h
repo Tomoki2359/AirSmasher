@@ -23,9 +23,11 @@ protected:
 	float radius_;	//半径
 	float front_;	//地面の位置
 	float packFront_; //パックの位置
+	int count_;
 	bool first_;	
 	bool isPut_;			//マレットをテーブルにつけているかどうか
 	bool isSuppress_;		//パックを抑えているか
+	bool isGoal_;		//ゴールしたかどうか
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -82,6 +84,8 @@ public:
 	float GetRadius() { return radius_; };
 
 	void SetSuppress(bool Sup) { isSuppress_ = Sup; };
+
+	void SetGoal(bool goal) { isGoal_ = goal; };
 
 	//継承したマレットの初期化
 	virtual void SetInit() = 0;

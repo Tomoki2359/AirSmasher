@@ -5,6 +5,7 @@
 class Enemy : public Mallet
 {
 	int count_;
+	XMFLOAT3 Position_;
 	bool isPrediction_;
 public:
 	//コンストラクタ
@@ -15,8 +16,10 @@ public:
 	void Release() override;
 
 	//何かに当たった
-	//引数：pTarget 当たった相手
+//引数：pTarget 当たった相手
 	void OnCollision(GameObject* pTarget) override;
+
+	void OffCollision(GameObject* pTarget) override;
 
 	void SetInit() override;
 
