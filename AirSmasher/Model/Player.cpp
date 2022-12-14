@@ -54,11 +54,11 @@ void Player::MoveMallet()
     float w = (float)Direct3D::scrWidth / 2.0f;
     float h = (float)Direct3D::scrHeight / 2.0f;
 
-    XMFLOAT3 mousePosNow = Math::DivisionXMFLOAT3(XMFLOAT3{ (Input::GetMousePosition().x - w), Input::GetMousePosition().z, Input::GetMousePosition().y - h }, 19);
+    XMFLOAT3 mousePosNow = Math::DivisionXMFLOAT3(XMFLOAT3{ (Input::GetMouseMove().x), Input::GetMouseMove().z, Input::GetMouseMove().y }, 19);
 
     //方向、スピードの設定
-    transform_.position_.x += (mousePosNow.x - mousePos.x);
-    transform_.position_.z -= (mousePosNow.z - mousePos.z);
+    transform_.position_.x += (mousePosNow.x);// - mousePos.x);
+    transform_.position_.z -= (mousePosNow.z); // -mousePos.z);
     dir_ = Math::SubtractionXMFLOAT3(mousePosNow, mousePos);
 
     XMVECTOR vDir = XMLoadFloat3(&dir_);

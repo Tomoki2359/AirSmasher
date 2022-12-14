@@ -26,6 +26,7 @@ namespace Image
 		{
 		}
 	};
+	int Load(std::string fileName);
 	int Load(LPCWSTR fileName);
 	void Draw(int hImage_);
 	void Release();

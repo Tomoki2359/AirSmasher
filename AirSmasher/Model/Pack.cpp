@@ -33,6 +33,9 @@ void Pack::Update()
 	pEnemy_ = (Enemy*)FindObject("Enemy");
 	assert(pEnemy_ != nullptr);
 
+	pGoal_ = (GoalPoint*)FindObject("GoalPoint");
+	assert(pGoal_ != nullptr);
+
 	if (isGool_)
 	{
 		if (ismallet_)
@@ -178,8 +181,11 @@ void Pack::IsWall()
 	{
 		transform_.position_.z = 9.5f * pStage->GetScaleZ() + 0.25f;
 		//ƒS[ƒ‹‚É—‚¿‚½‚©
-		IsGoal();
-		ismallet_ = false;
+		if (IsGoal())
+		{
+			ismallet_ = false;
+			pGoal_->GoalPlayer();
+		}
 		dir_.z = -dir_.z;
 		transform_.position_.z = 9.5f * pStage->GetScaleZ() - 1.0f;
 	}
@@ -187,14 +193,17 @@ void Pack::IsWall()
 	{
 		transform_.position_.z = -9.5f * pStage->GetScaleZ() - 0.25f;
 		//ƒS[ƒ‹‚É—‚¿‚½‚©
-		IsGoal();
-		ismallet_ = true;
+		if (IsGoal())
+		{
+			ismallet_ = true;
+			pGoal_->GoalEnemy();
+		}
 		dir_.z = -dir_.z;
 		transform_.position_.z = -9.5f * pStage->GetScaleZ() + 1.0f;
 	}
 }
 
-void Pack::IsGoal()
+bool Pack::IsGoal()
 {
 	RayCastData data;
 	data.start = transform_.position_;   //ƒŒƒC‚Ì”­ËˆÊ’u
@@ -213,5 +222,7 @@ void Pack::IsGoal()
 		isGool_ = true;
 		pPlayer_->SetGoal(isGool_);
 		pEnemy_->SetGoal(isGool_);
+		return true;
 	}
+	return false;
 }

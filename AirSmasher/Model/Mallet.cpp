@@ -75,13 +75,13 @@ void Mallet::Update()
         MoveMallet();
 
         //‰¡‚Ì•Ç‚ÌÝ’è
-        if (transform_.position_.x >= 6 * scale_.x + 1.0f)
+        if (transform_.position_.x >= 5 * scale_.x + 1.0f)
         {
-            transform_.position_.x = 6 * scale_.x + 0.25f;
+            transform_.position_.x = 5 * scale_.x + 0.25f;
         }
-        else if (transform_.position_.x <= -6 * scale_.x - 1.0f)
+        else if (transform_.position_.x <= -5 * scale_.x - 1.0f)
         {
-            transform_.position_.x = -6 * scale_.x - 0.25f;
+            transform_.position_.x = -5 * scale_.x - 0.25f;
         }
 
         //Å‘å‘¬“x‚ÌÝ’è

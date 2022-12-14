@@ -6,6 +6,14 @@ namespace Image
 	std::vector<Image*> ImageList_;
 }
 
+int Image::Load(std::string fileName)
+{
+	wchar_t file[CHAR_MAX];
+	size_t ret;
+	mbstowcs_s(&ret, file, fileName.c_str(), fileName.length());
+	return Load(file);
+}
+
 int Image::Load(LPCWSTR fileName)
 {
 	Image* pLoadImage;
@@ -23,7 +31,7 @@ int Image::Load(LPCWSTR fileName)
 	pLoadImage->pSprite = new Sprite;
 	pLoadImage->pSprite->Initialize(pLoadImage->FileImage);
 	ImageList_.push_back(pLoadImage);
-	return ImageList_.size() - 1;
+	return (int)ImageList_.size() - 1;
 }
 
 void Image::Draw(int hPict)

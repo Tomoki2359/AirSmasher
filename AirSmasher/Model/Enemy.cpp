@@ -22,6 +22,8 @@ void Enemy::OnCollision(GameObject* pTarget)
         if (isSuppress_)
         {
             transform_.position_.y = 0.25f;
+            AutoDir();
+            //count_ = 2;
         }
     }
 }
@@ -73,19 +75,15 @@ void Enemy::MoveMallet()
         transform_.position_.z = 0;
     }
 
-    count_--;
-    if (pPack->GetPosition().z >= 0 && !isPrediction_)
+    if (pPack->GetPosition().z >= 0 && !isPrediction_ && pPack->GetDirection().z >= 0)
     {
         AutoDir();
-    }
-    else if(pPack->GetPosition().z < 0)
-    {
-        isPrediction_ = false;
     }
     if (count_ == 0)
     {
         transform_.position_ = Math::SubtractionXMFLOAT3(transform_.position_, dir_);
         Position_ = transform_.position_;
+        isPrediction_ = false;
     }
     else if(transform_.position_.x != Position_.x && transform_.position_.z != Position_.z)
     {
@@ -100,6 +98,11 @@ void Enemy::MoveMallet()
         }*/
         transform_.position_ = Math::AddXMFLOAT3(transform_.position_, des_);
     }
+    /*else if(pPack->GetPosition().z < 0)
+    {
+        
+    }*/
+    count_--;
 }
 
 //マレットを台に置くかどうか
@@ -136,7 +139,17 @@ void Enemy::AutoDir()
         {
             predictionDir_.x = -predictionDir_.x;
             predictionPos_.x = -5 * scale_.x - 0.25f;
+        }/*
+        if (predictionPos_.z >= 9.5f * scale_.y - 1.0f)
+        {
+            dir_.z = -dir_.z;
+            predictionPos_.z = 9.5f * scale_.y - 1.0f;
         }
+        else if (predictionPos_.z <= -9.5f * scale_.y + 1.0f)
+        {
+            dir_.z = -dir_.z;
+            predictionPos_.z = -9.5f * scale_.y + 1.0f;
+        }*/
         if (predictionPos_.z >= 10 + R)
         {
             count_ = i;
@@ -182,4 +195,5 @@ void Enemy::AutoDir()
     //dir_ = sub;
     //transform_.position_.z = -transform_.position_.z;
     //transform_.position_.x = -transform_.position_.x;
+    transform_.position_ = Math::SubtractionXMFLOAT3(transform_.position_, pos);
 }

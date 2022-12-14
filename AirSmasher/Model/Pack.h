@@ -4,6 +4,7 @@
 #include "Enemy.h"
 #include "Stage.h"
 #include "../QuadrangleHit.h"
+#include "../Image/GoalPoint.h"
 
 //■■シーンを管理するクラス
 class Pack : public GameObject
@@ -13,6 +14,7 @@ class Pack : public GameObject
 	Enemy* pEnemy_;
 	Stage* pStage;
 	CircleCollider* collision;
+	GoalPoint* pGoal_;
 	
 	//XMFLOAT3 pos_;
 	SquareBox packSquar_;	//当たり判定
@@ -51,7 +53,7 @@ public:
 	void IsWall();
 	
 	//ゴールしているか処理
-	void IsGoal();
+	bool IsGoal();
 
 	float GetRadius() { return radius_; };
 

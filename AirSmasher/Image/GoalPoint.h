@@ -2,8 +2,9 @@
 #include "../Engine/GameObject.h"
 class GoalPoint : public GameObject
 {
-	int enemyPoint_;
-	int playerPoint_;
+	short enemyPoint_;
+	short playerPoint_;
+	short hPict_[10];
 public:
 	//コンストラクタ
 //引数：parent  親オブジェクト（SceneManager）

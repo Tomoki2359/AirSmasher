@@ -15,6 +15,7 @@ Texture::~Texture()
 
 HRESULT Texture::Load(LPCWSTR fileName)
 {
+	CoInitialize(NULL);
 	IWICImagingFactory* pFactory = nullptr;
 	IWICBitmapDecoder* pDecoder = nullptr;
 	IWICBitmapFrameDecode* pFrame = nullptr;
