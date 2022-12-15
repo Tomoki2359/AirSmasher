@@ -4,7 +4,7 @@ class GoalPoint : public GameObject
 {
 	short enemyPoint_;
 	short playerPoint_;
-	short hPict_[10];
+	short hPict_[11];
 public:
 	//コンストラクタ
 //引数：parent  親オブジェクト（SceneManager）

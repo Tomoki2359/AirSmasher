@@ -126,7 +126,7 @@ void Pack::IsMallet(Mallet* pMallet)
 		malletDir.y = 0;
 
 		//移動方向
-		//ズレの修正(めり込み阻止)
+		//ズレの修正(めり込み阻止)　1
 		if (!pMallet->GetSuppress() && !isGool_)
 		{
 			XMFLOAT3 pos = Math::SubtractionXMFLOAT3(transform_.position_, pMallet->GetPosition());
@@ -150,17 +150,18 @@ void Pack::IsMallet(Mallet* pMallet)
 		}
 
 		//パックの中心とマレットの中心の向きベクトルとプレイヤーの向きベクトルで向きを求める
-		XMFLOAT3 sub = Math::SubtractionXMFLOAT3( pMallet->GetPosition(), transform_.position_);
+		XMFLOAT3 sub = Math::SubtractionXMFLOAT3( pMallet->GetPosition(), transform_.position_); //2
 		sub.y = 0.0f;
 
-		sub = Math::FacingConversion(malletDir, sub );
-		dir_ = Math::FacingConversion(sub, dir_ );
+		sub = Math::FacingConversion(malletDir, sub ); //3
+		dir_ = Math::FacingConversion(sub, dir_ ); //4
 		
 		//その方向に移動
 		speed_ = (pMallet->GetSpeed() + speed_) / 2;
 	}
 }
 
+//壁の判定
 void Pack::IsWall()
 {
 	pStage = (Stage*)FindObject("Stage");

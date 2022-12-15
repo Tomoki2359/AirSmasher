@@ -81,7 +81,7 @@ void Enemy::MoveMallet()
     }
     if (count_ == 0)
     {
-        transform_.position_ = Math::SubtractionXMFLOAT3(transform_.position_, dir_);
+        transform_.position_ = Math::AddXMFLOAT3(transform_.position_, dir_);
         Position_ = transform_.position_;
         isPrediction_ = false;
     }
@@ -157,7 +157,8 @@ void Enemy::AutoDir()
             break;
         }
     }
-
+    if (!isPrediction_)
+        return;
     //パックの中心とマレットの中心の向きベクトルとプレイヤーの向きベクトルで向きを求める
    /* XMFLOAT3 sub = Math::SubtractionXMFLOAT3(pMallet->GetPosition(), transform_.position_);
     sub.y = 0.0f;
@@ -166,9 +167,9 @@ void Enemy::AutoDir()
     dir_ = Math::FacingConversion(sub, dir_);*/
 
     //上のコメントにしている処理のdir_がゴールを狙う場所になるようにマレットの位置と向きを計算する
-    XMFLOAT3 aim_ = { -predictionPos_.x,0,-predictionPos_.z - 33 };
-    XMFLOAT3 sub = Math::FacingConversion(aim_, predictionDir_);
+    XMFLOAT3 aim_ = { -predictionPos_.x,0,-predictionPos_.z - 33 };//4
 
+     //1
     XMFLOAT3 pos;// = Math::SubtractionXMFLOAT3(predictionPos_, predictionPos_);
     //pos.y = 0.0f;
     //XMVECTOR vpos = XMLoadFloat3(&pos);	//ズレた位置
@@ -183,17 +184,21 @@ void Enemy::AutoDir()
 
     Position_ = Math::AddXMFLOAT3(predictionPos_, pos);
     //transform_.position_ = predictionPos_;
+    //1
+
+    XMFLOAT3 sub = Math::FacingConversion(aim_, predictionDir_);//3
 
     //XMFLOAT3 malletdir = Math::FacingConversion(transform_.position_, predictionPos_);
-    dir_ = Math::FacingConversion(sub, Position_);
+    //dir_ = Math::FacingConversion(sub, predictionDir_);
+    dir_ = Math::FacingConversion(sub, pos);
 
     //dir_ = Math::FacingConversion(sub, malletdir);
 
     //XMFLOAT3 sub = Math::SubtractionXMFLOAT3(transform_.position_,predictionPos_);
-    dir_ = Math::FacingConversion(aim_ ,sub);
-    dir_ = Math::FacingConversion(dir_,sub);
+    //dir_ = Math::FacingConversion(aim_ ,sub);
+    //dir_ = Math::FacingConversion(dir_,sub);
     //dir_ = sub;
     //transform_.position_.z = -transform_.position_.z;
     //transform_.position_.x = -transform_.position_.x;
-    transform_.position_ = Math::SubtractionXMFLOAT3(transform_.position_, pos);
+    //transform_.position_ = Math::SubtractionXMFLOAT3(transform_.position_, pos);
 }

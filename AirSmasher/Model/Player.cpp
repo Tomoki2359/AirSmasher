@@ -98,9 +98,9 @@ void Player::MoveMallet()
     {
         transform_.position_.z = 0;
     }
-    else if (transform_.position_.z <= -9.5f * scale_.y)
+    else if (transform_.position_.z <= -9.0f * scale_.y)
     {
-        transform_.position_.z = -9.5f * scale_.y + 0.125f;
+        transform_.position_.z = -9.0f * scale_.y + 0.125f;
     }
 
     QuadrangleHit::CreateSquar(transform_.position_, previousMalletPos_, &malletSquar_, radius_, dir_);

@@ -58,6 +58,8 @@ void Mallet::Update()
     }
     //‘O‰ñ‚ÌˆÊ’u‚ÌŽæ“¾
     previousMalletPos_ = transform_.position_;
+
+    //ƒS[ƒ‹‚µ‚½‚©
     if (!isGoal_)
     {
         if (IsPut())
@@ -94,6 +96,7 @@ void Mallet::Update()
     }
     else
     {
+        //ƒS[ƒ‹‚µ‚½Žž‚Ìˆ—
         transform_.position_.y = 3.0f;
         if (count_ >= 60)
         {
