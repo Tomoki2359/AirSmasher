@@ -123,6 +123,11 @@ void GameObject::AddCircleCollider(CircleCollider* pCollider)
 	pCircle_ = pCollider;
 }
 
+void GameObject::AddSquareBox(QuadrangleHit* pSquare)
+{
+	pSquare_ = pSquare;
+}
+
 std::string GameObject::GetObjectName()
 {
 	return objectName_;
@@ -168,6 +173,19 @@ void GameObject::CircleCollision(GameObject* pGameObject)
 	}
 }
 
+void GameObject::QuadrangleBox(GameObject* pGameObject)
+{
+	//Ž©•ª‚ªŒÄ‚Î‚ê‚½@‚Ü‚½‚Í“–‚½‚è”»’è‚ª‚È‚¢‚Æ‚«
+	if (this == pGameObject || pGameObject->pSquare_ == nullptr)
+	{
+		return;
+	}
+	if (pSquare_->HitTest(pGameObject->pSquare_->GetSquareBox()))
+	{
+		OnCollision(pGameObject);
+	}
+}
+
 //“–‚½‚è”»’èˆ—
 void GameObject::RoundRobin(GameObject* pGameObject)
 {
@@ -175,15 +193,20 @@ void GameObject::RoundRobin(GameObject* pGameObject)
 	{
 		return;
 	}
-
+	hit = false;
 	if (pGameObject->pCollider_)
 	{
 		Collision(pGameObject);
 	}
 
-	if (pGameObject->pCircle_)
+	if (pGameObject->pCircle_ && !hit)
 	{
 		CircleCollision(pGameObject);
+	}
+
+	if (pGameObject->pSquare_ && !hit)
+	{
+		QuadrangleBox(pGameObject);
 	}
 
 	for (auto i = pGameObject->childList_.begin(); i != pGameObject->childList_.end(); i++)

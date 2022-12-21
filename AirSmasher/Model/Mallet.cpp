@@ -24,8 +24,9 @@ void Mallet::Initialize()
     collision = new CircleCollider(XMFLOAT3(0.0f, 0.0f, 0.0f), radius_,0.0f);
     AddCircleCollider(collision);
     Instantiate<Shadow>(this);
-    malletSquar_ = { {0,0},{0,0 }, { 0,0},{0,0 }};
     scale_ = { 1.0f,1.0f };
+    pQuadrangle = new QuadrangleHit();
+    AddSquareBox(pQuadrangle);
 }
 
 //XV
@@ -92,7 +93,7 @@ void Mallet::Update()
             speed_ = 2.5f;
         }
 
-        QuadrangleHit::CreateSquar(transform_.position_, previousMalletPos_, &malletSquar_, radius_, dir_);
+        pQuadrangle->CreateSquar(transform_.position_, previousMalletPos_, radius_, dir_);
     }
     else
     {

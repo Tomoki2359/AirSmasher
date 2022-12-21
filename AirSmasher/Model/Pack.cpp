@@ -20,9 +20,8 @@ void Pack::Initialize()
 	Model::SetColor(hModel_, 0, 150, 150);
 	dir_ = XMFLOAT3(-0.2f, 0.0f, -0.2f);
 	speed_ = 1.0f;
-
-	packSquar_ = { {0,0},{0,0 }, { 0,0},{0,0 }
-};
+	pQuadrangle = new QuadrangleHit();
+	AddSquareBox(pQuadrangle);
 }
 
 //更新
@@ -74,22 +73,10 @@ void Pack::Update()
 		vdir_ = vdir_ * speed_;
 		XMStoreFloat3(&dir_, vdir_);
 		transform_.position_ = Math::AddXMFLOAT3(transform_.position_, dir_);
-		QuadrangleHit::CreateSquar(transform_.position_, previousPackPos_, &packSquar_, radius_, dir_);
+		pQuadrangle->CreateSquar(transform_.position_, previousPackPos_,radius_, dir_);
 		//壁の当たり処理
 		IsWall();
 
-		//マレットと自分の通り道に当たったか(すり抜け防止)
-		if (pPlayer_->GetPut() && !isGool_)
-		{
-			if (QuadrangleHit::HitTest(packSquar_, pPlayer_->GetSquare()))
-			{
-				IsMallet(pPlayer_);
-			}
-			else if (QuadrangleHit::HitTest(packSquar_, pEnemy_->GetSquare()))
-			{
-				IsMallet(pEnemy_);
-			}
-		}
 	}
 }
 

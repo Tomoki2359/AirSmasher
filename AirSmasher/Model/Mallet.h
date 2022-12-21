@@ -1,6 +1,6 @@
 #pragma once
 #include"../Engine/GameObject.h"
-#include "../QuadrangleHit.h"
+#include "../Engine/QuadrangleHit.h"
 #include "Stage.h"
 #include "Shadow.h"
 //#include "Pack.h"
@@ -14,8 +14,8 @@ class Mallet : public GameObject
 protected:
 	Stage* pStage_;			//ステージのポインタ
 	Shadow* pShadow_;			//影のポインタ
-	CircleCollider* collision;
-	SquareBox malletSquar_;	//前回と今の四角形
+	CircleCollider* collision;  //当たり判定
+	QuadrangleHit* pQuadrangle;	//当たり判定
 	XMFLOAT3 dir_;			//向き	
 	XMFLOAT3 previousMalletPos_;	//前のマレットの位置
 	XMFLOAT2 scale_;
@@ -74,8 +74,6 @@ public:
 	//抑えられる状態かどうか
 	//戻り値　パックを抑えられるならtrue
 	bool GetSuppress() { return isSuppress_; };
-
-	SquareBox GetSquare() { return malletSquar_; };
 
 	//float GetFront() { return front_; };
 	

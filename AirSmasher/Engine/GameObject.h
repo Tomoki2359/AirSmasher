@@ -6,16 +6,19 @@
 #include "Input.h"
 #include "SphereCollider.h"
 #include "CircleCollider.h"
+#include "QuadrangleHit.h"
 #include "Transform.h"
 class SphereCollider;
 class GameObject
 {
+	bool hit;
 protected:
 	std::list<GameObject*> childList_;
 	Transform	transform_;
 	GameObject* pParent_;
 	SphereCollider* pCollider_;
 	CircleCollider* pCircle_;
+	QuadrangleHit* pSquare_;
 	std::string	objectName_;
 	bool killObject_;
 public:
@@ -38,8 +41,10 @@ public:
 	std::string GetObjectName();
 	void AddCollider(SphereCollider* pCollider);
 	void AddCircleCollider(CircleCollider* pCollider);
+	void AddSquareBox(QuadrangleHit* pSquare);
 	void Collision(GameObject* pGameObject);
 	void CircleCollision(GameObject* pGameObject);
+	void QuadrangleBox(GameObject* pGameObject);
 	void RoundRobin(GameObject* pGameObject);
 	void SetPosition(XMFLOAT3 position);
 	XMFLOAT3 GetPosition() { return transform_.position_; }

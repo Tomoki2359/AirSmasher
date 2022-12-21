@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Stage.h"
-#include "../QuadrangleHit.h"
+#include "../Engine/QuadrangleHit.h"
 #include "../Image/GoalPoint.h"
 
 //■■シーンを管理するクラス
@@ -13,17 +13,17 @@ class Pack : public GameObject
 	Player* pPlayer_;
 	Enemy* pEnemy_;
 	Stage* pStage;
-	CircleCollider* collision;
 	GoalPoint* pGoal_;
+	CircleCollider* collision;		//当たり判定
+	QuadrangleHit* pQuadrangle;	//当たり判定
 	
 	//XMFLOAT3 pos_;
-	SquareBox packSquar_;	//当たり判定
 	XMFLOAT3 previousPackPos_;	//前のパックの位置
 	XMFLOAT3 dir_;	//向き	
 	float speed_;	//速度
 	float radius_;	//半径
 	int hModel_;
-	bool isGool_;
+	bool isGool_;	//ゴールしたか
 	bool ismallet_;	//プレイヤーはtrue
 public:
 	//コンストラクタ

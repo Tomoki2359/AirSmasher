@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Transform.h"
+#include "Transform.h"
 
 struct SquareBox		//当たっているか確認用四角形
 {
@@ -10,14 +10,20 @@ struct SquareBox		//当たっているか確認用四角形
 	XMFLOAT2 RUPos_;	//右上のポジション
 };
 
-namespace QuadrangleHit
+class QuadrangleHit
 {
+	SquareBox square_;
+	bool isHit;
+public:
+	QuadrangleHit();
 	//四角形を作る処理
 	//第一引数	位置;第二引数	位置;	第三引数	四角形;	第四引数	半径; 第五引数	向き
-	void CreateSquar(XMFLOAT3 f1, XMFLOAT3 f2,SquareBox* pSquar,float radius,XMFLOAT3 dir);
+	void CreateSquar(XMFLOAT3 f1, XMFLOAT3 f2,float radius,XMFLOAT3 dir);
 
-	bool HitTest(SquareBox s1, SquareBox s2);
+	bool HitTest(SquareBox square);
 
 	void IsHitLine(XMFLOAT2 l1, XMFLOAT2 l2, XMFLOAT2 l3, XMFLOAT2 l4);
+
+	SquareBox GetSquareBox() { return square_; };
 };
 

@@ -7,8 +7,6 @@
 Player::Player(GameObject* parent)
     : Mallet(parent, "Player")
 {
-    malletSquar_ = { {0,0},{0,0 }, { 0,0},{0,0 }
-};
 }
 
 //開放
@@ -45,6 +43,7 @@ void Player::SetInit()
     mousePos = Input::GetMousePosition();
     isCamera_ = true;
     speed_ = 1.0f;
+    dir_ = { 0,0,0 };
 }
 
 //マレットの動き
@@ -103,7 +102,6 @@ void Player::MoveMallet()
         transform_.position_.z = -9.0f * scale_.y + 0.125f;
     }
 
-    QuadrangleHit::CreateSquar(transform_.position_, previousMalletPos_, &malletSquar_, radius_, dir_);
 }
 
 //台を置くかどうか
