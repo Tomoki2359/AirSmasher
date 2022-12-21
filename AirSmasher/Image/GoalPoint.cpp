@@ -5,7 +5,7 @@
 GoalPoint::GoalPoint(GameObject* parent)
 	: GameObject(parent, "GoalPoint"),enemyPoint_(0),playerPoint_(0)
 {
-	for (short i = 0; i < sizeof(hPict_) / sizeof(short); i++)
+	for (short i = 0; i < 11; i++)
 	{
 		hPict_[i] = -1;
 	}
@@ -16,14 +16,14 @@ void GoalPoint::Initialize()
 {
 	std::string name_ = "Assets\\Number";
 	std::string file_ = ".png";
-	for (int i = 0; i < (sizeof(hPict_)  / sizeof(short)) - 1; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		std::string fileName_ = name_ + std::to_string(i) + file_;
 		hPict_[i] = Image::Load(fileName_);
 		assert(hPict_[i] >= 0);
 	}
 	std::string fileName_ = name_ + file_;
-	hPict_[sizeof(hPict_)] = Image::Load(fileName_);
+	hPict_[11] = Image::Load(fileName_);
 	transform_.position_.y = 0.8f;
 }
 
@@ -49,8 +49,8 @@ void GoalPoint::Draw()
 	posX_ += 0.1f;
 
 	transform_.position_.x = posX_;
-	Image::SetTransform(hPict_[sizeof(hPict_)], transform_);
-	Image::Draw(hPict_[sizeof(hPict_)]);
+	Image::SetTransform(hPict_[11], transform_);
+	Image::Draw(hPict_[11]);
 	posX_ += 0.1f;
 
 	if (playerPoint_ >= 10)

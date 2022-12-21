@@ -4,6 +4,8 @@
 #include "Model/Enemy.h"
 #include "Model/Pack.h"
 #include "Image/GoalPoint.h"
+#include "Time/LimitTime.h"
+
 //コンストラクタ
 PlayScene::PlayScene(GameObject* parent)
 	: GameObject(parent, "PlayScene")
@@ -18,6 +20,7 @@ void PlayScene::Initialize()
 	Instantiate<Player>(this);
 	Instantiate<Enemy>(this);
 	Instantiate<GoalPoint>(this);
+	Instantiate<LimitTime>(this);
 }
 
 //更新

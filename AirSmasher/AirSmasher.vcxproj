@@ -171,6 +171,7 @@
     <ClCompile Include="Engine\SphereCollider.cpp" />
     <ClCompile Include="Engine\Sprite.cpp" />
     <ClCompile Include="Engine\Texture.cpp" />
+    <ClCompile Include="Engine\Time.cpp" />
     <ClCompile Include="Engine\Transform.cpp" />
     <ClCompile Include="Image\GoalPoint.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="Model\Stage.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="QuadrangleHit.cpp" />
+    <ClCompile Include="Time\LimitTime.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Simple2D.hlsl" />
@@ -203,6 +205,7 @@
     <ClInclude Include="Engine\SphereCollider.h" />
     <ClInclude Include="Engine\Sprite.h" />
     <ClInclude Include="Engine\Texture.h" />
+    <ClInclude Include="Engine\Time.h" />
     <ClInclude Include="Engine\Transform.h" />
     <ClInclude Include="Image\GoalPoint.h" />
     <ClInclude Include="Model\Enemy.h" />
@@ -213,6 +216,7 @@
     <ClInclude Include="Model\Stage.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="QuadrangleHit.h" />
+    <ClInclude Include="Time\LimitTime.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

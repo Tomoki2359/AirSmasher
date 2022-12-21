@@ -8,7 +8,9 @@
 #include "Engine/Model.h"
 #include "Engine/Transform.h"
 #include "Engine/RootJob.h"
+#include "Engine/Time.h"
 
+#include <algorithm>
 #pragma comment(lib, "winmm.lib")
 
 //定数宣言
@@ -86,6 +88,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 	pRoot = new RootJob(nullptr);
 	pRoot->Initialize();
 
+	Time::Initialize();
+	static const char MAX_FPS = 60;
+	static DWORD countFps[MAX_FPS];
+	std::fill(countFps, countFps + MAX_FPS, MAX_FPS);
+
 	//メッセージループ（何か起きるのを待つ）
 	float angle = 0.0;
 	MSG msg;
@@ -104,33 +111,49 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 		{
 			timeBeginPeriod(1);
 
-			static DWORD countFps = 0;
+
+			static int i = 0;
+			
 			static DWORD startTime = timeGetTime();
 			DWORD nowTime = timeGetTime();
 			static DWORD lastUpdateTime = nowTime;
 
-			if (nowTime - startTime >= 1000)
-			{
-				WCHAR str[16];
-				wsprintf(str, L"%u", countFps);
-				SetWindowText(hWnd, str);
+			//if (nowTime - startTime >= 1000)
+			//{
+				//WCHAR str[16];
+				//wsprintf(str, L"%u", countFps);
+				//SetWindowText(hWnd, str);
 
-				countFps = 0;
-				startTime = nowTime;
-			}
+			startTime = nowTime;
+			//}
 
-			if ((nowTime - lastUpdateTime) * 60 <= 1000.0f)
+			if ((nowTime - lastUpdateTime) * MAX_FPS <= 1000.0f)
 			{
 				continue;
 			}
+			//FPSの更新
+			Time::Update((short)*std::max_element(countFps, countFps + MAX_FPS));
+			countFps[i] = 0;
 			lastUpdateTime = nowTime;
 
-			countFps++;
+			for (int j = 0; j < MAX_FPS; j++)
+			{
+				if (countFps[j] < MAX_FPS)
+				{
+					countFps[j]++;
+				}
+			}
+			i++;
+			if (i >= MAX_FPS)
+			{
+				i = 0;
+			}
+
 
 			Input::Update();
 			pRoot->UpdateSub();
 
-			if (Input::IsKeyUp(DIK_ESCAPE))
+			/*if (Input::IsKeyUp(DIK_ESCAPE))
 			{
 				static int cnt = 0;
 				cnt++;
@@ -138,7 +161,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, 
 				{
 					PostQuitMessage(0);
 				}
-			}
+			}*/
 
 
 			//ゲームの処理

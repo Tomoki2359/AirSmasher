@@ -2,6 +2,7 @@
 #include "Stage.h"
 #include "../Engine/Model.h"
 #include "../Engine/Math.h"
+#include "../Engine/Time.h"
 
 //コンストラクタ
 Pack::Pack(GameObject* parent)
@@ -38,6 +39,7 @@ void Pack::Update()
 
 	if (isGool_)
 	{
+		Time::Lock();
 		if (ismallet_)
 		{
 			transform_.position_ = pPlayer_->GetPosition();
@@ -63,6 +65,10 @@ void Pack::Update()
 	{
 		previousPackPos_ = transform_.position_;
 
+		if (speed_ == 0)
+			return;
+
+		Time::UnLock();
 		XMVECTOR vdir_ = XMLoadFloat3(&dir_);
 		vdir_ = XMVector3Normalize(vdir_);
 		vdir_ = vdir_ * speed_;

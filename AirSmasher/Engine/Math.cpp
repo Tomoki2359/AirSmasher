@@ -1,5 +1,7 @@
 #include "Math.h"
+#include <math.h>
 
+#include <algorithm>
 float Math::Det(XMFLOAT3 a, XMFLOAT3 b, XMFLOAT3 c)
 {
     return a.x * b.y * c.z +
@@ -162,4 +164,39 @@ float Math::GetRadian(XMFLOAT3 f1, XMFLOAT3 f2)
     float angle = acos(XMVectorGetZ(dot));   //acos‚ð‹‚ß‚ê‚ÎŠp“x
 
     return angle;
+}
+
+int Math::GetDigits(int value, int m, int n) {
+    int val = n + 1;
+    int result;
+
+    //nŒ…–ÚˆÈ‰º‚ÌŒ…‚ðŽæ“¾
+    val = value % (int)pow(10, val);
+
+    //mŒ…–ÚˆÈã‚ÌŒ…‚ðŽæ“¾
+    result = val / pow(10, m);
+
+    return result;
+}
+
+float Math::GetFraction(float value, int m, int n)
+{
+    if (m > n)
+    {
+        std::swap(m, n);
+    }
+    int val;
+    float result;
+    val = value * pow(10, n);
+    val = GetDigits(val, 0, 0);
+    result = val * pow(10, -n);
+    return result;
+}
+
+int Math::GetFraction(float value, int m)
+{
+    int val;
+    val = value * pow(10, m);
+    val = GetDigits(val, 0, 0);
+    return val;
 }

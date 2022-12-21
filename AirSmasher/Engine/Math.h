@@ -34,5 +34,15 @@ namespace Math
 	XMFLOAT3 GetDisplacement(XMFLOAT3 f1,XMFLOAT3 f2);
 
 	float GetRadian(XMFLOAT3 f1, XMFLOAT3 f2);
+
+	//整数を取得する関数
+	//第一引数 : 対象の値 第二引数 : 求める最小の桁 第三引数 : 求める最大の桁
+	int GetDigits(int value, int m, int n);
+
+	//小数点以下の値を取得する関数
+	//第一引数 : 対象の値 第二/三引数 小数第m～n位
+	float GetFraction(float value, int m, int n);	//情報落ちして一部の値が取得できない
+	//小数点以下の指定した桁を整数値で取得する関数
+	int GetFraction(float value, int m);
 };
 

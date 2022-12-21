@@ -23,6 +23,7 @@ void Enemy::OnCollision(GameObject* pTarget)
         {
             transform_.position_.y = 0.25f;
             AutoDir();
+            transform_.position_ = Math::SubtractionXMFLOAT3(transform_.position_, Math::MultiplicationXMFLOAT3( dir_,2));
             //count_ = 2;
         }
     }
@@ -41,7 +42,7 @@ void Enemy::OffCollision(GameObject* pTarget)
 void Enemy::SetInit()
 {
     transform_.position_.z = 15.0f;
-    speed_ = 1.0f;
+    speed_ = 0.5f;
     Position_ = transform_.position_;
 }
 
@@ -89,7 +90,7 @@ void Enemy::MoveMallet()
     {
         XMFLOAT3 des_ = Math::SubtractionXMFLOAT3(Position_ ,transform_.position_);
         XMVECTOR vdes = XMVector3Normalize(XMLoadFloat3(&des_));
-        vdes = vdes * 1.0f;
+        vdes = vdes * speed_;
         XMStoreFloat3(&des_, (vdes));
         /*if (0 == (transform_.position_.x - Math::AddXMFLOAT3(transform_.position_, des_).x) * (Position_.y - transform_.position_.y) + (transform_.position_.y - Math::AddXMFLOAT3(transform_.position_, des_).y) * (transform_.position_.x - Position_.x))
         {
