@@ -55,10 +55,13 @@ public:
 	//ゴールしているか処理
 	bool IsGoal();
 
+	//半径の取得
 	float GetRadius() { return radius_; };
 
+	//スピードの取得
 	float GetSpeed() { return speed_; };
 
+	//方向の取得
 	XMFLOAT3 GetDirection() { return XMFLOAT3{ dir_.x,0,dir_.z }; };
 
 	//マレットに当たっているか処理

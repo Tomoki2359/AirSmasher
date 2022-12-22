@@ -4,7 +4,7 @@
 
 //コンストラクタ
 LimitTime::LimitTime(GameObject* parent)
-	: GameObject(parent, "LimitTime"),timer_(180)
+	: GameObject(parent, "LimitTime"),timer_(180), MAX_TIME(180)
 {
 	for (short i = 0; i < 10; i++)
 	{

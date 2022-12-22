@@ -18,12 +18,17 @@ public:
 	//引数：pTarget 当たった相手
 	void OnCollision(GameObject* pTarget) override;
 
+	//当たっていない
+	//引数：pTarget 当たった相手
 	void OffCollision(GameObject* pTarget) override;
 
+	//初期化
 	void SetInit() override;
 
+	//マレットの動き
 	void MoveMallet() override;
 
+	//置く処理
 	bool IsPut() override;
 	//XMFLOAT3 GetDirection() { return dir_; };
 

@@ -148,6 +148,7 @@ void GameObject::Collision(GameObject* pGameObject)
 	//‰~Œ^“¯Žm‚Ì“–‚½‚è”»’è
 	if (x * x + y * y + z * z <= radiusSum * radiusSum)
 	{
+		hit = true;
 		OnCollision(pGameObject);
 	}
 }
@@ -165,6 +166,7 @@ void GameObject::CircleCollision(GameObject* pGameObject)
 	//‰~Œ^“¯Žm‚Ì“–‚½‚è”»’è
 	if (x * x + z * z <= radiusSum * radiusSum && pCircle_->GetDimension() == pGameObject->pCircle_->GetDimension())
 	{
+		hit = true;
 		OnCollision(pGameObject);
 	}
 	else
@@ -182,6 +184,7 @@ void GameObject::QuadrangleBox(GameObject* pGameObject)
 	}
 	if (pSquare_->HitTest(pGameObject->pSquare_->GetSquareBox()))
 	{
+		hit = true;
 		OnCollision(pGameObject);
 	}
 }

@@ -4,7 +4,7 @@
 class LimitTime : public GameObject
 {
 	short hPict_[10];
-	const int MAX_TIME = 180;
+	const int MAX_TIME;
 	int timer_;
 public:
 	//コンストラクタ
