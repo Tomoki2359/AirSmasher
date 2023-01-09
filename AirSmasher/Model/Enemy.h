@@ -4,8 +4,8 @@
 //■■シーンを管理するクラス
 class Enemy : public Mallet
 {
-	int count_;
-	XMFLOAT3 Position_;
+	int countFuture_;
+	XMFLOAT3 enemyPosition_;
 	bool isPrediction_;
 public:
 	//コンストラクタ

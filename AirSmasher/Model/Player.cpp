@@ -42,8 +42,8 @@ void Player::SetInit()
     Camera::SetTarget(XMVectorSet(0, -15, 3, 0));
     mousePos = Input::GetMousePosition();
     isCamera_ = true;
-    speed_ = 1.0f;
-    dir_ = { 0,0,0 };
+    malletSpeed_ = 1.0f;
+    malletDir_ = { 0,0,0 };
 }
 
 //マレットの動き
@@ -58,12 +58,12 @@ void Player::MoveMallet()
     //方向、スピードの設定
     transform_.position_.x += (mousePosNow.x);// - mousePos.x);
     transform_.position_.z -= (mousePosNow.z); // -mousePos.z);
-    dir_ = Math::SubtractionXMFLOAT3(mousePosNow, mousePos);
+    malletDir_ = Math::SubtractionXMFLOAT3(mousePosNow, mousePos);
 
-    XMVECTOR vDir = XMLoadFloat3(&dir_);
+    XMVECTOR vDir = XMLoadFloat3(&malletDir_);
     vDir = XMVector3Length(vDir);
-    //speed_ = XMVectorGetX(vDir);
-    XMStoreFloat3(&dir_, vDir);
+    //malletSpeed_ = XMVectorGetX(vDir);
+    XMStoreFloat3(&malletDir_, vDir);
 
     mousePos = mousePosNow;
 
@@ -97,9 +97,9 @@ void Player::MoveMallet()
     {
         transform_.position_.z = 0;
     }
-    else if (transform_.position_.z <= -9.0f * scale_.y)
+    else if (transform_.position_.z <= -9.0f * stageScale_.y)
     {
-        transform_.position_.z = -9.0f * scale_.y + 0.125f;
+        transform_.position_.z = -9.0f * stageScale_.y + 0.125f;
     }
 
 }

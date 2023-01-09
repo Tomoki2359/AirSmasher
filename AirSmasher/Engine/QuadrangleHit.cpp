@@ -75,30 +75,32 @@ void QuadrangleHit::CreateSquar(XMFLOAT3 f1, XMFLOAT3 f2, float radius, XMFLOAT3
 
 bool QuadrangleHit::HitTest(SquareBox square)
 {
-	isHit = false;
-	IsHitLine(square_.LUPos_, square_.LDPos_, square.LUPos_, square.LDPos_);
-	IsHitLine(square_.LUPos_, square_.LDPos_, square.LUPos_, square.RUPos_);
-	IsHitLine(square_.LUPos_, square_.LDPos_, square.RUPos_, square.RDPos_);
-	IsHitLine(square_.LUPos_, square_.LDPos_, square.LDPos_, square.RDPos_);
+	if (IsHitLine(square_.LUPos_, square_.LDPos_, square.LUPos_, square.LDPos_) ||
+		IsHitLine(square_.LUPos_, square_.LDPos_, square.LUPos_, square.RUPos_) ||
+		IsHitLine(square_.LUPos_, square_.LDPos_, square.RUPos_, square.RDPos_) ||
+		IsHitLine(square_.LUPos_, square_.LDPos_, square.LDPos_, square.RDPos_) ||
 
-	IsHitLine(square_.LUPos_, square_.RUPos_, square.LUPos_, square.LDPos_);
-	IsHitLine(square_.LUPos_, square_.RUPos_, square.LUPos_, square.RUPos_);
-	IsHitLine(square_.LUPos_, square_.RUPos_, square.RUPos_, square.RDPos_);
-	IsHitLine(square_.LUPos_, square_.RUPos_, square.LDPos_, square.RDPos_);
+		IsHitLine(square_.LUPos_, square_.RUPos_, square.LUPos_, square.LDPos_) ||
+		IsHitLine(square_.LUPos_, square_.RUPos_, square.LUPos_, square.RUPos_) ||
+		IsHitLine(square_.LUPos_, square_.RUPos_, square.RUPos_, square.RDPos_) ||
+		IsHitLine(square_.LUPos_, square_.RUPos_, square.LDPos_, square.RDPos_) ||
 
-	IsHitLine(square_.RDPos_, square_.LDPos_, square.LUPos_, square.LDPos_);
-	IsHitLine(square_.RDPos_, square_.LDPos_, square.LUPos_, square.RUPos_);
-	IsHitLine(square_.RDPos_, square_.LDPos_, square.RUPos_, square.RDPos_);
-	IsHitLine(square_.RDPos_, square_.LDPos_, square.LDPos_, square.RDPos_);
+		IsHitLine(square_.RDPos_, square_.LDPos_, square.LUPos_, square.LDPos_) ||
+		IsHitLine(square_.RDPos_, square_.LDPos_, square.LUPos_, square.RUPos_) ||
+		IsHitLine(square_.RDPos_, square_.LDPos_, square.RUPos_, square.RDPos_) ||
+		IsHitLine(square_.RDPos_, square_.LDPos_, square.LDPos_, square.RDPos_) ||
 
-	IsHitLine(square_.RDPos_, square_.RUPos_, square.LUPos_, square.LDPos_);
-	IsHitLine(square_.RDPos_, square_.RUPos_, square.LUPos_, square.RUPos_);
-	IsHitLine(square_.RDPos_, square_.RUPos_, square.RUPos_, square.RDPos_);
-	IsHitLine(square_.RDPos_, square_.RUPos_, square.LDPos_, square.RDPos_);
-	return isHit;
+		IsHitLine(square_.RDPos_, square_.RUPos_, square.LUPos_, square.LDPos_) ||
+		IsHitLine(square_.RDPos_, square_.RUPos_, square.LUPos_, square.RUPos_) ||
+		IsHitLine(square_.RDPos_, square_.RUPos_, square.RUPos_, square.RDPos_) ||
+		IsHitLine(square_.RDPos_, square_.RUPos_, square.LDPos_, square.RDPos_))
+	{
+		return true;
+	}
+	return false;
 }
 
-void QuadrangleHit::IsHitLine(XMFLOAT2 l1, XMFLOAT2 l2, XMFLOAT2 l3, XMFLOAT2 l4)
+bool QuadrangleHit::IsHitLine(XMFLOAT2 l1, XMFLOAT2 l2, XMFLOAT2 l3, XMFLOAT2 l4)
 {
 	//íºê¸Ç∆ê¸ï™ÇÃìñÇΩÇËîªíË
 	float i1 = (l1.x - l2.x) * (l3.y - l1.y) + (l1.y - l2.y) * (l1.x - l3.x);
@@ -108,6 +110,7 @@ void QuadrangleHit::IsHitLine(XMFLOAT2 l1, XMFLOAT2 l2, XMFLOAT2 l3, XMFLOAT2 l4
 	float i4 = (l3.x - l4.x) * (l2.y - l3.y) + (l3.y - l4.y) * (l3.x - l2.x);
 	if (i1 * i2 <= 0 && i3 * i4 <= 0)
 	{
-		isHit = true;
+		return true;
 	}
+	return false;
 }

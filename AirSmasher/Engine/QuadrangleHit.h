@@ -13,7 +13,6 @@ struct SquareBox		//当たっているか確認用四角形
 class QuadrangleHit
 {
 	SquareBox square_;
-	bool isHit;
 public:
 	QuadrangleHit();
 	//四角形を作る処理
@@ -22,7 +21,7 @@ public:
 
 	bool HitTest(SquareBox square);
 
-	void IsHitLine(XMFLOAT2 l1, XMFLOAT2 l2, XMFLOAT2 l3, XMFLOAT2 l4);
+	bool IsHitLine(XMFLOAT2 l1, XMFLOAT2 l2, XMFLOAT2 l3, XMFLOAT2 l4);
 
 	SquareBox GetSquareBox() { return square_; };
 };

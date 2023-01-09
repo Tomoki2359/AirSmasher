@@ -23,8 +23,8 @@ void Enemy::OnCollision(GameObject* pTarget)
         {
             transform_.position_.y = 0.25f;
             AutoDir();
-            transform_.position_ = Math::SubtractionXMFLOAT3(transform_.position_, Math::MultiplicationXMFLOAT3( dir_,2));
-            //count_ = 2;
+            transform_.position_ = Math::SubtractionXMFLOAT3(transform_.position_, Math::MultiplicationXMFLOAT3( malletDir_,2));
+            //countFuture_ = 2;
         }
     }
 }
@@ -42,8 +42,8 @@ void Enemy::OffCollision(GameObject* pTarget)
 void Enemy::SetInit()
 {
     transform_.position_.z = 15.0f;
-    speed_ = 0.5f;
-    Position_ = transform_.position_;
+    malletSpeed_ = 0.5f;
+    enemyPosition_ = transform_.position_;
 }
 
 //マレットの動き
@@ -58,18 +58,18 @@ void Enemy::MoveMallet()
 
     //パックが相手ゴールに向かうように動かす
 
-    /*dir_ = Math::SubtractionXMFLOAT3(transform_.position_, previousMalletPos_);
+    /*malletDir_ = Math::SubtractionXMFLOAT3(transform_.position_, previousMalletPos_);
 
-    XMVECTOR vDir = XMLoadFloat3(&dir_);
+    XMVECTOR vDir = XMLoadFloat3(&malletDir_);
     vDir = XMVector3Length(vDir);
-    speed_ = XMVectorGetX(vDir);
-    XMStoreFloat3(&dir_, vDir);*/
+    malletSpeed_ = XMVectorGetX(vDir);
+    XMStoreFloat3(&malletDir_, vDir);*/
 
    // transform_.position_.x = packPos.x;
-    //dir_ = { -transform_.position_.x,0,-transform_.position_.z - 33 };
-    if (transform_.position_.z >= 9.5f * scale_.y)
+    //malletDir_ = { -transform_.position_.x,0,-transform_.position_.z - 33 };
+    if (transform_.position_.z >= 9.5f * stageScale_.y)
     {
-        transform_.position_.z = 9.5f * scale_.y - 0.125f;
+        transform_.position_.z = 9.5f * stageScale_.y - 0.125f;
     }
     else if (transform_.position_.z <= 0)
     {
@@ -80,21 +80,21 @@ void Enemy::MoveMallet()
     {
         AutoDir();
     }
-    if (count_ == 0)
+    if (countFuture_ == 0)
     {
-        transform_.position_ = Math::AddXMFLOAT3(transform_.position_, dir_);
-        Position_ = transform_.position_;
+        transform_.position_ = Math::AddXMFLOAT3(transform_.position_, malletDir_);
+        enemyPosition_ = transform_.position_;
         isPrediction_ = false;
     }
-    else if(transform_.position_.x != Position_.x && transform_.position_.z != Position_.z)
+    else if(transform_.position_.x != enemyPosition_.x && transform_.position_.z != enemyPosition_.z)
     {
-        XMFLOAT3 des_ = Math::SubtractionXMFLOAT3(Position_ ,transform_.position_);
+        XMFLOAT3 des_ = Math::SubtractionXMFLOAT3(enemyPosition_ ,transform_.position_);
         XMVECTOR vdes = XMVector3Normalize(XMLoadFloat3(&des_));
-        vdes = vdes * speed_;
+        vdes = vdes * malletSpeed_;
         XMStoreFloat3(&des_, (vdes));
-        /*if (0 == (transform_.position_.x - Math::AddXMFLOAT3(transform_.position_, des_).x) * (Position_.y - transform_.position_.y) + (transform_.position_.y - Math::AddXMFLOAT3(transform_.position_, des_).y) * (transform_.position_.x - Position_.x))
+        /*if (0 == (transform_.position_.x - Math::AddXMFLOAT3(transform_.position_, des_).x) * (enemyPosition_.y - transform_.position_.y) + (transform_.position_.y - Math::AddXMFLOAT3(transform_.position_, des_).y) * (transform_.position_.x - enemyPosition_.x))
         {
-            transform_.position_ = Position_;
+            transform_.position_ = enemyPosition_;
             return;
         }*/
         transform_.position_ = Math::AddXMFLOAT3(transform_.position_, des_);
@@ -103,7 +103,7 @@ void Enemy::MoveMallet()
     {
         
     }*/
-    count_--;
+    countFuture_--;
 }
 
 //マレットを台に置くかどうか
@@ -131,29 +131,29 @@ void Enemy::AutoDir()
         XMStoreFloat3(&predictionDir_, vPredictionDir_);
         predictionPos_ = Math::AddXMFLOAT3(predictionPos_, predictionDir_);
 
-        if (predictionPos_.x >= 5 * scale_.x + 1.0f)
+        if (predictionPos_.x >= 5 * stageScale_.x + 1.0f)
         {
             predictionDir_.x = -predictionDir_.x;
-            predictionPos_.x = 5 * scale_.x + 0.25f;
+            predictionPos_.x = 5 * stageScale_.x + 0.25f;
         }
-        else if (predictionPos_.x <= -5 * scale_.x - 1.0f)
+        else if (predictionPos_.x <= -5 * stageScale_.x - 1.0f)
         {
             predictionDir_.x = -predictionDir_.x;
-            predictionPos_.x = -5 * scale_.x - 0.25f;
+            predictionPos_.x = -5 * stageScale_.x - 0.25f;
         }/*
-        if (predictionPos_.z >= 9.5f * scale_.y - 1.0f)
+        if (predictionPos_.z >= 9.5f * stageScale_.y - 1.0f)
         {
-            dir_.z = -dir_.z;
-            predictionPos_.z = 9.5f * scale_.y - 1.0f;
+            malletDir_.z = -malletDir_.z;
+            predictionPos_.z = 9.5f * stageScale_.y - 1.0f;
         }
-        else if (predictionPos_.z <= -9.5f * scale_.y + 1.0f)
+        else if (predictionPos_.z <= -9.5f * stageScale_.y + 1.0f)
         {
-            dir_.z = -dir_.z;
-            predictionPos_.z = -9.5f * scale_.y + 1.0f;
+            malletDir_.z = -malletDir_.z;
+            predictionPos_.z = -9.5f * stageScale_.y + 1.0f;
         }*/
         if (predictionPos_.z >= 10 + R)
         {
-            count_ = i;
+            countFuture_ = i;
             isPrediction_ = true;
             break;
         }
@@ -165,17 +165,17 @@ void Enemy::AutoDir()
     sub.y = 0.0f;
 
     sub = Math::FacingConversion(malletDir, sub);
-    dir_ = Math::FacingConversion(sub, dir_);*/
+    malletDir_ = Math::FacingConversion(sub, malletDir_);*/
 
-    //上のコメントにしている処理のdir_がゴールを狙う場所になるようにマレットの位置と向きを計算する
+    //上のコメントにしている処理のmalletDir_がゴールを狙う場所になるようにマレットの位置と向きを計算する
     XMFLOAT3 aim_ = { -predictionPos_.x,0,-predictionPos_.z - 33 };//4
 
      //1
     XMFLOAT3 pos;// = Math::SubtractionXMFLOAT3(predictionPos_, predictionPos_);
     //pos.y = 0.0f;
     //XMVECTOR vpos = XMLoadFloat3(&pos);	//ズレた位置
-    float addRadius = radius_ + pPack->GetRadius();
-    //XMVECTOR vdir = XMLoadFloat3(&dir_);	//中心と中心の正しい距離
+    float addRadius = malletRadius_ + pPack->GetRadius();
+    //XMVECTOR vdir = XMLoadFloat3(&malletDir_);	//中心と中心の正しい距離
     //vdir = XMVector3Normalize(vdir);
     XMVECTOR vdir = XMLoadFloat3(&predictionDir_);
     vdir = XMVector3Normalize(vdir);
@@ -183,22 +183,22 @@ void Enemy::AutoDir()
     vdir = vdir * addRadius;
     XMStoreFloat3(&pos, (vdir));
 
-    Position_ = Math::AddXMFLOAT3(predictionPos_, pos);
+    enemyPosition_ = Math::AddXMFLOAT3(predictionPos_, pos);
     //transform_.position_ = predictionPos_;
     //1
 
     XMFLOAT3 sub = Math::FacingConversion(aim_, predictionDir_);//3
 
     //XMFLOAT3 malletdir = Math::FacingConversion(transform_.position_, predictionPos_);
-    //dir_ = Math::FacingConversion(sub, predictionDir_);
-    dir_ = Math::FacingConversion(sub, pos);
+    //malletDir_ = Math::FacingConversion(sub, predictionDir_);
+    malletDir_ = Math::FacingConversion(sub, pos);
 
-    //dir_ = Math::FacingConversion(sub, malletdir);
+    //malletDir_ = Math::FacingConversion(sub, malletdir);
 
     //XMFLOAT3 sub = Math::SubtractionXMFLOAT3(transform_.position_,predictionPos_);
-    //dir_ = Math::FacingConversion(aim_ ,sub);
-    //dir_ = Math::FacingConversion(dir_,sub);
-    //dir_ = sub;
+    //malletDir_ = Math::FacingConversion(aim_ ,sub);
+    //malletDir_ = Math::FacingConversion(malletDir_,sub);
+    //malletDir_ = sub;
     //transform_.position_.z = -transform_.position_.z;
     //transform_.position_.x = -transform_.position_.x;
     //transform_.position_ = Math::SubtractionXMFLOAT3(transform_.position_, pos);

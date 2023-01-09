@@ -16,12 +16,12 @@ class Pack : public GameObject
 	GoalPoint* pGoal_;
 	CircleCollider* collision;		//当たり判定
 	QuadrangleHit* pQuadrangle;	//当たり判定
-	
+
 	//XMFLOAT3 pos_;
 	XMFLOAT3 previousPackPos_;	//前のパックの位置
-	XMFLOAT3 dir_;	//向き	
-	float speed_;	//速度
-	float radius_;	//半径
+	XMFLOAT3 packDir_;	//向き	
+	float packSpeed_;	//速度
+	float packRadius_;	//半径
 	int hModel_;
 	bool isGool_;	//ゴールしたか
 	bool ismallet_;	//プレイヤーはtrue
@@ -51,18 +51,15 @@ public:
 
 	//壁に当たっているか処理
 	void IsWall();
-	
+
 	//ゴールしているか処理
 	bool IsGoal();
 
-	//半径の取得
-	float GetRadius() { return radius_; };
+	float GetRadius() { return packRadius_; };
 
-	//スピードの取得
-	float GetSpeed() { return speed_; };
+	float GetSpeed() { return packSpeed_; };
 
-	//方向の取得
-	XMFLOAT3 GetDirection() { return XMFLOAT3{ dir_.x,0,dir_.z }; };
+	XMFLOAT3 GetDirection() { return XMFLOAT3{ packDir_.x,0,packDir_.z }; };
 
 	//マレットに当たっているか処理
 	//void IsMallet();

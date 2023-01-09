@@ -16,15 +16,15 @@ protected:
 	Shadow* pShadow_;			//影のポインタ
 	CircleCollider* collision;  //当たり判定
 	QuadrangleHit* pQuadrangle;	//当たり判定
-	XMFLOAT3 dir_;			//向き	
+	XMFLOAT3 malletDir_;			//向き	
 	XMFLOAT3 previousMalletPos_;	//前のマレットの位置
-	XMFLOAT2 scale_;
-	float speed_;			//マレットの速度
-	float radius_;	//半径
-	float front_;	//地面の位置
+	XMFLOAT2 stageScale_;
+	float malletSpeed_;			//マレットの速度
+	float malletRadius_;	//半径
+	float stageFront_;	//地面の位置
 	float packFront_; //パックの位置
-	int count_;
-	bool first_;	
+	int goalCount_;
+	bool first_;
 	bool isPut_;			//マレットをテーブルにつけているかどうか
 	bool isSuppress_;		//パックを抑えているか
 	bool isGoal_;		//ゴールしたかどうか
@@ -57,15 +57,15 @@ public:
 
 	//向きのゲッター
 	//戻り値 マレットの移動する方向
-	XMFLOAT3 GetDirection() { return XMFLOAT3{ dir_.x,0,dir_.z }; };
-	
+	XMFLOAT3 GetDirection() { return XMFLOAT3{ malletDir_.x,0,malletDir_.z }; };
+
 	//マレットの前回の位置
 	//戻り値　マレットの前回いた位置
 	XMFLOAT3 GetPreviousPosition() { return XMFLOAT3{ previousMalletPos_.x,0,previousMalletPos_.z }; };
 
 	//マレットの動いた速度
 	//戻り値　マレットの速度
-	float GetSpeed() { return speed_; }
+	float GetSpeed() { return malletSpeed_; }
 
 	//マレットが台についているかどうか
 	//戻り値　台についているならtrue
@@ -76,14 +76,14 @@ public:
 	bool GetSuppress() { return isSuppress_; };
 
 	//float GetFront() { return front_; };
-	
+
 	//float GetPackFront() { return packFront_; };
 
-	float GetRadius() { return radius_; };
+	float GetRadius() { return malletRadius_; };
 
 	void SetSuppress(bool Sup) { isSuppress_ = Sup; };
 
-	void SetGoal(bool goal) { isGoal_ = goal; };
+	void SetGoal(bool goal) { isGoal_ = goal; goalCount_ = 60; };
 
 	//継承したマレットの初期化
 	virtual void SetInit() = 0;

@@ -10,8 +10,8 @@ Mallet::Mallet(GameObject* parent)
 }
 
 Mallet::Mallet(GameObject* parent, std::string name)
-    : GameObject(parent, name), isPut_(false),radius_(1.0f),isSuppress_(false),first_(true)
-    ,isGoal_(false),count_(0)
+    : GameObject(parent, name), isPut_(false),malletRadius_(1.0f),isSuppress_(false),first_(true)
+    ,isGoal_(false),goalCount_(0)
 {
 }
 
@@ -21,10 +21,10 @@ void Mallet::Initialize()
     hModel_ = Model::Load("Assets\\Mallet.fbx");
     assert(hModel_ >= 0);
     SetInit();
-    collision = new CircleCollider(XMFLOAT3(0.0f, 0.0f, 0.0f), radius_,0.0f);
+    collision = new CircleCollider(XMFLOAT3(0.0f, 0.0f, 0.0f), malletRadius_,0.0f);
     AddCircleCollider(collision);
     Instantiate<Shadow>(this);
-    scale_ = { 1.0f,1.0f };
+    stageScale_ = { 1.0f,1.0f };
     pQuadrangle = new QuadrangleHit();
     AddSquareBox(pQuadrangle);
 }
@@ -45,8 +45,8 @@ void Mallet::Update()
 
         Model::RayCast(hModelStage, data); //ƒŒƒC‚ð”­ŽË
 
-        scale_.x = pStage->GetScaleX();
-        scale_.y = pStage->GetScaleZ();
+        stageScale_.x = pStage->GetScaleX();
+        stageScale_.y = pStage->GetScaleZ();
 
         Pack* pPack_ = (Pack*)FindObject("Pack");
         int hModelPack = pPack_->HandleModelPack();
@@ -66,7 +66,7 @@ void Mallet::Update()
         if (IsPut())
         {
             isPut_ = true;
-            transform_.position_.y = front_;
+            transform_.position_.y = stageFront_;
         }
         else
         {
@@ -78,37 +78,36 @@ void Mallet::Update()
         MoveMallet();
 
         //‰¡‚Ì•Ç‚ÌÝ’è
-        if (transform_.position_.x >= 5 * scale_.x + 1.0f)
+        if (transform_.position_.x >= 5 * stageScale_.x + 1.0f)
         {
-            transform_.position_.x = 5 * scale_.x + 0.25f;
+            transform_.position_.x = 5 * stageScale_.x + 0.25f;
         }
-        else if (transform_.position_.x <= -5 * scale_.x - 1.0f)
+        else if (transform_.position_.x <= -5 * stageScale_.x - 1.0f)
         {
-            transform_.position_.x = -5 * scale_.x - 0.25f;
+            transform_.position_.x = -5 * stageScale_.x - 0.25f;
         }
 
         //Å‘å‘¬“x‚ÌÝ’è
-        if (speed_ >= 2.5f)
+        if (malletSpeed_ >= 2.5f)
         {
-            speed_ = 2.5f;
+            malletSpeed_ = 2.5f;
         }
 
-        pQuadrangle->CreateSquar(transform_.position_, previousMalletPos_, radius_, dir_);
+        pQuadrangle->CreateSquar(transform_.position_, previousMalletPos_, malletRadius_, malletDir_);
     }
     else
     {
         //ƒS[ƒ‹‚µ‚½Žž‚Ìˆ—
         transform_.position_.y = 3.0f;
-        if (count_ >= 60)
+        if (--goalCount_ <= 0)
         {
             isGoal_ = false;
             if (IsPut())
             {
                 isSuppress_ = true;
             }
-            count_ = 0;
+            //goalCount_ = 0;
         }
-        count_++;
     }
 }
 

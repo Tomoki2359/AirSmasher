@@ -6,7 +6,7 @@
 
 //コンストラクタ
 Pack::Pack(GameObject* parent)
-	: GameObject(parent, "Pack"), hModel_(-1), radius_(1.0f),ismallet_(false)
+	: GameObject(parent, "Pack"), hModel_(-1), packRadius_(1.0f),ismallet_(false)
 {
 }
 
@@ -15,11 +15,11 @@ void Pack::Initialize()
 {
 	hModel_ = Model::Load("Assets\\Pack.fbx");
 	assert(hModel_ >= 0);
-	collision = new CircleCollider(XMFLOAT3(0.0f, 0.0f, 0.0f), radius_,0.0f);
+	collision = new CircleCollider(XMFLOAT3(0.0f, 0.0f, 0.0f), packRadius_,0.0f);
 	AddCircleCollider(collision);
 	Model::SetColor(hModel_, 0, 150, 150);
-	dir_ = XMFLOAT3(-0.2f, 0.0f, -0.2f);
-	speed_ = 1.0f;
+	packDir_ = XMFLOAT3(-0.2f, 0.0f, -0.2f);
+	packSpeed_ = 1.0f;
 	pQuadrangle = new QuadrangleHit();
 	AddSquareBox(pQuadrangle);
 }
@@ -64,16 +64,16 @@ void Pack::Update()
 	{
 		previousPackPos_ = transform_.position_;
 
-		if (speed_ == 0)
+		if (packSpeed_ == 0)
 			return;
 
 		Time::UnLock();
-		XMVECTOR vdir_ = XMLoadFloat3(&dir_);
-		vdir_ = XMVector3Normalize(vdir_);
-		vdir_ = vdir_ * speed_;
-		XMStoreFloat3(&dir_, vdir_);
-		transform_.position_ = Math::AddXMFLOAT3(transform_.position_, dir_);
-		pQuadrangle->CreateSquar(transform_.position_, previousPackPos_,radius_, dir_);
+		XMVECTOR vpackDir_ = XMLoadFloat3(&packDir_);
+		vpackDir_ = XMVector3Normalize(vpackDir_);
+		vpackDir_ = vpackDir_ * packSpeed_;
+		XMStoreFloat3(&packDir_, vpackDir_);
+		transform_.position_ = Math::AddXMFLOAT3(transform_.position_, packDir_);
+		pQuadrangle->CreateSquar(transform_.position_, previousPackPos_,packRadius_, packDir_);
 		//壁の当たり処理
 		IsWall();
 
@@ -102,7 +102,7 @@ void Pack::OnCollision(GameObject* pTarget)
 	if (pTarget->GetObjectName() == "Enemy")
 	{
 		IsMallet(pEnemy_);
-		//dir_ = XMFLOAT3{-transform_.position_.x , 0 , -transform_.position_.z - 33};
+		//packDir_ = XMFLOAT3{-transform_.position_.x , 0 , -transform_.position_.z - 33};
 	}
 }
 
@@ -125,8 +125,8 @@ void Pack::IsMallet(Mallet* pMallet)
 			XMFLOAT3 pos = Math::SubtractionXMFLOAT3(transform_.position_, pMallet->GetPosition());
 			pos.y = 0.0f;
 			XMVECTOR vpos = XMLoadFloat3(&pos);	//ズレた位置
-			float addRadius = radius_ + pMallet->GetRadius();
-			//XMVECTOR vdir = XMLoadFloat3(&dir_);	//中心と中心の正しい距離
+			float addRadius = packRadius_ + pMallet->GetRadius();
+			//XMVECTOR vdir = XMLoadFloat3(&packDir_);	//中心と中心の正しい距離
 			//vdir = XMVector3Normalize(vdir);
 			XMVECTOR vdir;
 			vdir = XMVector3Normalize(vpos);
@@ -137,8 +137,8 @@ void Pack::IsMallet(Mallet* pMallet)
 		}
 		else
 		{
-			dir_ = XMFLOAT3{ 0,0,0 };
-			speed_ = 0;
+			packDir_ = XMFLOAT3{ 0,0,0 };
+			packSpeed_ = 0;
 			return;
 		}
 
@@ -147,10 +147,10 @@ void Pack::IsMallet(Mallet* pMallet)
 		sub.y = 0.0f;
 
 		sub = Math::FacingConversion(malletDir, sub ); //3
-		dir_ = Math::FacingConversion(sub, dir_ ); //4
+		packDir_ = Math::FacingConversion(sub, packDir_ ); //4
 		
 		//その方向に移動
-		speed_ = (pMallet->GetSpeed() + speed_) / 2;
+		packSpeed_ = (pMallet->GetSpeed() + packSpeed_) / 2;
 	}
 }
 
@@ -163,12 +163,12 @@ void Pack::IsWall()
 
 	if (transform_.position_.x >= 5 * pStage->GetScaleX() + 1.0f)
 	{
-		dir_.x = -dir_.x;
+		packDir_.x = -packDir_.x;
 		transform_.position_.x = 5 * pStage->GetScaleX() + 0.25f;
 	}
 	else if (transform_.position_.x <= -5 * pStage->GetScaleX() - 1.0f)
 	{
-		dir_.x = -dir_.x;
+		packDir_.x = -packDir_.x;
 		transform_.position_.x = -5 * pStage->GetScaleX() -0.25f;
 	}
 	if (transform_.position_.z >= 9.5f * pStage->GetScaleZ() - 1.0f)
@@ -180,7 +180,7 @@ void Pack::IsWall()
 			ismallet_ = false;
 			pGoal_->GoalPlayer();
 		}
-		dir_.z = -dir_.z;
+		packDir_.z = -packDir_.z;
 		transform_.position_.z = 9.5f * pStage->GetScaleZ() - 1.0f;
 	}
 	else if (transform_.position_.z <= -9.5f * pStage->GetScaleZ() + 1.0f)
@@ -192,7 +192,7 @@ void Pack::IsWall()
 			ismallet_ = true;
 			pGoal_->GoalEnemy();
 		}
-		dir_.z = -dir_.z;
+		packDir_.z = -packDir_.z;
 		transform_.position_.z = -9.5f * pStage->GetScaleZ() + 1.0f;
 	}
 }
@@ -212,7 +212,7 @@ bool Pack::IsGoal()
 	{
 		transform_.position_.x = 0;
 		transform_.position_.z = 0;
-		speed_ = 0;
+		packSpeed_ = 0;
 		isGool_ = true;
 		pPlayer_->SetGoal(isGool_);
 		pEnemy_->SetGoal(isGool_);
