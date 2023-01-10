@@ -27,7 +27,6 @@ protected:
 	bool first_;
 	bool isPut_;			//マレットをテーブルにつけているかどうか
 	bool isSuppress_;		//パックを抑えているか
-	bool isGoal_;		//ゴールしたかどうか
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
@@ -83,7 +82,13 @@ public:
 
 	void SetSuppress(bool Sup) { isSuppress_ = Sup; };
 
-	void SetGoal(bool goal) { isGoal_ = goal; goalCount_ = 60; };
+	void SetGoal() { goalCount_ = 60; };
+
+	/// <summary>
+	/// パックに当たったとき後ろに下がる
+	/// </summary>
+	/// <param name="dir">方向</param>
+	void CrashPack(XMFLOAT3 dir);
 
 	//継承したマレットの初期化
 	virtual void SetInit() = 0;

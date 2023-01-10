@@ -1,7 +1,7 @@
 #include "Mallet.h"
 #include "../Engine/Model.h"
 #include "Pack.h"
-//#include "../Engine/Math.h"
+#include "../Engine/Math.h"
 
 //コンストラクタ
 Mallet::Mallet(GameObject* parent)
@@ -11,7 +11,7 @@ Mallet::Mallet(GameObject* parent)
 
 Mallet::Mallet(GameObject* parent, std::string name)
     : GameObject(parent, name), isPut_(false),malletRadius_(1.0f),isSuppress_(false),first_(true)
-    ,isGoal_(false),goalCount_(0)
+    ,goalCount_(0)
 {
 }
 
@@ -61,7 +61,7 @@ void Mallet::Update()
     previousMalletPos_ = transform_.position_;
 
     //ゴールしたか
-    if (!isGoal_)
+    if (goalCount_ <= 0)
     {
         if (IsPut())
         {
@@ -101,7 +101,6 @@ void Mallet::Update()
         transform_.position_.y = 3.0f;
         if (--goalCount_ <= 0)
         {
-            isGoal_ = false;
             if (IsPut())
             {
                 isSuppress_ = true;
@@ -125,4 +124,13 @@ void Mallet::Release()
 
 void Mallet::OnCollision(GameObject* pTarget)
 {
+}
+
+void Mallet::CrashPack(XMFLOAT3 dir)
+{
+    XMVECTOR vdir = XMLoadFloat3(&dir);
+    XMVector3Normalize(vdir);
+    vdir = vdir * 1.0;
+    XMStoreFloat3(&dir, -vdir);
+    transform_.position_ = Math::SubtractionXMFLOAT3(transform_.position_,dir);
 }

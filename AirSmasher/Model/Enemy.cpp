@@ -7,6 +7,10 @@ Enemy::Enemy(GameObject* parent)
     : Mallet(parent, "Enemy")
 {
     transform_.position_.y = 0.3;
+#ifdef _DEBUG
+    isStopMove = false;
+#endif
+
 }
 
 //開放
@@ -49,6 +53,14 @@ void Enemy::SetInit()
 //マレットの動き
 void Enemy::MoveMallet()
 {
+#ifdef _DEBUG
+    if (Input::IsKeyDown(DIK_1))
+    {
+        isStopMove = !isStopMove;
+    }
+    if (isStopMove)
+        return;
+#endif
     Pack* pPack = (Pack*)FindObject("Pack");
     
     XMFLOAT3 packPos = pPack->GetPosition();
@@ -116,7 +128,6 @@ bool Enemy::IsPut()
 void Enemy::AutoDir()
 {
     Pack* pPack = (Pack*)FindObject("Pack");
-
 
   //パックが一定の場所を超えるまたは60フレーム後の未来まで見る
     XMFLOAT3 predictionPos_ = pPack->GetPosition();

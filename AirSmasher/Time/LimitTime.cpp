@@ -31,6 +31,20 @@ void LimitTime::Initialize()
 void LimitTime::Update()
 {
 	timer_ = MAX_TIME - (int)Time::GetTime();
+#ifdef _DEBUG
+	static int changeTime = 0;
+	//10ïbëÅÇ≠Ç∑ÇÈ
+	if (Input::IsKeyDown(DIK_4))
+	{
+		changeTime -= 10;
+	}
+	//10ïbíxÇ≠Ç∑ÇÈ
+	if (Input::IsKeyDown(DIK_5))
+	{
+		changeTime += 10;
+	}
+	timer_ = (MAX_TIME + changeTime) - (int)Time::GetTime();
+#endif
 }
 
 //ï`âÊ

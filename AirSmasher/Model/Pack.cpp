@@ -78,6 +78,35 @@ void Pack::Update()
 		IsWall();
 
 	}
+
+#ifdef _DEBUG
+	//プレイヤーがゴールした
+	if (Input::IsKeyDown(DIK_2))
+	{
+		transform_.position_.x = 0;
+		transform_.position_.z = 0;
+		packSpeed_ = 0;
+		isGool_ = true;
+		pPlayer_->SetGoal();
+		pEnemy_->SetGoal();
+		ismallet_ = false;
+		pGoal_->GoalPlayer();
+	}
+
+	//敵がゴールした
+	if (Input::IsKeyDown(DIK_3))
+	{
+		transform_.position_.x = 0;
+		transform_.position_.z = 0;
+		packSpeed_ = 0;
+		isGool_ = true;
+		pPlayer_->SetGoal();
+		pEnemy_->SetGoal();
+		ismallet_ = true;
+		pGoal_->GoalEnemy();
+	}
+#endif
+
 }
 
 //描画
@@ -142,6 +171,7 @@ void Pack::IsMallet(Mallet* pMallet)
 			return;
 		}
 
+		pMallet->CrashPack(packDir_);
 		//パックの中心とマレットの中心の向きベクトルとプレイヤーの向きベクトルで向きを求める
 		XMFLOAT3 sub = Math::SubtractionXMFLOAT3( pMallet->GetPosition(), transform_.position_); //2
 		sub.y = 0.0f;
@@ -151,6 +181,7 @@ void Pack::IsMallet(Mallet* pMallet)
 		
 		//その方向に移動
 		packSpeed_ = (pMallet->GetSpeed() + packSpeed_) / 2;
+
 	}
 }
 
@@ -214,8 +245,8 @@ bool Pack::IsGoal()
 		transform_.position_.z = 0;
 		packSpeed_ = 0;
 		isGool_ = true;
-		pPlayer_->SetGoal(isGool_);
-		pEnemy_->SetGoal(isGool_);
+		pPlayer_->SetGoal();
+		pEnemy_->SetGoal();
 		return true;
 	}
 	return false;

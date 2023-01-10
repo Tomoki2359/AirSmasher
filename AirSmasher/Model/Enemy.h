@@ -7,6 +7,9 @@ class Enemy : public Mallet
 	int countFuture_;
 	XMFLOAT3 enemyPosition_;
 	bool isPrediction_;
+#ifdef _DEBUG
+	bool isStopMove;
+#endif
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
