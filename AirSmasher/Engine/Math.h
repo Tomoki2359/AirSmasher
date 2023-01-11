@@ -44,5 +44,13 @@ namespace Math
 	float GetFraction(float value, int m, int n);	//情報落ちして一部の値が取得できない
 	//小数点以下の指定した桁を整数値で取得する関数
 	int GetFraction(float value, int m);
+
+	/// <summary>
+	/// 解の公式
+	/// </summary>
+	/// <param name="p1">位置</param>
+	/// <param name="p2">位置</param>
+	/// <returns>答え</returns>
+	XMFLOAT2 SolutionFormula(float p1, float p2);
 };
 

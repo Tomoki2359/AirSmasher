@@ -2,6 +2,7 @@
 #include "Image.h"
 #include "Model.h"
 #include "../PlayScene.h"
+#include "../ResultScene.h"
 
 SceneManager::SceneManager(GameObject* parent)
     : GameObject(parent, "SceneManager")
@@ -40,6 +41,7 @@ void SceneManager::Update()
         switch (nextSceneID_)
         {
         case SCENE_ID_PLAY: Instantiate<PlayScene>(this); break;
+        case SCENE_ID_RESULT: Instantiate<ResultScene>(this); break;
         }
 
         currentSceneID_ = nextSceneID_;

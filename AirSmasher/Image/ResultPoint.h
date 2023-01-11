@@ -1,14 +1,14 @@
 #pragma once
 #include "../Engine/GameObject.h"
-class GoalPoint : public GameObject
+class ResultPoint : public GameObject
 {
-	int enemyPoint_;
-	int playerPoint_;
+	short enemyPoint_;
+	short playerPoint_;
 	short hPict_[11];
 public:
 	//コンストラクタ
 //引数：parent  親オブジェクト（SceneManager）
-	GoalPoint(GameObject* parent);
+	ResultPoint(GameObject* parent);
 
 	//初期化
 	void Initialize() override;
@@ -22,10 +22,6 @@ public:
 	//開放
 	void Release() override;
 
-	void GoalEnemy();
-	void GoalPlayer();
-
-	int GetEnemyPoint();
-	int GetPlayerPoint();
+	//void SetPlayerPoint(int p);
+	//void SetEnemyPoint(int p);
 };
-

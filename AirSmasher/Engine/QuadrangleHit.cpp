@@ -1,4 +1,5 @@
 #include "QuadrangleHit.h"
+#include "Math.h"
 
 
 QuadrangleHit::QuadrangleHit()
@@ -113,4 +114,16 @@ bool QuadrangleHit::IsHitLine(XMFLOAT2 l1, XMFLOAT2 l2, XMFLOAT2 l3, XMFLOAT2 l4
 		return true;
 	}
 	return false;
+}
+
+//‚±‚ê‚Í“–‚½‚Á‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚é‚â‚Â
+XMFLOAT3 QuadrangleHit::HitPosition(XMFLOAT2 l1, XMFLOAT2 l2, XMFLOAT2 l3, XMFLOAT2 l4)
+{
+	//“–‚½‚éˆÊ’u‚ğ‹‚ß‚é
+	float a = l1.x * l1.x;
+	float b = l1.x * l2.x;
+	XMFLOAT2 solution;
+	solution = Math::SolutionFormula(a, b);
+
+	return XMFLOAT3();
 }

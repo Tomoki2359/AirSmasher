@@ -108,6 +108,18 @@
     <ClCompile Include="Engine\QuadrangleHit.cpp">
       <Filter>ソース ファイル\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="ResultScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Option.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Image\ResultPoint.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Image\ResultPlayer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Simple2D.hlsl">
@@ -198,6 +210,18 @@
     </ClInclude>
     <ClInclude Include="Engine\QuadrangleHit.h">
       <Filter>ヘッダー ファイル\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Option.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Image\ResultPoint.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Image\ResultPlayer.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

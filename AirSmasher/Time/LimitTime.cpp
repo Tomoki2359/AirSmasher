@@ -1,6 +1,9 @@
 #include "LimitTime.h"
+#include "../Option.h"
+#include "../Image/GoalPoint.h"
 #include "../Engine/Image.h"
 #include "../Engine/Time.h"
+#include "../Engine/SceneManager.h"
 
 //コンストラクタ
 LimitTime::LimitTime(GameObject* parent)
@@ -45,6 +48,17 @@ void LimitTime::Update()
 	}
 	timer_ = (MAX_TIME + changeTime) - (int)Time::GetTime();
 #endif
+	if (timer_ <= 0)
+	{
+		GoalPoint* pGoal = (GoalPoint*)FindObject("GoalPoint");
+		assert(pGoal != nullptr);
+
+		Option::SetEnemyPoint(pGoal->GetEnemyPoint());
+		Option::SetPlayerPoint(pGoal->GetPlayerPoint());
+
+		SceneManager* pSceneManager = (SceneManager*)FindObject("SceneManager");
+		pSceneManager->ChangeScene(SCENE_ID_RESULT);
+	}
 }
 
 //描画

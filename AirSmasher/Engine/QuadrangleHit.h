@@ -23,6 +23,8 @@ public:
 
 	bool IsHitLine(XMFLOAT2 l1, XMFLOAT2 l2, XMFLOAT2 l3, XMFLOAT2 l4);
 
+	XMFLOAT3 HitPosition(XMFLOAT2 l1, XMFLOAT2 l2, XMFLOAT2 l3, XMFLOAT2 l4);
+
 	SquareBox GetSquareBox() { return square_; };
 };
 

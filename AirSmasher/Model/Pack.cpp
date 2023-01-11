@@ -180,7 +180,7 @@ void Pack::IsMallet(Mallet* pMallet)
 		packDir_ = Math::FacingConversion(sub, packDir_ ); //4
 		
 		//‚»‚Ì•ûŒü‚ÉˆÚ“®
-		packSpeed_ = (pMallet->GetSpeed() + packSpeed_) / 2;
+		packSpeed_ = (pMallet->GetSpeed() + packSpeed_) * 0.8;
 
 	}
 }

@@ -62,7 +62,7 @@ void Player::MoveMallet()
 
     XMVECTOR vDir = XMLoadFloat3(&malletDir_);
     vDir = XMVector3Length(vDir);
-    //malletSpeed_ = XMVectorGetX(vDir);
+    malletSpeed_ = XMVectorGetX(vDir);
     XMStoreFloat3(&malletDir_, vDir);
 
     mousePos = mousePosNow;

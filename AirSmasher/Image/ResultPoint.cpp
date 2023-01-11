@@ -1,9 +1,10 @@
-#include "GoalPoint.h"
+#include "ResultPoint.h"
+#include "../Option.h"
 #include "../Engine/Image.h"
 
 //コンストラクタ
-GoalPoint::GoalPoint(GameObject* parent)
-	: GameObject(parent, "GoalPoint"),enemyPoint_(0),playerPoint_(0)
+ResultPoint::ResultPoint(GameObject* parent)
+	: GameObject(parent, "ResultPoint"), enemyPoint_(0), playerPoint_(0)
 {
 	for (short i = 0; i < 11; i++)
 	{
@@ -12,7 +13,7 @@ GoalPoint::GoalPoint(GameObject* parent)
 }
 
 //初期化
-void GoalPoint::Initialize()
+void ResultPoint::Initialize()
 {
 	std::string name_ = "Assets\\Number";
 	std::string file_ = ".png";
@@ -24,18 +25,19 @@ void GoalPoint::Initialize()
 	}
 	std::string fileName_ = name_ + file_;
 	hPict_[11] = Image::Load(fileName_);
-	transform_.position_.y = 0.8f;
+	enemyPoint_ = Option::GetEnemyPoint();
+	playerPoint_ = Option::GetPlayerPoint();
 }
 
 //更新
-void GoalPoint::Update()
+void ResultPoint::Update()
 {
 }
 
 //描画
-void GoalPoint::Draw()
+void ResultPoint::Draw()
 {
-	float posX_ = 0.45f;
+	float posX_ = -0.45f;
 	if (playerPoint_ >= 10)
 	{
 		transform_.position_.x = posX_;
@@ -48,10 +50,12 @@ void GoalPoint::Draw()
 	Image::Draw(hPict_[playerPoint_ % 10]);
 	posX_ += 0.1f;
 
-	transform_.position_.x = posX_;
+	/*transform_.position_.x = posX_;
 	Image::SetTransform(hPict_[11], transform_);
 	Image::Draw(hPict_[11]);
-	posX_ += 0.1f;
+	posX_ += 0.1f;*/
+
+	posX_ = 0.45f;
 
 	if (enemyPoint_ >= 10)
 	{
@@ -66,26 +70,14 @@ void GoalPoint::Draw()
 }
 
 //開放
-void GoalPoint::Release()
+void ResultPoint::Release()
 {
 }
 
-void GoalPoint::GoalEnemy()
-{
-	enemyPoint_++;
-}
-
-void GoalPoint::GoalPlayer()
-{
-	playerPoint_++;
-}
-
-int GoalPoint::GetEnemyPoint()
-{
-	return enemyPoint_;
-}
-
-int GoalPoint::GetPlayerPoint()
-{
-	return playerPoint_;
-}
+//void ResultPoint::SetPlayerPoint(int p)
+//{
+//}
+//
+//void ResultPoint::SetEnemyPoint(int p)
+//{
+//}

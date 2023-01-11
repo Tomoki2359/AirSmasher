@@ -200,3 +200,15 @@ int Math::GetFraction(float value, int m)
     val = GetDigits(val, 0, 0);
     return val;
 }
+
+XMFLOAT2 Math::SolutionFormula(float p1, float p2)
+{
+    float a;
+    a = p1 * p1;
+    float b;
+    b = p1 * p2;
+    XMFLOAT2 answer;
+    answer.x = -b + sqrt(b * b) / (2 * a);
+    answer.y = -b - sqrt(b * b) / (2 * a);
+    return answer;
+}

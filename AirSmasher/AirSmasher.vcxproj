@@ -175,6 +175,8 @@
     <ClCompile Include="Engine\Time.cpp" />
     <ClCompile Include="Engine\Transform.cpp" />
     <ClCompile Include="Image\GoalPoint.cpp" />
+    <ClCompile Include="Image\ResultPlayer.cpp" />
+    <ClCompile Include="Image\ResultPoint.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model\Enemy.cpp" />
     <ClCompile Include="Model\Mallet.cpp" />
@@ -182,7 +184,9 @@
     <ClCompile Include="Model\Player.cpp" />
     <ClCompile Include="Model\Shadow.cpp" />
     <ClCompile Include="Model\Stage.cpp" />
+    <ClCompile Include="Option.cpp" />
     <ClCompile Include="PlayScene.cpp" />
+    <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="Time\LimitTime.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -209,13 +213,17 @@
     <ClInclude Include="Engine\Time.h" />
     <ClInclude Include="Engine\Transform.h" />
     <ClInclude Include="Image\GoalPoint.h" />
+    <ClInclude Include="Image\ResultPlayer.h" />
+    <ClInclude Include="Image\ResultPoint.h" />
     <ClInclude Include="Model\Enemy.h" />
     <ClInclude Include="Model\Mallet.h" />
     <ClInclude Include="Model\Pack.h" />
     <ClInclude Include="Model\Player.h" />
     <ClInclude Include="Model\Shadow.h" />
     <ClInclude Include="Model\Stage.h" />
+    <ClInclude Include="Option.h" />
     <ClInclude Include="PlayScene.h" />
+    <ClInclude Include="ResultScene.h" />
     <ClInclude Include="Time\LimitTime.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
